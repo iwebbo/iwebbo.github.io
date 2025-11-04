@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration Monitoring">
+  <circle cx="60" cy="60" r="55" fill="#007acc" opacity="0.1"></circle>
+  <rect x="30" y="50" width="60" height="20" fill="#007acc" rx="4"></rect>
+  <rect x="40" y="40" width="10" height="40" fill="#007acc" rx="2"></rect>
+  <rect x="60" y="35" width="10" height="50" fill="#005f99" rx="2"></rect>
+  <rect x="80" y="45" width="10" height="30" fill="#007acc" rx="2"></rect>
+</svg>
