@@ -7,21 +7,239 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-      .logo-img {
+    .logo-img {
       height: 120px;
       width: auto;
       object-fit: contain;
-      }
-</style>
+    }
+
+    /* ── Hero tagline ── */
+    .hero-tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: -1rem auto 2rem;
+      line-height: 1.6;
+    }
+    .hero-tagline code {
+      background: rgba(58,123,253,0.15);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .hero-tagline .badge-openclaw {
+      display: inline-block;
+      background: rgba(58,123,253,0.12);
+      border: 1px solid rgba(58,123,253,0.35);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── Agent Library section ── */
+    .agent-library {
+      margin-top: 4rem;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .agent-library > h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .agent-library > .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 640px;
+      margin: 0 auto 3rem;
+    }
+
+    .agent-library > .section-sub code {
+      background: rgba(58,123,253,0.15);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+
+    .agent-os-block {
+      margin-bottom: 2.5rem;
+    }
+
+    .agent-os-block h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .agent-os-block h3 span.os-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: rgba(58,123,253,0.12);
+      border: 1px solid rgba(58,123,253,0.3);
+      color: var(--accent);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .skill-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(58,123,253,0.25);
+      box-shadow: 0 8px 24px rgba(58,123,253,0.08);
+      transform: translateY(-3px);
+    }
+
+    .skill-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .skill-card-header code {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(58,123,253,0.12);
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-family: "Menlo", "Consolas", monospace;
+    }
+
+    .skill-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .skill-card .skill-ideas {
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .skill-card .skill-idea-item {
+      font-size: 0.78rem;
+      color: #7a8aaa;
+      padding-left: 0.8rem;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .skill-card .skill-idea-item::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* openclaw comparison banner */
+    .openclaw-banner {
+      background: linear-gradient(135deg, rgba(58,123,253,0.08) 0%, rgba(18,24,34,0.9) 100%);
+      border: 1px solid rgba(58,123,253,0.2);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .openclaw-banner .banner-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    .openclaw-banner .banner-text h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    .openclaw-banner .banner-text p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .openclaw-banner .banner-text p code {
+      background: rgba(58,123,253,0.15);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    .openclaw-banner .banner-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    .openclaw-banner .pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(58,123,253,0.1);
+      border: 1px solid rgba(58,123,253,0.25);
+      color: var(--accent);
+    }
+  </style>
 </head>
 
 <body>
 <div class="container">
 <header class="site-header">
   <nav>
-    <a href="../index.html" class="logo">        
-      <img src="../assets/img/agentragio.png" alt="A&ECoding Logo" class="logo-img" />
-      </a>
+    <a href="../index.html" class="logo">
+      <img src="../assets/img/agentragio.png" alt="AgentRAG Logo" class="logo-img" />
+    </a>
     <ul>
       <li><a href="../index.html">Home</a></li>
       <li><a href="../index.html#contact">Contact</a></li>
@@ -32,20 +250,22 @@
 <!-- HERO -->
 <section class="hero">
   <h1>AgentRAG.io</h1>
-  <p class="subtitle">
-    Intelligent RAG with Autonomous Agents.
+  <p class="subtitle">Intelligent RAG with Autonomous Agents.</p>
+  <p class="hero-tagline">
+    <span class="badge-openclaw">Open Source Alternative to OpenClaw</span>
+    Self-hosted, multi-provider, SSH &amp; WinRM remote execution —
+    instantiate any agent from a single <code>.md</code> file.
   </p>
-
   <div class="hero-cta">
     <a href="#" class="btn-primary">Presentation</a>
     <a href="https://github.com/iwebbo/AgentRAG.io" class="btn-secondary" target="_blank">Code source</a>
   </div>
 </section>
 
-<!-- PRESENTATION -->
+<!-- BUILD WITH -->
 <section class="hero-glass">
   <h2>Build with</h2>
-    <div class="tech-icons">
+  <div class="tech-icons">
     <i class="fa-brands fa-docker" title="Docker"></i>
     <i class="fa-brands fa-linux" title="Linux"></i>
     <i class="fa-brands fa-python" title="Python"></i>
@@ -54,62 +274,252 @@
   </div>
 </section>
 
-<section class="products" aria-label="Nos applications principales">
-  <article class="product-card" id="theai" tabindex="0">
+<!-- FEATURE CARDS -->
+<section class="products" aria-label="Features">
+  <article class="product-card" tabindex="0">
     <h2>Current Features</h2>
     <ul class="features-list">
-      <li><strong>Intelligent Document Search :</strong> ChromaDB-powered semantic search with adjustable retrieval parameters</li>
-      <li><strong>Multi-Provider LLM Support :</strong> Seamless integration with OpenAI, Claude, Gemini, Ollama, and 10+ providers</li>
-      <li><strong>Temperature Control :</strong> Per-conversation adjustment (0.0-2.0)</li>
-      <li><strong>Project-Based Organization :</strong> Isolate document collections and conversations by project</li>
-      <li><strong>Real-Time Streaming :</strong> Server-Sent Events for progressive responses</li>
-      <li><strong>Fine-Grained Control :</strong> Per-conversation temperature, top-k, and context window management	</li>
-      <li><strong>Enterprise Security :</strong> JWT authentication, AES-256 encryption, GDPR compliance</li>
+      <li><strong>Intelligent Document Search:</strong> ChromaDB-powered semantic search with adjustable retrieval parameters</li>
+      <li><strong>Multi-Provider LLM Support:</strong> Seamless integration with OpenAI, Claude, Gemini, Ollama, and 10+ providers</li>
+      <li><strong>Temperature Control:</strong> Per-conversation adjustment (0.0–2.0)</li>
+      <li><strong>Project-Based Organization:</strong> Isolate document collections and conversations by project</li>
+      <li><strong>Real-Time Streaming:</strong> Server-Sent Events for progressive responses</li>
+      <li><strong>Fine-Grained Control:</strong> Per-conversation temperature, top-k, and context window management</li>
+      <li><strong>Enterprise Security:</strong> JWT authentication, AES-256 encryption, GDPR compliance</li>
     </ul>
   </article>
 
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Advanced Features Agent & RAG</h2>
+  <article class="product-card" tabindex="0">
+    <h2>Advanced Features Agent &amp; RAG</h2>
     <ul class="features-list">
-      <li><strong>RAG-Powered Context :</strong> Agents automatically retrieve relevant context from your document knowledge base</li>
-      <li><strong>LLM Integration :</strong> Agents can call LLMs with intelligent prompts and context management</li>
-      <li><strong>MCP Tool Access :</strong>  Connect to external services (GitHub, Jira, Slack, linters, test runners, etc.)</li>
-      <li><strong>Multi-Step Workflows :</strong> Orchestrate complex tasks (fetch repo → generate code → test → lint → commit → PR)</li>
-      <li><strong>Real-Time Streaming :</strong> Live execution logs and progress updates via Server-Sent Events</li>
-      <li><strong>Error Handling :</strong> Automatic retries, timeouts, and graceful degradation</li>
+      <li><strong>RAG-Powered Context:</strong> Agents automatically retrieve relevant context from your document knowledge base</li>
+      <li><strong>LLM Integration:</strong> Agents call LLMs with intelligent prompts and context management</li>
+      <li><strong>MCP Tool Access:</strong> Connect to external services (GitHub, Jira, Slack, linters, test runners, etc.)</li>
+      <li><strong>Multi-Step Workflows:</strong> Orchestrate complex tasks (fetch repo → generate code → test → lint → commit → PR)</li>
+      <li><strong>Real-Time Streaming:</strong> Live execution logs and progress updates via SSE</li>
+      <li><strong>Error Handling:</strong> Automatic retries, timeouts, and graceful degradation</li>
     </ul>
   </article>
 
-  <article class="product-card" id="theai" tabindex="0">
+  <article class="product-card" tabindex="0">
     <h2>Providers Supported</h2>
     <ul class="features-list">
-      <li><strong>OpenAI :</strong> GPT-4o, GPT-4-turbo, o1-preview, o1-mini.</li>
-      <li><strong>Anthropic Claude :</strong> Claude 3.5 Sonnet, Claude 3 Opus</li>
-      <li><strong>Google Gemini :</strong> Gemini 1.5 Pro/Flash, Gemini 2.0</li>
-      <li><strong>OpenRouter :</strong> 200+ models (free + paid)</li>
-      <li><strong>xAI Grok :</strong> Grok-3, Grok-3-mini, Grok-3-vision</li>
-      <li><strong>Groq :</strong> 	Mixtral, LLaMA 3, Gemma</li>
-      <li><strong>HuggingFace :</strong> Zephyr, Mistral, LLaMA 2</li>
-      <li><strong>Ollama :</strong> ollama pull llama3</li>
-      <li><strong>LM Studio :</strong> GUI app</li>
-      <li><strong>vLLM :</strong> Python + CUDA</li>
-      <li><strong>LMDeploy :</strong> Python + TurboMind</li>
-      <li><strong>Oobabooga :</strong> Web UI</li>
+      <li><strong>OpenAI:</strong> GPT-4o, GPT-4-turbo, o1-preview, o1-mini</li>
+      <li><strong>Anthropic Claude:</strong> Claude 3.5 Sonnet, Claude 3 Opus</li>
+      <li><strong>Google Gemini:</strong> Gemini 1.5 Pro/Flash, Gemini 2.0</li>
+      <li><strong>OpenRouter:</strong> 200+ models (free + paid)</li>
+      <li><strong>xAI Grok:</strong> Grok-3, Grok-3-mini, Grok-3-vision</li>
+      <li><strong>Groq:</strong> Mixtral, LLaMA 3, Gemma</li>
+      <li><strong>HuggingFace:</strong> Zephyr, Mistral, LLaMA 2</li>
+      <li><strong>Ollama:</strong> ollama pull llama3</li>
+      <li><strong>LM Studio:</strong> GUI app</li>
+      <li><strong>vLLM:</strong> Python + CUDA</li>
+      <li><strong>LMDeploy:</strong> Python + TurboMind</li>
+      <li><strong>Oobabooga:</strong> Web UI</li>
     </ul>
   </article>
 </section>
 
-  <section class="about" aria-label="Présentation de aecoding.io">
-    <h2>About</h2>
-      <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
-  </section>
+<!-- AGENT LIBRARY -->
+<section class="agent-library" aria-label="Agent Library">
+  <h2>Agent Library</h2>
+  <p class="section-sub">
+    Each agent is defined by a single <code>.md</code> file with YAML frontmatter.
+    Register via <code>POST /api/skills/register</code> — credentials resolved securely from DB, never in plain config.
+  </p>
 
-  <section class="about" aria-label="Contact">
-    <h2>Contact me</h2>
-    <p>Built with ❤️ for the LLM community</p>
-    <p>For questions, suggestions, or support, please open an issue or contact the maintainers.<a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
-  </section>
+  <!-- OpenClaw comparison banner -->
+  <div class="openclaw-banner">
+    <div class="banner-icon"><i class="fa-solid fa-robot"></i></div>
+    <div class="banner-text">
+      <h3>Open-source alternative to OpenClaw &amp; Claude Computer Use</h3>
+      <p>
+        AgentRAG.io brings the same skill-based agent paradigm — self-hosted, fully controllable,
+        multi-provider. Drop a <code>.md</code> file to create an agent. Connect SSH or WinRM hosts
+        once, run anywhere. No vendor lock-in, no usage caps.
+      </p>
+      <div class="banner-pills">
+        <span class="pill">Self-hosted</span>
+        <span class="pill">Multi-provider</span>
+        <span class="pill">SSH / WinRM</span>
+        <span class="pill">Skill .md files</span>
+        <span class="pill">MIT License</span>
+        <span class="pill">No vendor lock-in</span>
+      </div>
+    </div>
+  </div>
 
+  <!-- Linux SSH -->
+  <div class="agent-os-block">
+    <h3><i class="fa-brands fa-linux"></i> Linux SSH Agents <span class="os-badge">SSH</span></h3>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>nginx_ops</code></div>
+        <p>Manage Nginx — config test, reload, log analysis, upstream health, SSL expiry check.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"nginx is returning 502 on prod, check upstream and reload"</span>
+          <span class="skill-idea-item">"Show me the top 10 slowest endpoints from access.log"</span>
+          <span class="skill-idea-item">"Check SSL cert expiry on all vhosts"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>apache_ops</code></div>
+        <p>Manage Apache — VHost management, mod_status, graceful restart, SSL, access log analysis.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Test Apache config and do a graceful restart"</span>
+          <span class="skill-idea-item">"Enable mod_rewrite and reload"</span>
+          <span class="skill-idea-item">"Which IPs generated the most 403s today?"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>kubernetes_node_ops</code></div>
+        <p>Inspect Kubernetes — pod triage, CrashLoopBackOff diagnosis, node drain, rolling restarts, rollback.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"List all pods in CrashLoopBackOff and show their last logs"</span>
+          <span class="skill-idea-item">"Drain node k8s-node-02 for maintenance"</span>
+          <span class="skill-idea-item">"Rollback the payment-service deployment"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>docker_ops</code></div>
+        <p>Operate Docker — container lifecycle, image pull, health checks, Compose redeploy, prune.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Pull latest image and recreate the api container"</span>
+          <span class="skill-idea-item">"Show memory usage for all running containers"</span>
+          <span class="skill-idea-item">"Prune unused images and volumes to free disk"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>postgres_ops</code></div>
+        <p>Monitor PostgreSQL — replication lag, slow queries, lock contention, bloat, backup status.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Check replication lag on all replicas"</span>
+          <span class="skill-idea-item">"Find the top 5 slowest queries this hour"</span>
+          <span class="skill-idea-item">"Which tables have the most dead tuples and need VACUUM?"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>mysql_ops</code></div>
+        <p>Monitor MySQL/MariaDB — processlist, replica lag, slow log, InnoDB metrics, backup check.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Show full processlist and kill queries running over 30s"</span>
+          <span class="skill-idea-item">"Check replica status on db-replica-01"</span>
+          <span class="skill-idea-item">"Top 10 slowest queries from slow log this week"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>linux_incident</code></div>
+        <p>Triage Linux incidents — CPU/memory/disk pressure, OOM kills, systemd failures, network saturation.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"The server is slow, run a full triage and report"</span>
+          <span class="skill-idea-item">"Check for OOM kills in the last hour"</span>
+          <span class="skill-idea-item">"List all failed systemd units and their last error"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>log_analyzer</code></div>
+        <p>Analyse any log — grep/awk/tail, error patterns, log rotation, SFTP download.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Count error occurrences by type in /var/log/app.log"</span>
+          <span class="skill-idea-item">"Force log rotation and archive logs older than 7 days"</span>
+          <span class="skill-idea-item">"Download the last nginx error log for offline analysis"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>deploy_rollback</code></div>
+        <p>Deploy &amp; rollback — git pull, build, service restart, health check, auto-rollback on failure.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Deploy main branch to prod-web-01 with health check"</span>
+          <span class="skill-idea-item">"Rollback to the previous commit on staging"</span>
+          <span class="skill-idea-item">"Run full deploy pipeline: pull → npm ci → reload service"</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Windows WinRM -->
+  <div class="agent-os-block">
+    <h3><i class="fa-brands fa-windows"></i> Windows WinRM Agents <span class="os-badge">WinRM</span></h3>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>iis_ops</code></div>
+        <p>Manage IIS — app pool lifecycle, site bindings, SSL certificates, access log analysis, FREB.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Recycle the MyApp pool and check its state after"</span>
+          <span class="skill-idea-item">"Show all IIS sites with their bindings and SSL expiry"</span>
+          <span class="skill-idea-item">"Detect 500 errors in IIS logs from the last hour"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>windows_incident</code></div>
+        <p>Triage Windows incidents — CPU/memory/disk pressure, event log errors, stuck processes, service failures.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"The server is unresponsive, run a full Windows triage"</span>
+          <span class="skill-idea-item">"List critical events from System log in the last 2h"</span>
+          <span class="skill-idea-item">"Find and kill the process consuming the most memory"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>sqlserver_ops</code></div>
+        <p>Monitor SQL Server — blocking queries, AG replication lag, failed jobs, index fragmentation, backup status.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Show all blocking sessions with their query text"</span>
+          <span class="skill-idea-item">"Check AG sync lag on all replicas"</span>
+          <span class="skill-idea-item">"List SQL Agent jobs that failed in the last 24h"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>windows_deploy_rollback</code></div>
+        <p>Deploy &amp; rollback — robocopy staging, app pool recycle, health check, auto-rollback, backup snapshots.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Deploy staging build to IIS and verify health endpoint"</span>
+          <span class="skill-idea-item">"Rollback to yesterday's backup snapshot"</span>
+          <span class="skill-idea-item">"Stop pool → robocopy → start pool → health check pipeline"</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header"><code>windows_log_analyzer</code></div>
+        <p>Analyse Windows logs — Event Log queries, failed logins, lockouts, IIS W3C logs, custom app logs.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Show all failed login attempts from the Security log today"</span>
+          <span class="skill-idea-item">"Which accounts got locked out in the last 24h?"</span>
+          <span class="skill-idea-item">"Search custom app log for EXCEPTION patterns"</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" aria-label="About">
+  <h2>About</h2>
+  <p>This project is licensed under the MIT License — see the LICENSE file for details.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="about" aria-label="Contact">
+  <h2>Contact me</h2>
+  <p>Built with ❤️ for the LLM community</p>
+  <p>For questions, suggestions, or support, please open an issue or contact the maintainers.
+    <a href="mailto:l.kieran95@gmail.com" style="color:var(--accent);">@me</a>.
+  </p>
+</section>
 
 <footer>
   <p>© 2025 aecoding.io — Tous droits réservés.</p>
