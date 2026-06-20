@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,13 +42,12 @@
       vertical-align: middle;
     }
 
-    /* ── Agent Library section ── */
+    /* ── Sections ── */
     .agent-library {
       margin-top: 4rem;
       padding-top: 4rem;
       border-top: 1px solid rgba(255,255,255,0.05);
     }
-
     .agent-library > h2 {
       font-size: 2rem;
       color: var(--accent);
@@ -56,7 +55,6 @@
       text-align: center;
       margin-bottom: 0.5rem;
     }
-
     .agent-library > .section-sub {
       text-align: center;
       color: var(--text-muted);
@@ -64,7 +62,6 @@
       max-width: 640px;
       margin: 0 auto 3rem;
     }
-
     .agent-library > .section-sub code {
       background: rgba(58,123,253,0.15);
       color: var(--accent);
@@ -76,7 +73,6 @@
     .agent-os-block {
       margin-bottom: 2.5rem;
     }
-
     .agent-os-block h3 {
       font-size: 1.1rem;
       font-weight: 700;
@@ -86,7 +82,6 @@
       align-items: center;
       gap: 0.5rem;
     }
-
     .agent-os-block h3 span.os-badge {
       font-size: 0.7rem;
       font-weight: 700;
@@ -99,12 +94,12 @@
       color: var(--accent);
     }
 
+    /* ── Skill cards ── */
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1rem;
     }
-
     .skill-card {
       background: var(--bg-card);
       border-radius: 12px;
@@ -115,20 +110,18 @@
       flex-direction: column;
       gap: 0.5rem;
     }
-
     .skill-card:hover {
       background: var(--bg-card-hover);
       border-color: rgba(58,123,253,0.25);
       box-shadow: 0 8px 24px rgba(58,123,253,0.08);
       transform: translateY(-3px);
     }
-
     .skill-card-header {
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      flex-wrap: wrap;
     }
-
     .skill-card-header code {
       font-size: 0.82rem;
       font-weight: 700;
@@ -138,14 +131,12 @@
       border-radius: 5px;
       font-family: "Menlo", "Consolas", monospace;
     }
-
     .skill-card p {
       font-size: 0.88rem;
       color: var(--text-muted);
       line-height: 1.55;
       margin: 0;
     }
-
     .skill-card .skill-ideas {
       margin-top: 0.6rem;
       padding-top: 0.6rem;
@@ -154,7 +145,6 @@
       flex-direction: column;
       gap: 0.3rem;
     }
-
     .skill-card .skill-idea-item {
       font-size: 0.78rem;
       color: #7a8aaa;
@@ -162,7 +152,6 @@
       position: relative;
       line-height: 1.4;
     }
-
     .skill-card .skill-idea-item::before {
       content: "→";
       position: absolute;
@@ -171,7 +160,214 @@
       opacity: 0.5;
     }
 
-    /* openclaw comparison banner */
+    /* ── .md example block ── */
+    .md-example {
+      margin-top: 4rem;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .md-example > h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .md-example > .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 660px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+    .md-example > .section-sub code {
+      background: rgba(58,123,253,0.15);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+    .md-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .md-tab-btn {
+      background: rgba(58,123,253,0.08);
+      border: 1px solid rgba(58,123,253,0.2);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .md-tab-btn:hover,
+    .md-tab-btn.active {
+      background: rgba(58,123,253,0.18);
+      border-color: rgba(58,123,253,0.5);
+      color: var(--accent);
+    }
+    .md-block {
+      display: none;
+      background: #0d1117;
+      border: 1px solid rgba(58,123,253,0.15);
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+      position: relative;
+    }
+    .md-block.visible {
+      display: block;
+    }
+    .md-block pre {
+      margin: 0;
+      font-family: "Menlo", "Consolas", "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .md-block .yaml-key   { color: #79c0ff; }
+    .md-block .yaml-val   { color: #a5d6ff; }
+    .md-block .yaml-str   { color: #a8daff; }
+    .md-block .md-heading { color: #ffa657; font-weight: 700; }
+    .md-block .md-comment { color: #8b949e; }
+    .md-block .md-cmd     { color: #7ee787; }
+    .md-block .md-sep     { color: #30363d; }
+    .md-block .md-icon-row { color: #d2a8ff; }
+    .md-copy-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(58,123,253,0.12);
+      border: 1px solid rgba(58,123,253,0.25);
+      color: var(--accent);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .md-copy-btn:hover { background: rgba(58,123,253,0.25); }
+
+    /* ── MCP section ── */
+    .mcp-section {
+      margin-top: 4rem;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .mcp-section > h2 {
+      font-size: 2rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .mcp-section > .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 660px;
+      margin: 0 auto 3rem;
+      line-height: 1.6;
+    }
+    .mcp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+    .mcp-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      transition: var(--transition);
+    }
+    .mcp-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(58,123,253,0.3);
+      box-shadow: 0 8px 28px rgba(58,123,253,0.1);
+      transform: translateY(-3px);
+    }
+    .mcp-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .mcp-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .mcp-card-icon.blue  { background: rgba(58,123,253,0.15); color: #79c0ff; }
+    .mcp-card-icon.green { background: rgba(34,197,94,0.12);  color: #6ee7b7; }
+    .mcp-card-icon.amber { background: rgba(251,191,36,0.12); color: #fcd34d; }
+    .mcp-card-icon.red   { background: rgba(248,113,113,0.12);color: #fca5a5; }
+    .mcp-card-icon.purple{ background: rgba(167,139,250,0.12);color: #c4b5fd; }
+    .mcp-card-icon.teal  { background: rgba(45,212,191,0.12); color: #5eead4; }
+    .mcp-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .mcp-card-title code {
+      font-size: 0.82rem;
+      background: rgba(58,123,253,0.12);
+      color: var(--accent);
+      padding: 1px 7px;
+      border-radius: 5px;
+      margin-left: 6px;
+      font-family: "Menlo", "Consolas", monospace;
+    }
+    .mcp-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .mcp-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+    .mcp-tool-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: "Menlo", "Consolas", monospace;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #8b949e;
+      padding: 2px 8px;
+      border-radius: 5px;
+    }
+    .mcp-transport {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      border-radius: 20px;
+    }
+    .transport-sse    { background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.25);  color: #6ee7b7; }
+    .transport-stdio  { background: rgba(167,139,250,0.1);border: 1px solid rgba(167,139,250,0.25);color: #c4b5fd; }
+    .transport-http   { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); color: #fcd34d; }
+
+    /* ── openclaw banner ── */
     .openclaw-banner {
       background: linear-gradient(135deg, rgba(58,123,253,0.08) 0%, rgba(18,24,34,0.9) 100%);
       border: 1px solid rgba(58,123,253,0.2);
@@ -183,52 +379,25 @@
       gap: 2rem;
       flex-wrap: wrap;
     }
+    .openclaw-banner .banner-icon { font-size: 2.5rem; color: var(--accent); opacity: 0.8; flex-shrink: 0; }
+    .openclaw-banner .banner-text h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.4rem; }
+    .openclaw-banner .banner-text p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .openclaw-banner .banner-text p code { background: rgba(58,123,253,0.15); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
+    .openclaw-banner .banner-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+    .openclaw-banner .pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: rgba(58,123,253,0.1); border: 1px solid rgba(58,123,253,0.25); color: var(--accent); }
 
-    .openclaw-banner .banner-icon {
-      font-size: 2.5rem;
-      color: var(--accent);
-      opacity: 0.8;
-      flex-shrink: 0;
-    }
-
-    .openclaw-banner .banner-text h3 {
-      font-size: 1.1rem;
+    /* ── New feature badges ── */
+    .new-badge {
+      font-size: 0.65rem;
       font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.4rem;
-    }
-
-    .openclaw-banner .banner-text p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .openclaw-banner .banner-text p code {
-      background: rgba(58,123,253,0.15);
-      color: var(--accent);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 0.85em;
-    }
-
-    .openclaw-banner .banner-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.8rem;
-    }
-
-    .openclaw-banner .pill {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 3px 10px;
+      padding: 2px 7px;
       border-radius: 20px;
-      background: rgba(58,123,253,0.1);
-      border: 1px solid rgba(58,123,253,0.25);
-      color: var(--accent);
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #6ee7b7;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -290,14 +459,15 @@
   </article>
 
   <article class="product-card" tabindex="0">
-    <h2>Advanced Features Agent &amp; RAG</h2>
+    <h2>Advanced Features — Agent &amp; RAG</h2>
     <ul class="features-list">
       <li><strong>RAG-Powered Context:</strong> Agents automatically retrieve relevant context from your document knowledge base</li>
       <li><strong>LLM Integration:</strong> Agents call LLMs with intelligent prompts and context management</li>
-      <li><strong>MCP Tool Access:</strong> Connect to external services (GitHub, Jira, Slack, linters, test runners, etc.)</li>
-      <li><strong>Multi-Step Workflows:</strong> Orchestrate complex tasks (fetch repo → generate code → test → lint → commit → PR)</li>
+      <li><strong>MCP Tool Access:</strong> Connect to external services (Gitea, GitHub, DataGouv, linter, SSH, WinRM, etc.)</li>
+      <li><strong>Multi-Step Workflows:</strong> Orchestrate complex tasks (fetch repo → generate code → lint → commit → PR)</li>
+      <li><strong>Remote Host Management:</strong> <span class="new-badge">New</span> SSH &amp; WinRM hosts registered once, executed anywhere — credentials AES-256 encrypted</li>
+      <li><strong>Skill .md Files:</strong> <span class="new-badge">New</span> Register agents from a single Markdown file — semantic resolution, no config</li>
       <li><strong>Real-Time Streaming:</strong> Live execution logs and progress updates via SSE</li>
-      <li><strong>Error Handling:</strong> Automatic retries, timeouts, and graceful degradation</li>
     </ul>
   </article>
 
@@ -320,7 +490,9 @@
   </article>
 </section>
 
-<!-- AGENT LIBRARY -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     AGENT LIBRARY
+═══════════════════════════════════════════════════════════════════════════ -->
 <section class="agent-library" aria-label="Agent Library">
   <h2>Agent Library</h2>
   <p class="section-sub">
@@ -328,7 +500,6 @@
     Register via <code>POST /api/skills/register</code> — credentials resolved securely from DB, never in plain config.
   </p>
 
-  <!-- OpenClaw comparison banner -->
   <div class="openclaw-banner">
     <div class="banner-icon"><i class="fa-solid fa-robot"></i></div>
     <div class="banner-text">
@@ -343,6 +514,8 @@
         <span class="pill">Multi-provider</span>
         <span class="pill">SSH / WinRM</span>
         <span class="pill">Skill .md files</span>
+        <span class="pill">Gitea MCP</span>
+        <span class="pill">DataGouv MCP</span>
         <span class="pill">MIT License</span>
         <span class="pill">No vendor lock-in</span>
       </div>
@@ -353,7 +526,6 @@
   <div class="agent-os-block">
     <h3><i class="fa-brands fa-linux"></i> Linux SSH Agents <span class="os-badge">SSH</span></h3>
     <div class="skills-grid">
-
       <div class="skill-card">
         <div class="skill-card-header"><code>nginx_ops</code></div>
         <p>Manage Nginx — config test, reload, log analysis, upstream health, SSL expiry check.</p>
@@ -363,7 +535,6 @@
           <span class="skill-idea-item">"Check SSL cert expiry on all vhosts"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>apache_ops</code></div>
         <p>Manage Apache — VHost management, mod_status, graceful restart, SSL, access log analysis.</p>
@@ -373,7 +544,6 @@
           <span class="skill-idea-item">"Which IPs generated the most 403s today?"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>kubernetes_node_ops</code></div>
         <p>Inspect Kubernetes — pod triage, CrashLoopBackOff diagnosis, node drain, rolling restarts, rollback.</p>
@@ -383,7 +553,6 @@
           <span class="skill-idea-item">"Rollback the payment-service deployment"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>docker_ops</code></div>
         <p>Operate Docker — container lifecycle, image pull, health checks, Compose redeploy, prune.</p>
@@ -393,7 +562,6 @@
           <span class="skill-idea-item">"Prune unused images and volumes to free disk"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>postgres_ops</code></div>
         <p>Monitor PostgreSQL — replication lag, slow queries, lock contention, bloat, backup status.</p>
@@ -403,7 +571,6 @@
           <span class="skill-idea-item">"Which tables have the most dead tuples and need VACUUM?"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>mysql_ops</code></div>
         <p>Monitor MySQL/MariaDB — processlist, replica lag, slow log, InnoDB metrics, backup check.</p>
@@ -413,7 +580,6 @@
           <span class="skill-idea-item">"Top 10 slowest queries from slow log this week"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>linux_incident</code></div>
         <p>Triage Linux incidents — CPU/memory/disk pressure, OOM kills, systemd failures, network saturation.</p>
@@ -423,7 +589,6 @@
           <span class="skill-idea-item">"List all failed systemd units and their last error"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>log_analyzer</code></div>
         <p>Analyse any log — grep/awk/tail, error patterns, log rotation, SFTP download.</p>
@@ -433,7 +598,6 @@
           <span class="skill-idea-item">"Download the last nginx error log for offline analysis"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>deploy_rollback</code></div>
         <p>Deploy &amp; rollback — git pull, build, service restart, health check, auto-rollback on failure.</p>
@@ -443,7 +607,6 @@
           <span class="skill-idea-item">"Run full deploy pipeline: pull → npm ci → reload service"</span>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -451,7 +614,6 @@
   <div class="agent-os-block">
     <h3><i class="fa-brands fa-windows"></i> Windows WinRM Agents <span class="os-badge">WinRM</span></h3>
     <div class="skills-grid">
-
       <div class="skill-card">
         <div class="skill-card-header"><code>iis_ops</code></div>
         <p>Manage IIS — app pool lifecycle, site bindings, SSL certificates, access log analysis, FREB.</p>
@@ -461,7 +623,6 @@
           <span class="skill-idea-item">"Detect 500 errors in IIS logs from the last hour"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>windows_incident</code></div>
         <p>Triage Windows incidents — CPU/memory/disk pressure, event log errors, stuck processes, service failures.</p>
@@ -471,7 +632,6 @@
           <span class="skill-idea-item">"Find and kill the process consuming the most memory"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>sqlserver_ops</code></div>
         <p>Monitor SQL Server — blocking queries, AG replication lag, failed jobs, index fragmentation, backup status.</p>
@@ -481,7 +641,6 @@
           <span class="skill-idea-item">"List SQL Agent jobs that failed in the last 24h"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>windows_deploy_rollback</code></div>
         <p>Deploy &amp; rollback — robocopy staging, app pool recycle, health check, auto-rollback, backup snapshots.</p>
@@ -491,7 +650,6 @@
           <span class="skill-idea-item">"Stop pool → robocopy → start pool → health check pipeline"</span>
         </div>
       </div>
-
       <div class="skill-card">
         <div class="skill-card-header"><code>windows_log_analyzer</code></div>
         <p>Analyse Windows logs — Event Log queries, failed logins, lockouts, IIS W3C logs, custom app logs.</p>
@@ -501,8 +659,447 @@
           <span class="skill-idea-item">"Search custom app log for EXCEPTION patterns"</span>
         </div>
       </div>
-
     </div>
+  </div>
+
+  <!-- Fixed Agents — NEW -->
+  <div class="agent-os-block">
+    <h3><i class="fa-solid fa-robot"></i> Fixed Agents — MCP-backed <span class="os-badge new-badge" style="margin-left:.5rem">New</span></h3>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-header"><code>gitea_code_generator</code></div>
+        <p>Generate code, lint, commit and create PRs on a self-hosted Gitea repository via MCP. Supports clone, file-level update, branch creation and pull request automation.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Add a /healthz endpoint returning JSON status"</span>
+          <span class="skill-idea-item">"Refactor the auth module and open a PR on ai-feature"</span>
+          <span class="skill-idea-item">"Lint and fix all PEP8 issues in src/"</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-header"><code>datagouv_explorer</code></div>
+        <p>Explore the data.gouv.fr catalogue — search datasets, fetch resources and download URLs, browse organisations and DINUM API v2 topics.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Find all CSV datasets about population by commune"</span>
+          <span class="skill-idea-item">"List INSEE datasets updated in the last month"</span>
+          <span class="skill-idea-item">"Fetch download URL for the 2023 electoral results"</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-header"><code>branch_code_review</code></div>
+        <p>Automatic code review on Git branches — security analysis, style checks, LLM-generated comments, optional auto-fix and PR creation.</p>
+        <div class="skill-ideas">
+          <span class="skill-idea-item">"Review the feature/auth branch for security issues"</span>
+          <span class="skill-idea-item">"Auto-fix PEP8 warnings and push the result"</span>
+          <span class="skill-idea-item">"Open a review PR with inline LLM comments"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     .md SKILL FILE EXAMPLES
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="md-example" aria-label="Skill .md file examples">
+  <h2>Skill <code style="font-size:1.2rem">.md</code> file examples</h2>
+  <p class="section-sub">
+    One file = one agent. The YAML frontmatter configures routing, MCP servers and memory.
+    The Markdown body is the system prompt — including the <code>## Mapping</code> section that defines
+    the commands the agent understands at execution.
+  </p>
+
+  <div class="md-tabs" id="mdTabs">
+    <button class="md-tab-btn active" data-target="md-ssh">ssh_admin</button>
+    <button class="md-tab-btn" data-target="md-winrm">winrm_admin</button>
+    <button class="md-tab-btn" data-target="md-k8s">k8s_ops</button>
+    <button class="md-tab-btn" data-target="md-postgres">postgres_ops</button>
+    <button class="md-tab-btn" data-target="md-gitea">gitea_code_generator</button>
+    <button class="md-tab-btn" data-target="md-web">web_server_ops</button>
+  </div>
+
+  <!-- ssh_admin -->
+  <div class="md-block visible" id="md-ssh">
+    <button class="md-copy-btn" onclick="copyMd('md-ssh')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">ssh_admin</span>
+<span class="yaml-key">name:</span>     <span class="yaml-val">ssh_admin</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Administration Linux distante via SSH"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[linux, ssh, admin, infra]</span>
+<span class="yaml-key">slash_command:</span> <span class="yaml-val">/ssh</span>
+<span class="yaml-key">at_command:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You are an expert Linux administrator. Translate user requests
+into precise SSH commands and report results clearly.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- restart &lt;service&gt;  → systemctl restart &lt;service&gt;</span>
+<span class="md-cmd">- stop &lt;service&gt;     → systemctl stop &lt;service&gt;</span>
+<span class="md-cmd">- check &lt;service&gt;    → systemctl status &lt;service&gt; --no-pager</span>
+<span class="md-cmd">- logs &lt;service&gt;     → journalctl -u &lt;service&gt; -n 50 --no-pager</span>
+<span class="md-cmd">- disk               → df -h</span>
+<span class="md-cmd">- memory             → free -h</span>
+<span class="md-cmd">- processes          → ps aux --sort=-%mem | head -20</span>
+<span class="md-cmd">- ports              → ss -tlnp</span>
+<span class="md-cmd">- cleanup            → apt autoremove -y &amp;&amp; journalctl --vacuum-time=7d</span>
+
+<span class="md-heading">## First run on unknown host</span>
+Execute get_system_info to detect OS and store globally.
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + suggested fix</span></pre>
+  </div>
+
+  <!-- winrm_admin -->
+  <div class="md-block" id="md-winrm">
+    <button class="md-copy-btn" onclick="copyMd('md-winrm')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">winrm_admin</span>
+<span class="yaml-key">name:</span>     <span class="yaml-val">winrm_admin</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Administration Windows distante via WinRM PowerShell"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[windows, winrm, powershell, admin]</span>
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You are an expert Windows administrator. Translate requests
+into WinRM/PowerShell calls and report results clearly.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- restart &lt;service&gt;   → restart_service</span>
+<span class="md-cmd">- stop &lt;service&gt;      → stop_service</span>
+<span class="md-cmd">- check &lt;service&gt;     → check_service</span>
+<span class="md-cmd">- services stopped     → list_services status=Stopped</span>
+<span class="md-cmd">- all services         → list_services status=All</span>
+<span class="md-cmd">- error logs           → get_event_logs level=2 count=20</span>
+<span class="md-cmd">- processes            → get_running_processes top_n=15</span>
+<span class="md-cmd">- system info          → get_system_info</span>
+<span class="md-cmd">- cleanup              → exec_cleanup</span>
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + PowerShell stderr + fix</span></pre>
+  </div>
+
+  <!-- k8s_ops -->
+  <div class="md-block" id="md-k8s">
+    <button class="md-copy-btn" onclick="copyMd('md-k8s')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">k8s_ops</span>
+<span class="yaml-key">name:</span>     <span class="yaml-val">k8s_ops</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Kubernetes node ops via kubectl over SSH"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[kubernetes, k8s, kubectl, ssh]</span>
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You are a Kubernetes operator. Execute kubectl commands via SSH
+and interpret cluster state for the user.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- pods               → kubectl get pods -A</span>
+<span class="md-cmd">- logs &lt;pod&gt;         → kubectl logs &lt;pod&gt; --tail=50</span>
+<span class="md-cmd">- describe &lt;pod&gt;     → kubectl describe pod &lt;pod&gt;</span>
+<span class="md-cmd">- nodes              → kubectl get nodes -o wide</span>
+<span class="md-cmd">- drain &lt;node&gt;       → kubectl drain &lt;node&gt; --ignore-daemonsets \
+                         --delete-emptydir-data</span>
+<span class="md-cmd">- events             → kubectl get events \
+                         --sort-by=.lastTimestamp -A | tail -20</span>
+<span class="md-cmd">- rollback &lt;deploy&gt;  → kubectl rollout undo deployment/&lt;deploy&gt;</span>
+<span class="md-cmd">- restart &lt;deploy&gt;   → kubectl rollout restart deployment/&lt;deploy&gt;</span>
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span></pre>
+  </div>
+
+  <!-- postgres_ops -->
+  <div class="md-block" id="md-postgres">
+    <button class="md-copy-btn" onclick="copyMd('md-postgres')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">postgres_ops</span>
+<span class="yaml-key">name:</span>     <span class="yaml-val">postgres_ops</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"PostgreSQL operations via psql over SSH"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[postgres, postgresql, db, sql, ssh]</span>
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You are a PostgreSQL DBA. Diagnose and operate PostgreSQL
+instances via psql commands executed over SSH.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- status       → systemctl status postgresql --no-pager</span>
+<span class="md-cmd">- restart      → systemctl restart postgresql</span>
+<span class="md-cmd">- connections  → psql -U postgres -c "SELECT count(*), state \
+                   FROM pg_stat_activity GROUP BY state"</span>
+<span class="md-cmd">- db sizes     → psql -U postgres -c "SELECT datname, \
+                   pg_size_pretty(pg_database_size(datname)) \
+                   FROM pg_database ORDER BY 2 DESC"</span>
+<span class="md-cmd">- locks        → psql -U postgres -c "SELECT pid, usename, \
+                   state, wait_event_type, query \
+                   FROM pg_stat_activity \
+                   WHERE wait_event_type='Lock'"</span>
+<span class="md-cmd">- slow queries → psql -U postgres -c "SELECT pid, \
+                   now()-query_start AS duration, query \
+                   FROM pg_stat_activity WHERE state='active' \
+                   ORDER BY duration DESC LIMIT 10"</span>
+<span class="md-cmd">- vacuum       → psql -U postgres -c "VACUUM ANALYZE"</span>
+<span class="md-cmd">- logs         → tail -n 100 /var/log/postgresql/postgresql-*.log</span>
+<span class="md-cmd">- disk         → df -h /var/lib/postgresql</span>
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + psql stderr + fix</span></pre>
+  </div>
+
+  <!-- gitea_code_generator -->
+  <div class="md-block" id="md-gitea">
+    <button class="md-copy-btn" onclick="copyMd('md-gitea')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">gitea_code_generator</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">skill</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">["gitea", "linter"]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Generates code, lints, commits and opens PRs on
+  a self-hosted Gitea repository"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[code, git, gitea, codegen, ci, automation]</span>
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You are an expert code-generation agent. You work on a repository
+hosted on a self-hosted Gitea instance (GitHub v3-compatible API).
+
+<span class="md-heading">## Mandatory workflow</span>
+<span class="md-cmd">clone_repository → get_repo_tree → [get_file_content]
+→ LLM generation → lint/format
+→ commit_and_push → [create_pull_request if auto_create_pr=true]</span>
+
+<span class="md-heading">## Generation rules</span>
+- Respect existing code style (indent, naming, patterns)
+- Never overwrite an entire file to change a single function
+- Docstring required on all new public functions
+- Always work on <span class="yaml-val">target_branch</span>, never directly on main
+
+<span class="md-heading">## Branching</span>
+- <span class="yaml-key">base_branch</span> — source branch (default: main)
+- <span class="yaml-key">target_branch</span> — AI feature branch (default: ai-feature)
+- Create target branch via create_branch if it does not exist
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">{
+  "files_modified": ["path/to/file.py"],
+  "commit_hash": "abc1234",
+  "branch": "ai-feature",
+  "pr_url": null,
+  "summary": "Description of changes"
+}</span></pre>
+  </div>
+
+  <!-- web_server_ops -->
+  <div class="md-block" id="md-web">
+    <button class="md-copy-btn" onclick="copyMd('md-web')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">web_server_ops</span>
+<span class="yaml-key">name:</span>     <span class="yaml-val">web_server_ops</span>
+<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Nginx/Apache web server operations over SSH"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[nginx, apache, web, ssh]</span>
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+You manage Nginx and Apache web servers. Execute the correct
+command on the target host and interpret the output.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- reload nginx    → nginx -t &amp;&amp; systemctl reload nginx</span>
+<span class="md-cmd">- logs access     → tail -n 100 /var/log/nginx/access.log</span>
+<span class="md-cmd">- logs error      → tail -n 100 /var/log/nginx/error.log</span>
+<span class="md-cmd">- config nginx    → cat /etc/nginx/nginx.conf</span>
+<span class="md-cmd">- check sites     → ls /etc/nginx/sites-enabled/</span>
+<span class="md-cmd">- status          → systemctl status nginx --no-pager</span>
+<span class="md-cmd">- reload apache2  → systemctl reload apache2</span>
+<span class="md-cmd">- status apache2  → systemctl status apache2</span>
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span></pre>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MCP SERVERS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="mcp-section" aria-label="Available MCP Servers">
+  <h2>MCP Servers</h2>
+  <p class="section-sub">
+    AgentRAG connects agents to external services via Model Context Protocol servers.
+    Declare the MCP server in your <code>.md</code> frontmatter — the backend resolves credentials
+    and routes tool calls automatically.
+  </p>
+
+  <div class="mcp-grid">
+
+    <!-- SSH -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon blue"><i class="fa-brands fa-linux"></i></div>
+        <div>
+          <div class="mcp-card-title">SSH Server <code>ssh</code></div>
+          <span class="mcp-transport transport-stdio">stdio</span>
+        </div>
+      </div>
+      <p>Execute commands on any Linux host over SSH. Supports key-based auth, passphrase keys, and per-session memory. Hosts registered once in DB — never in plain config.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">exec_command</span>
+        <span class="mcp-tool-pill">get_system_info</span>
+        <span class="mcp-tool-pill">upload_file</span>
+        <span class="mcp-tool-pill">download_file</span>
+        <span class="mcp-tool-pill">list_directory</span>
+      </div>
+    </div>
+
+    <!-- WinRM -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon blue"><i class="fa-brands fa-windows"></i></div>
+        <div>
+          <div class="mcp-card-title">WinRM Server <code>winrm</code></div>
+          <span class="mcp-transport transport-stdio">stdio</span>
+        </div>
+      </div>
+      <p>Execute PowerShell commands on Windows hosts via WinRM. Supports NTLM, Kerberos, and Basic auth. Service management, Event Log queries, process control.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">exec_powershell</span>
+        <span class="mcp-tool-pill">get_system_info</span>
+        <span class="mcp-tool-pill">restart_service</span>
+        <span class="mcp-tool-pill">list_services</span>
+        <span class="mcp-tool-pill">get_event_logs</span>
+        <span class="mcp-tool-pill">get_running_processes</span>
+      </div>
+    </div>
+
+    <!-- Gitea -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon amber"><i class="fa-solid fa-code-branch"></i></div>
+        <div>
+          <div class="mcp-card-title">Gitea Server <code>gitea</code> <span class="new-badge">New</span></div>
+          <span class="mcp-transport transport-http">HTTP</span>
+        </div>
+      </div>
+      <p>Full repository operations on a self-hosted Gitea instance (GitHub v3 API). Clone, read files, update content, create branches and pull requests — all without leaving AgentRAG.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">clone_repository</span>
+        <span class="mcp-tool-pill">get_repo_tree</span>
+        <span class="mcp-tool-pill">get_file_content</span>
+        <span class="mcp-tool-pill">update_file</span>
+        <span class="mcp-tool-pill">commit_and_push</span>
+        <span class="mcp-tool-pill">create_branch</span>
+        <span class="mcp-tool-pill">create_pull_request</span>
+      </div>
+    </div>
+
+    <!-- GitHub -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon purple"><i class="fa-brands fa-github"></i></div>
+        <div>
+          <div class="mcp-card-title">GitHub Server <code>github</code></div>
+          <span class="mcp-transport transport-http">HTTP</span>
+        </div>
+      </div>
+      <p>Interact with GitHub repositories — code review automation, PR creation, issue management, branch operations and content updates via the GitHub REST API.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">get_file_content</span>
+        <span class="mcp-tool-pill">update_file</span>
+        <span class="mcp-tool-pill">create_pull_request</span>
+        <span class="mcp-tool-pill">list_issues</span>
+        <span class="mcp-tool-pill">create_review</span>
+      </div>
+    </div>
+
+    <!-- DataGouv -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon green"><i class="fa-solid fa-database"></i></div>
+        <div>
+          <div class="mcp-card-title">DataGouv <code>datagouv</code> <span class="new-badge">New</span></div>
+          <span class="mcp-transport transport-http">HTTP</span>
+        </div>
+      </div>
+      <p>Search and explore the French open data catalogue — data.gouv.fr REST API v1 &amp; v2. No authentication required. Search datasets, fetch resources, browse DINUM topics and organisations.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">search_datasets</span>
+        <span class="mcp-tool-pill">get_dataset</span>
+        <span class="mcp-tool-pill">search_organizations</span>
+        <span class="mcp-tool-pill">list_topics</span>
+        <span class="mcp-tool-pill">get_topic</span>
+      </div>
+    </div>
+
+    <!-- Linter -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon teal"><i class="fa-solid fa-spell-check"></i></div>
+        <div>
+          <div class="mcp-card-title">Linter Server <code>linter</code> <span class="new-badge">New</span></div>
+          <span class="mcp-transport transport-stdio">stdio</span>
+        </div>
+      </div>
+      <p>Run linters and formatters on generated code before committing. Supports Python (ruff, black, flake8), JavaScript (eslint, prettier), and shell scripts. Used automatically by the Gitea code generator.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">lint_file</span>
+        <span class="mcp-tool-pill">format_file</span>
+        <span class="mcp-tool-pill">lint_directory</span>
+        <span class="mcp-tool-pill">check_syntax</span>
+      </div>
+    </div>
+
+    <!-- Test Runner -->
+    <div class="mcp-card">
+      <div class="mcp-card-header">
+        <div class="mcp-card-icon green"><i class="fa-solid fa-flask"></i></div>
+        <div>
+          <div class="mcp-card-title">Test Runner <code>test_runner</code></div>
+          <span class="mcp-transport transport-stdio">stdio</span>
+        </div>
+      </div>
+      <p>Execute test suites as part of agent workflows. Supports pytest, jest, and custom commands. Results are parsed and returned as structured JSON — failures block commit when enabled.</p>
+      <div class="mcp-tools">
+        <span class="mcp-tool-pill">run_tests</span>
+        <span class="mcp-tool-pill">run_single_test</span>
+        <span class="mcp-tool-pill">get_coverage</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Transport legend -->
+  <div style="margin-top:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+    <span style="font-size:0.8rem;color:var(--text-muted);margin-right:.25rem">Transport:</span>
+    <span class="mcp-transport transport-stdio">stdio — local subprocess</span>
+    <span class="mcp-transport transport-http">HTTP — remote REST API</span>
+    <span class="mcp-transport transport-sse">SSE — server-sent events</span>
   </div>
 </section>
 
@@ -525,5 +1122,29 @@
   <p>© 2025 aecoding.io — Tous droits réservés.</p>
 </footer>
 </div>
+
+<script>
+  // Tab switching
+  document.getElementById('mdTabs').addEventListener('click', function(e) {
+    var btn = e.target.closest('.md-tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.md-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.md-block').forEach(function(b){ b.classList.remove('visible'); });
+    btn.classList.add('active');
+    var target = document.getElementById(btn.dataset.target);
+    if (target) target.classList.add('visible');
+  });
+
+  // Copy to clipboard
+  function copyMd(id) {
+    var block = document.getElementById(id);
+    var text = block.querySelector('pre').innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = block.querySelector('.md-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(function(){ btn.textContent = 'Copy'; }, 1800);
+    });
+  }
+</script>
 </body>
 </html>
