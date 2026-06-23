@@ -715,6 +715,15 @@
     <button class="md-tab-btn" data-target="md-postgres">postgres_ops</button>
     <button class="md-tab-btn" data-target="md-gitea">gitea_code_generator</button>
     <button class="md-tab-btn" data-target="md-web">web_server_ops</button>
+    <button class="md-tab-btn" data-target="md-windows-log">windows_log_analyzer</button>
+    <button class="md-tab-btn" data-target="md-sql">sqlserver_ops</button>
+    <button class="md-tab-btn" data-target="md-deploy">deploy_rollback</button>
+    <button class="md-tab-btn" data-target="md-log">log_analyzer</button>
+    <button class="md-tab-btn" data-target="md-mysql">mysql_ops</button>
+    <button class="md-tab-btn" data-target="md-iis">iis_ops</button>
+    <button class="md-tab-btn" data-target="md-linux">linux_incident</button>
+    <button class="md-tab-btn" data-target="md-docker">docker_ops</button>
+    <button class="md-tab-btn" data-target="md-apache">apache_ops</button>
   </div>
 
   <!-- ssh_admin -->
@@ -944,6 +953,816 @@ command on the target host and interpret the output.
 <span class="md-heading">## Response format</span>
 <span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span></pre>
   </div>
+
+<!-- windows_log_analyzer -->
+<div class="md-block" id="md-windows-log">
+  <button class="md-copy-btn" onclick="copyMd('md-windows-log')">Copy</button>
+  <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">windows_log_analyzer</span>
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Analyse Windows Event Logs and application logs via WinRM — security events, application errors, service failures, IIS logs, custom log files"</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[windows, logs, event-log, security, iis, ops, powershell, analysis]</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Analyse and search Windows Event Logs and application log files via WinRM/PowerShell.<br/>
+Query System, Application, and Security event logs for critical errors, service failures,
+and security anomalies (failed logins, account lockouts, privilege escalation). Parse IIS
+W3C logs for HTTP error patterns. Search custom application log files, detect recurring
+error signatures, and export findings for compliance or incident reporting.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host and log source from the request.
+2. Call <code>get_system_info</code> to confirm Windows version and available log paths.
+3. Execute targeted Get‑WinEvent or Get‑Content PowerShell queries.
+4. Aggregate findings and return a structured log report.
+5. Optionally export findings as CSV or download via SFTP.
+
+<span class="md-heading">## Available MCP Tools (WinRM)</span>
+
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| <code>exec_powershell</code> | <code>host, script</code> | Run Get‑WinEvent / Get‑Content scripts |
+| <code>get_event_logs</code> | <code>host, log_name, level, count</code> | Quick query Windows Event Log |
+| <code>get_system_info</code> | <code>host</code> | Confirm Windows version + log paths |
+
+<span class="md-heading">## Instructions</span>
+
+**Critical system errors (last 2 hours):**
+get_event_logs: host=<name> log_name=System level=1 count=30
+
+**Application errors with message detail:**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName Application -MaxEvents 50 | Where-Object { $_.Level -le 2 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | ConvertTo-Json -Compress "
+
+**Failed login attempts (Security log):**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4625]]' -MaxEvents 20 | Select-Object TimeCreated, @{N='Account';E={$.Properties[5].Value}}, @{N='SourceIP';E={$.Properties[19].Value}} | ConvertTo-Json "
+
+**Account lockouts:**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4740]]' -MaxEvents 10 | Select-Object TimeCreated, @{N='LockedAccount';E={$_.Properties[0].Value}} | ConvertTo-Json "
+
+**Service start/stop events:**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(7036, 7040) } | Select-Object -First 20 TimeCreated, Message | ConvertTo-Json "
+
+**Crash / unexpected shutdown events:**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(1074, 6008, 41) } | Select-Object -First 10 TimeCreated, Id, Message | ConvertTo-Json "
+
+**IIS access log — top 5xx errors:**
+exec_powershell: host=<name> script=" Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { Select-String -Path $_.FullName -Pattern ' [5][0-9][0-9] ' } | Select-Object -Last 30 | Select-Object Line "
+
+**IIS log — top 404 URLs:**
+exec_powershell: host=<name> script=" Get-Content (Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName) | Where-Object { $_ -match ' 404 ' } | ForEach-Object { ($_ -split ' ')[4] } | Group-Object | Sort-Object Count -Descending | Select-Object -First 10 Name, Count | ConvertTo-Json "
+
+**Custom application log — search for errors:**
+exec_powershell: host=<name> script=" Select-String -Path 'C:\logs\myapp*.log' -Pattern 'ERROR|EXCEPTION|FATAL' | Select-Object -Last 50 | Select-Object Line, Filename, LineNumber | ConvertTo-Json "
+
+**Export event log to CSV:**
+exec_powershell: host=<name> script=" Get-WinEvent -LogName Application -MaxEvents 200 | Where-Object { $_.Level -le 3 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | Export-Csv -Path 'C:\Temp\app_events.csv' -NoTypeInformation Write-Output 'Exported to C:\Temp\app_events.csv' "
+**Event log sizes and retention:**
+
+exec_powershell: host=<name> script=" Get-WinEvent -ListLog System, Application, Security | Select-Object LogName, MaximumSizeInBytes, RecordCount, IsEnabled | ConvertTo-Json "
+
+
+<span class="md-heading">## Output Format</span>
+- **Host**: name + Windows Server version
+- **Log sources**: queried logs + record count analysed
+- **Critical findings**: event IDs, timestamps, messages
+- **Security anomalies**: failed logins, lockouts, privilege events
+- **Application errors**: top recurring error patterns
+- **IIS errors**: 4xx/5xx distribution, top failing URLs
+- **Actions taken**: PowerShell queries executed
+- **Recommendations**: log retention tuning, alerting rules, remediation steps</pre>
+</div>
+
+<!-- sqlserver_ops --> 
+<div class="md-block" id="md-sql">
+  <button class="md-copy-btn" onclick="copyMd('md-sql')">Copy</button>
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">sqlserver_ops</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">sqlserver_ops</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Monitor and operate SQL Server via WinRM — service health, blocking queries, AG replication lag, job failures, index fragmentation, backup status"</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[sqlserver, mssql, database, windows, ops, replication, ag, powershell]</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+Monitor and operate Microsoft SQL Server via WinRM/PowerShell.  
+Check service health, blocking queries, Always On AG status, failed jobs, index fragmentation, backup recency and database file usage.
+
+<span class="md-heading">## Mapping</span>
+<span class="md-cmd">- check_service MSSQLSERVER → check_service: host=<name> service=MSSQLSERVER</span>
+<span class="md-cmd">- check_service SQLSERVERAGENT → check_service: host=<name> service=SQLSERVERAGENT</span>
+<span class="md-cmd">- active sessions → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"SELECT login_name, count(*) AS sessions FROM sys.dm_exec_sessions GROUP BY login_name ORDER BY sessions DESC\" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- blocking queries → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT blocking_session_id, session_id, wait_type, wait_time/1000 AS wait_sec,
+  LEFT(st.text, 200) AS query
+FROM sys.dm_exec_requests r
+CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) st
+WHERE blocking_session_id > 0" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- AG sync status → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT ag.name AS ag_name, ar.replica_server_name, drs.synchronization_state_desc,
+  drs.synchronization_health_desc, drs.log_send_queue_size, drs.redo_queue_size
+FROM sys.dm_hadr_database_replica_states drs
+JOIN sys.availability_replicas ar ON drs.replica_id = ar.replica_id
+JOIN sys.availability_groups ag ON ar.group_id = ag.group_id" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- failed jobs (last 24h) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT j.name, h.run_date, h.run_time, h.message
+FROM msdb.dbo.sysjobhistory h
+JOIN msdb.dbo.sysjobs j ON h.job_id = j.job_id
+WHERE h.run_status = 0
+  AND msdb.dbo.agent_datetime(h.run_date, h.run_time) > DATEADD(hour, -24, GETDATE())
+ORDER BY h.run_date DESC, h.run_time DESC" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- slow queries (Query Store) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT TOP 10 SUBSTRING(qt.query_sql_text, 1, 200) AS query,
+  rs.avg_duration/1000 AS avg_ms, rs.count_executions
+FROM sys.query_store_query_text qt
+JOIN sys.query_store_query q ON qt.query_text_id = q.query_text_id
+JOIN sys.query_store_plan p ON q.query_id = p.query_id
+JOIN sys.query_store_runtime_stats rs ON p.plan_id = rs.plan_id
+ORDER BY rs.avg_duration DESC" -ServerInstance localhost -Database <dbname> | ConvertTo‑Json"</span>
+<span class="md-cmd">- index fragmentation (top 10) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT TOP 10 OBJECT_NAME(i.object_id) AS table_name, i.name AS index_name,
+  s.avg_fragmentation_in_percent, s.page_count
+FROM sys.dm_db_index_physical_stats(DB_ID('<dbname>'), NULL, NULL, NULL, 'SAMPLED') s
+JOIN sys.indexes i ON s.object_id = i.object_id AND s.index_id = i.index_id
+WHERE s.avg_fragmentation_in_percent > 30 AND s.page_count > 1000
+ORDER BY s.avg_fragmentation_in_percent DESC" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- last backup per DB → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT database_name, backup_type = CASE type WHEN 'D' THEN 'Full' WHEN 'L' THEN 'Log' WHEN 'I' THEN 'Diff' END,
+  MAX(backup_finish_date) AS last_backup
+FROM msdb.dbo.backupset
+GROUP BY database_name, type
+ORDER BY database_name, type" -ServerInstance localhost | ConvertTo‑Json"</span>
+<span class="md-cmd">- file space usage → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+SELECT name, type_desc,
+  ROUND(size*8.0/1024, 2) AS size_mb,
+  ROUND(FILEPROPERTY(name,'SpaceUsed')*8.0/1024, 2) AS used_mb,
+  physical_name
+FROM sys.database_files" -ServerInstance localhost -Database <dbname> | ConvertTo‑Json"</span>
+
+<span class="md-heading">## Response format</span>
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix suggestion</span></pre>
+</div>
+
+<!-- deploy_rollback -->
+<div class="md-block" id="md-deploy">
+  <button class="md-copy-btn" onclick="copyMd('md-deploy')">Copy</button>
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">deploy_rollback</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">Deploy & Rollback</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Zero‑downtime deploy and rollback on Linux via SSH — git pull, build, service restart, health check, automatic rollback on failure"</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[deploy, rollback, git, ci, linux, ops, devops]</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Execute and manage application deployments on Linux servers via SSH. Pull the latest code
+from git, run build steps, restart services with zero downtime, verify health checks after
+deployment, and automatically trigger rollback to the previous version if the health check
+fails. Works for any stack — Node.js, Python, Java, Go, PHP, static sites — on bare metal,
+VM, or Docker‑based deployments.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host and application path from the request  
+2. Capture the current git commit hash as rollback reference  
+3. Pull latest code from the configured branch  
+4. Run build steps (install deps, compile, migrate DB if needed)  
+5. Restart the service with zero‑downtime strategy (reload/blue‑green/rolling)  
+6. Run health check — rollback automatically if it fails  
+7. Return a deployment report with commit diff, duration, and final status
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| `exec_command` | `host`, `cmd`, `timeout?` | Run git/build/deploy commands |
+| `exec_multi` | `host`, `commands[]` | Run pipeline steps sequentially |
+| `check_service` | `host`, `service` | Verify service is running post‑deploy |
+| `restart_service` | `host`, `service` | Restart application service |
+| `get_system_info` | `host` | Confirm OS and available runtimes |
+| `upload_file` | `host`, `local_path`, `remote_path` | Push .env or config overrides |
+
+<span class="md-heading">## Instructions</span>
+
+**Capture rollback reference before deploying:**
+exec_command: host= cmd="cd /opt/myapp && git rev-parse HEAD"
+
+**Full deploy pipeline — Node.js:**
+exec_multi: host= commands=[
+"cd /opt/myapp && git fetch origin",
+"git reset --hard origin/main",
+"npm ci --production",
+"systemctl reload myapp || systemctl restart myapp"
+]
+
+**Full deploy pipeline — Python (gunicorn):**
+exec_multi: host= commands=[
+"cd /opt/myapp && git pull origin main",
+"source venv/bin/activate && pip install -r requirements.txt",
+"python manage.py migrate --noinput",
+"systemctl reload gunicorn"
+]
+
+**Full deploy pipeline — Docker Compose:**
+exec_multi: host= commands=[
+"cd /opt/myapp && git pull origin main",
+"docker compose pull",
+"docker compose up -d --remove-orphans --no-build"
+]
+
+**Full deploy pipeline — Go binary:**
+exec_multi: host= commands=[
+"cd /opt/myapp && git pull origin main",
+"go build -o bin/app ./cmd/server",
+"systemctl restart myapp"
+]
+
+**Health check after deploy:**
+exec_command: host= cmd="curl -sf http://localhost:8080/health && echo OK || echo FAIL"
+
+**Advanced health check with retry (3 attempts, 5s apart):**
+exec_command: host= cmd="for i in 1 2 3; do curl -sf http://localhost:8080/health && echo OK && exit 0; sleep 5; done; echo FAIL; exit 1"
+
+**Automatic rollback on failure:**
+exec_multi: host= commands=[
+"cd /opt/myapp && git reset --hard ",
+"npm ci --production",
+"systemctl restart myapp"
+]
+
+**Check deploy diff (what changed):**
+exec_command: host= cmd="cd /opt/myapp && git log --oneline ..HEAD"
+
+**Check service logs post‑deploy:**
+exec_command: host= cmd="journalctl -u myapp -n 50 --no-pager"
+
+**Blue‑green swap (via symlink):**
+exec_multi: host= commands=[
+"ln -sfn /opt/myapp-v2 /opt/myapp-current",
+"systemctl reload nginx"
+]
+
+<span class="md-heading">## Rollback Decision Logic</span>
+1. Run health check immediately after service restart  
+2. If health check fails after 3 retries → execute rollback automatically  
+3. If rollback also fails → alert and leave service in maintenance mode  
+4. Always report: previous commit, deployed commit, rollback commit, total duration
+
+<span class="md-heading">## Output Format</span>
+- **Host**: name + app path  
+- **Deploy status**: SUCCESS / FAILED / ROLLED BACK  
+- **Commit deployed**: hash + message + author  
+- **Previous commit**: hash (rollback reference)  
+- **Duration**: total deploy time in seconds  
+- **Health check**: endpoint + response code + latency  
+- **Actions taken**: each pipeline step with exit code  
+- **Recommendations**: DB migration warnings, cache flush, CDN invalidation
+
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span>
+  </pre>
+</div>
+
+<!-- log_analyzer -->
+<section>
+<div class="md-block" id="md-log">
+  <button class="md-copy-btn" onclick="copyMd('md-log')">Copy</button>
+  <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">log_analyzer</span>
+<span class="yaml-key">name:</span> <span class="yaml-val">log_analyzer</span>
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Analyse, tail, search, rotate and archive any log file on Linux hosts via SSH — application logs, system logs, access logs"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[logs, linux, ops, grep, analysis, rotation, sftp]</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Analyse any log file on Linux servers via SSH. Tail real‑time log streams, search for
+error patterns with grep/awk, extract metrics from access logs (top IPs, slowest endpoints,
+error rate), detect anomalies or recurring patterns, force log rotation, archive old logs,
+and download log files locally via SFTP for deeper offline analysis.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host and log file path from the request  
+2. Call `get_system_info` if the log path is unknown (detect installed services)  
+3. Run targeted grep/awk/tail commands for the requested analysis  
+4. Aggregate findings and return a structured log report  
+5. Optionally download the log file via SFTP for local inspection
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+
+| Method          | Parameters                          | Description                                 |
+|-----------------|-------------------------------------|---------------------------------------------|
+| `exec_command`  | `host`, `cmd`, `timeout?`           | Run grep/awk/tail/logrotate commands        |
+| `exec_multi`    | `host`, `commands[]`                | Run multiple commands sequentially          |
+| `get_system_info` | `host`                          | Detect services and likely log paths         |
+| `download_file` | `host`, `remote_path`, `local_path` | Download log file via SFTP                  |
+| `upload_file`   | `host`, `local_path`, `remote_path` | Upload custom logrotate config              |
+
+<span class="md-heading">## Common Log Paths Reference</span>
+
+| Service | Log Path |
+|---------|----------|
+| Nginx   | `/var/log/nginx/access.log`, `/var/log/nginx/error.log` |
+| Apache  | `/var/log/apache2/access.log`, `/var/log/apache2/error.log` |
+| Syslog  | `/var/log/syslog`, `/var/log/messages` |
+| Auth    | `/var/log/auth.log`, `/var/log/secure` |
+| Kernel  | `/var/log/kern.log` or `dmesg` |
+| MySQL   | `/var/log/mysql/error.log`, `/var/log/mysql/mysql-slow.log` |
+| PostgreSQL | `/var/log/postgresql/postgresql-*.log` |
+| Systemd | `journalctl` |
+| App (custom) | `/opt/<app>/logs/*.log`, `/var/log/<app>/` |
+
+<span class="md-heading">## Instructions</span>
+
+**Tail last N lines:**
+exec_command: host=<name> cmd="tail -n 200 /path/to/app.log"
+
+**Search for errors (case‑insensitive):**
+exec_command: host=<name> cmd="grep -i 'error|exception|fatal|critical' /path/to/app.log | tail -50"
+
+**Count error occurrences by type:**
+exec_command: host=<name> cmd="grep -oP '(ERROR|WARN|FATAL|CRITICAL)' /path/to/app.log | sort | uniq -c | sort -rn"
+
+**Extract errors from a time window:**
+exec_command: host=<name> cmd="awk '/2025-05-31 14:/{flag=1} flag && /ERROR/' /path/to/app.log | head -50"
+
+**Top IPs in Nginx/Apache access log:**
+exec_command: host=<name> cmd="awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head -15"
+
+**HTTP status code distribution:**
+exec_command: host=<name> cmd="awk '{print $9}' /var/log/nginx/access.log | sort | uniq -c | sort -rn"
+
+**Slowest requests (if response time is logged):**
+exec_command: host=<name> cmd="awk '{print $NF, $7}' /var/log/nginx/access.log | sort -rn | head -15"
+
+**Systemd journal — filter by unit and time:**
+exec_command: host=<name> cmd="journalctl -u <service> --since '1 hour ago' --no-pager | tail -100"
+
+**Force log rotation:**
+exec_command: host=<name> cmd="logrotate -f /etc/logrotate.d/<service>"
+
+**Check logrotate status:**
+exec_command: host=<name> cmd="cat /var/lib/logrotate/status | grep <service>"
+
+**Archive old logs (compress + move):**
+exec_multi: host=<name> commands=[ "gzip /var/log/myapp/app.log.1", "mv /var/log/myapp/app.log.1.gz /var/backups/logs/" ]
+
+**Download log file locally for analysis:**
+download_file: host=<name> remote_path=/var/log/nginx/access.log local_path=/tmp/access.log
+
+**Log file sizes:**
+exec_command: host=<name> cmd="du -sh /var/log// 2>/dev/null | sort -rh | head -15"
+
+
+<span class="md-heading">## Output Format</span>
+- **Host** – name + log file path + file size  
+- **Time window** – start/end of analysed period  
+- **Error summary** – count by type/level  
+- **Top patterns** – most frequent error messages  
+- **Anomalies** – spikes, new error types, auth failures  
+- **Actions taken** – rotation, archival, download  
+- **Recommendations** – log level tuning, rotation policy, alerting rules
+</pre>
+</div>
+
+<!-- mysql_ops -->
+<div class="md-block" id="md-mysql">
+  <button class="md-copy-btn" onclick="copyMd('md-mysql')">Copy</button>
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">mysql_ops</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">MySQL / MariaDB Ops</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Monitor and operate MySQL/MariaDB via SSH – processlist, replica status, slow log analysis, flush, table checks, backup verification"</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[mysql, mariadb, database, ops, replication, sql]</span> 
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Monitor and operate MySQL/MariaDB instances via SSH. Inspect the processlist for long‑running queries, check replication health and lag, analyse the slow query log, flush tables/logs, verify InnoDB buffer pool usage, manage user connections, and confirm backup recency.
+
+<span class="md-heading">## Workflow</span>
+1️⃣ Identify target host from request  
+2️⃣ Call `get_system_info` to confirm MySQL/MariaDB version  
+3️⃣ Execute mysql CLI or mysqladmin commands via SSH  
+4️⃣ Parse output & return a structured health report  
+5️⃣ Suggest or apply corrective actions (never DROP without explicit confirmation)
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| `exec_command` | `host`, `cmd`, `timeout?` | Run mysql/mysqladmin shell commands |
+| `exec_multi` | `host`, `commands[]` | Run multiple commands sequentially |
+| `check_service` | `host`, `service` | Check mysql/mariadb systemctl status |
+| `restart_service` | `host`, `service` | Restart MySQL service (use with caution) |
+| `get_system_info` | `host` | Confirm OS & MySQL version |
+| `download_file` | `host`, `remote_path`, `local_path` | Retrieve slow query logs or dumps |
+
+<span class="md-heading">## Instructions</span>
+
+**Service status & uptime**
+exec_command: host=<name> cmd="systemctl status mysql --no-pager" exec_command: host=<name> cmd="mysqladmin -u root status"
+
+**Full processlist (all connections)**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW FULL PROCESSLIST\G' 2>/dev/null | head -100"
+
+**Kill a long‑running query**
+exec_command: host=<name> cmd="mysql -u root -e 'KILL QUERY <thread_id>;'"
+
+**Replica status**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW REPLICA STATUS\G'"
+
+**Check replication lag (Seconds_Behind_Source)**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW REPLICA STATUS\G' | grep Seconds_Behind"
+
+**Enable / inspect slow query log**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW VARIABLES LIKE "%slow%";'" exec_command: host=<name> cmd="tail -n 100 /var/log/mysql/mysql-slow.log"
+
+**Top slow queries summary (mysqldumpslow)**
+exec_command: host=<name> cmd="mysqldumpslow -s t -t 10 /var/log/mysql/mysql-slow.log"
+
+**InnoDB buffer pool usage**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW STATUS LIKE "Innodb_buffer_pool%";'"
+
+**Table sizes (top 10)**
+exec_command: host=<name> cmd="mysql -u root information_schema -e 'SELECT table_schema, table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS size_mb FROM tables ORDER BY size_mb DESC LIMIT 10;'"
+
+**Flush slow logs & binary logs**
+exec_multi: host=<name> commands=[ "mysql -u root -e 'FLUSH SLOW LOGS;'", "mysql -u root -e 'FLUSH BINARY LOGS;'" ]
+
+**Check open tables & connections**
+exec_command: host=<name> cmd="mysql -u root -e 'SHOW STATUS LIKE "Open_tables"; SHOW STATUS LIKE "Threads_connected";'"
+
+**Verify last backup (mysqldump cron output)**
+exec_command: host=<name> cmd="ls -lht /var/backups/mysql/ | head -5"
+
+<span class="md-heading">## Safety Rules</span>
+- Never execute `DROP DATABASE`, `DROP TABLE` or `DELETE` without explicit user confirmation.  
+- Always confirm the target schema before any write operation.  
+- For `FLUSH TABLES WITH READ LOCK`, warn about global lock impact.
+
+<span class="md-heading">## Output Format</span>
+- **Host**: name + MySQL/MariaDB version  
+- **Status**: OK / WARNING / CRITICAL  
+- **Service**: running state + thread count + uptime  
+- **Replication**: Seconds_Behind_Source per replica, IO/SQL thread state  
+- **Slow queries**: top 5 with execution time  
+- **Connections**: active vs max_connections  
+- **Actions taken**: SQL commands executed with results  
+- **Recommendations**: index optimisation, buffer pool sizing, replica catch‑up steps
+
+<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span>
+  </pre>
+</div>
+
+<!-- iis_ops -->
+<div class="md-block" id="md-iis">
+    <button class="md-copy-btn" onclick="copyMd('md-iis')">Copy</button>
+    <pre><span class="yaml-key">---</span>
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">iis_ops</span>
+<span class="yaml-key">name:</span> <span class="yaml-val">iis_ops</span>
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
+<span class="yaml-key">description:</span> <span class="yaml-str">"Manage IIS web server via WinRM — site and app pool lifecycle, config validation, SSL bindings, request logs analysis, failed request tracing"</span>
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
+<span class="yaml-key">tags:</span> <span class="yaml-val">[iis, windows, web, ops, dotnet, ssl, powershell]</span>
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Operate IIS (Internet Information Services) via WinRM/PowerShell. Start, stop and recycle
+application pools, manage site bindings and SSL certificates, analyse IIS access logs for
+error rates and slow requests, enable Failed Request Tracing (FREB), validate site
+configurations, and deploy new application versions with zero downtime using
+web app warm‑up and graceful recycling.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host from the request  
+2. Call <code>get_system_info</code> to confirm Windows Server version and IIS version  
+3. Execute PowerShell / WebAdministration module commands  
+4. Parse output and return a structured report  
+5. Apply fixes or suggest corrective actions
+
+<span class="md-heading">## Available MCP Tools (WinRM)</span>
+
+| Method            | Parameters                               | Description                            |
+|-------------------|------------------------------------------|----------------------------------------|
+| <code>exec_powershell</code>   | `host`, `script`                           | Run IIS/WebAdministration PowerShell  |
+| <code>check_service</code>     | `host`, `service`                          | Check W3SVC (IIS) service status       |
+| <code>restart_service</code>   | `host`, `service`                          | Restart IIS service                    |
+| <code>get_system_info</code>   | `host`                                     | Confirm Windows/IIS version            |
+| <code>get_event_logs</code>    | `host`, `log_name`, `level`, `count`        | IIS event log entries                  |
+
+<span class="md-heading">## Instructions</span>
+
+**List all IIS sites and their state:**
+exec_powershell: host=<name> script=" Import-Module WebAdministration Get-Website | Select Name, State, PhysicalPath, @{N='Bindings';E={($.Bindings.Collection | ForEach-Object {$.bindingInformation}) -join ', '}} | ConvertTo-Json "
+
+**List app pools and their state:**
+exec_powershell: host=<name> script=" Get-WebConfiguration system.applicationHost/applicationPools/add | Select Name, State, managedRuntimeVersion, processModel.userName | ConvertTo-Json "
+
+**Recycle an app pool:**
+exec_powershell: host=<name> script=" Restart-WebAppPool -Name 'MyAppPool' Get-WebAppPoolState -Name 'MyAppPool' | ConvertTo-Json "
+
+**Stop / Start a site:**
+exec_powershell: host=<name> script="Stop-WebSite -Name 'MySite'" exec_powershell: host=<name> script="Start-WebSite -Name 'MySite'"
+
+**Check SSL certificate bindings:**
+exec_powershell: host=<name> script=" Get-ChildItem IIS:SSLBindings | Select Port, Host, @{N='Expiry';E={$_.Certificate.NotAfter}} | ConvertTo-Json "
+
+**Analyse IIS access log — top 404s:**
+exec_powershell: host=<name> script=" Get-Content 'C:\inetpub\logs\LogFiles\W3SVC1\u_ex*.log' | Where-Object {$_ -match ' 404 '} | Select-Object -Last 50 "
+
+**Detect 500 errors in IIS logs:**
+exec_powershell: host=<name> script=" Select-String -Path 'C:\inetpub\logs\LogFiles\W3SVC1*.log' -Pattern ' 500 ' | Select-Object -Last 30 "
+
+**Enable Failed Request Tracing (FREB):**
+exec_powershell: host=<name> script=" Enable-WebRequestTracing -Name 'MySite' -StatusCodes '500' "
+
+**Deploy new app version (stop → copy → start):**
+exec_powershell: host=<name> script=" Stop-WebSite -Name 'MySite' Copy-Item C:\deploy\myapp* C:\inetpub\wwwroot\myapp\ -Recurse -Force Start-WebSite -Name 'MySite' Get-WebSiteState -Name 'MySite' | ConvertTo-Json "
+
+**IIS worker process memory usage:**
+exec_powershell: host=<name> script=" Get-Process w3wp | Select Id, Name, @{N='Memory_MB';E={[math]::Round($_.WorkingSet64/1MB,1)}} | ConvertTo-Json "
+<span class="md-heading">## Output Format</span>
+- **Host**: name + Windows Server version + IIS version  
+- **Status**: OK / WARNING / CRITICAL  
+- **Sites**: name, state, bindings, app pool  
+- **App Pools**: name, state, runtime, worker PIDs  
+- **Log analysis**: top 5xx errors, top 404 paths, slow requests  
+- **Actions taken**: PowerShell commands with results  
+- **Recommendations**: pool recycling schedule, SSL renewal, FREB rules
+</pre>
+</div>
+
+<!-- linux_incident --> 
+<div class="md-block" id="md-linux">
+  <button class="md-copy-btn" onclick="copyMd('md-linux')">Copy</button>
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">linux_incident</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">Linux Incident Triage</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Linux incident triage via SSH — CPU/memory/disk pressure, OOM kills, systemd journal analysis, network saturation, zombie processes"</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[linux, incident, ops, cpu, memory, disk, oom, systemd, triage]</span> 
+<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
+<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Objective</span>
+Diagnose and remediate Linux system incidents over SSH.  
+From a simple “the server is slow” complaint to a full post‑incident report, the agent gathers baseline metrics, runs targeted diagnostics (CPU, memory, disk, network, systemd), correlates findings, and returns a structured incident summary with severity, root cause, evidence, actions taken and follow‑up recommendations.
+
+<span class="md-heading">## Workflow</span>
+1. Identify target host from user request.  
+2. Capture baseline snapshot (`get_system_info`).  
+3. Execute diagnostic commands based on the reported symptom.  
+4. Correlate CPU / memory / disk / network / logs.  
+5. Return a structured incident report.
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| `exec_command` | `host`, `cmd`, `timeout?` | Run a single shell command |
+| `exec_multi` | `host`, `commands[]` | Run several commands sequentially |
+| `check_service` | `host`, `service` | Check status of a systemd service |
+| `restart_service` | `host`, `service` | Restart a failing service |
+| `get_system_info` | `host` | Baseline OS, uptime, disk & memory snapshot |
+| `download_file` | `host`, `remote_path`, `local_path` | Retrieve journal dumps or core files |
+
+<span class="md-heading">## Instructions</span>
+
+**Baseline snapshot (always first)**  
+```yaml
+exec_multi: host=<name> commands=[
+  "uptime",
+  "free -h",
+  "df -h",
+  "top -bn1 | head -20"
+]
+CPU saturation — top processes
+
+exec_command: host=<name> cmd="ps aux --sort=-%cpu | head -15"
+exec_command: host=<name> cmd="sar -u 1 5 2>/dev/null || mpstat 1 5"
+Memory pressure / OOM analysis
+
+exec_command: host=<name> cmd="dmesg | grep -i 'oom\\|killed process' | tail -30"
+exec_command: host=<name> cmd="grep -i 'oom\\|out of memory' /var/log/syslog 2>/dev/null | tail -20"
+exec_command: host=<name> cmd="ps aux --sort=-%mem | head -15"
+Disk space & inode exhaustion
+
+exec_command: host=<name> cmd="df -h && echo '---' && du -sh /var/log/* 2>/dev/null | sort -rh | head -10"
+exec_command: host=<name> cmd="find / -xdev -size +500M -type f 2>/dev/null | head -10"
+exec_command: host=<name> cmd="df -i"
+Zombie processes
+
+exec_command: host=<name> cmd="ps aux | awk '$8==\"Z\" {print}'"
+Network saturation
+
+exec_command: host=<name> cmd="ss -s"
+exec_command: host=<name> cmd="netstat -i 2>/dev/null || ip -s link"
+exec_command: host=<name> cmd="ss -tnp | wc -l"
+Systemd journal & failed units
+
+exec_command: host=<name> cmd="journalctl -p err -n 100 --no-pager"
+exec_command: host=<name> cmd="systemctl --failed --no-pager"
+Kernel messages & load average
+
+exec_command: host=<name> cmd="dmesg | tail -50"
+exec_command: host=<name> cmd="sar -q 1 5 2>/dev/null || cat /proc/loadavg"
+IO wait / disk bottleneck
+
+exec_command: host=<name> cmd="iostat -x 1 5 2>/dev/null | tail -20"
+
+<span class="md-heading">## Output Format</span> The agent returns a JSON‑like structure (or plain text) with the following keys:
+Host – name, OS, uptime
+Severity – P1 CRITICAL / P2 HIGH / P3 MEDIUM / P4 LOW
+Symptom reported – user’s description
+Root cause – correlated diagnostic finding
+Evidence – key log lines, top processes, metrics
+Actions taken – commands executed & services restarted
+Immediate fix – what was done or next step
+Follow‑up – monitoring, capacity planning, permanent fix
+
+<span class="md-heading">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix
+</pre> 
+</div>
+
+<!-- docker_ops -->
+<div class="md-block" id="md-docker">
+  <button class="md-copy-btn" onclick="copyMd('md-docker')">Copy</button>
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">docker_ops</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">docker_ops</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Manage Docker containers and images via SSH — lifecycle control, health checks, log analysis, image pull, prune, compose operations"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[docker, containers, ops, devops, linux, compose]</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Operate Docker environments via SSH. Control container lifecycle (start/stop/restart/remove), pull and update images, inspect health checks and resource usage, analyse container logs, manage Docker Compose stacks, clean up dangling images and volumes, and diagnose networking or mount issues between containers.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host from the request  
+2. Call <code>get_system_info</code> to confirm Docker version (<code>docker --version</code>)  
+3. Execute the relevant docker or compose commands  
+4. Parse output and return a structured report  
+5. Apply corrective actions or trigger redeployment
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| <code>exec_command</code> | <code>host, cmd, timeout?</code> | Run docker or shell commands |
+| <code>exec_multi</code> | <code>host, commands[]</code> | Run multiple commands sequentially |
+| <code>check_service</code> | <code>host, service</code> | Check docker daemon systemctl status |
+| <code>restart_service</code> | <code>host, service</code> | Restart docker daemon |
+| <code>get_system_info</code> | <code>host</code> | Confirm OS and Docker version |
+| <code>upload_file</code> | <code>host, local_path, remote_path</code> | Push docker‑compose.yml or .env |
+| <code>download_file</code> | <code>host, remote_path, local_path</code> | Download compose files or logs |
+
+<span class="md-heading">## Instructions</span>
+**List all containers (running + stopped):**
+exec_command: host=<name> cmd="docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.Ports}}'"
+
+**Inspect container health status:**
+exec_command: host=<name> cmd="docker inspect <container> --format='{{.State.Health.Status}} | {{.State.Status}}'"
+
+**Fetch container logs (last 200 lines):**
+exec_command: host=<name> cmd="docker logs <container> --tail=200 2>&1"
+
+**Restart a container:**
+exec_command: host=<name> cmd="docker restart <container>"
+
+**Pull latest image and recreate container:**
+exec_multi: host=<name> commands=[ "docker pull <image>:<tag>", "docker stop <container>", "docker rm <container>", "docker run -d --name <container> <image>:<tag>" ]
+
+**Docker Compose — pull and redeploy:**
+exec_multi: host=<name> commands=[ "cd /opt/myapp && docker compose pull", "docker compose up -d --remove-orphans" ]
+
+**Check resource usage (CPU + memory):**
+exec_command: host=<name> cmd="docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'"
+
+**Prune unused images, containers, volumes:**
+exec_multi: host=<name> commands=[ "docker container prune -f", "docker image prune -f", "docker volume prune -f" ]
+
+**Inspect container networking:**
+exec_command: host=<name> cmd="docker network ls && docker inspect <container> --format='{{json .NetworkSettings.Networks}}'"
+
+**Check disk usage by Docker:**
+exec_command: host=<name> cmd="docker system df"
+
+**List containers with restart policy:**
+exec_command: host=<name> cmd="docker ps -a --format '{{.Names}}: {{.Status}}' | grep -v Up"
+
+<span class="md-heading">## Output Format</span>
+- **Host**: name + Docker version  
+- **Status**: OK / WARNING / CRITICAL  
+- **Container inventory**: name, image, status, health  
+- **Resource usage**: CPU/memory per container  
+- **Log analysis**: errors, exit codes, OOM signals  
+- **Actions taken**: commands with results  
+- **Recommendations**: restart policies, resource limits, image updates
+</pre>
+</div>
+
+<!-- apache_ops --> 
+<div class="md-block" id="md-apache"> 
+  <button class="md-copy-btn" onclick="copyMd('md-apache')">Copy</button> 
+  <pre><span class="yaml-key">---</span> 
+<span class="yaml-key">skill_id:</span> <span class="yaml-val">apache_ops</span> 
+<span class="yaml-key">name:</span> <span class="yaml-val">apache_ops</span> 
+<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
+<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
+<span class="yaml-key">description:</span> <span class="yaml-str">"Manage and troubleshoot Apache HTTPd — VHost management, mod_status, config syntax check, graceful restart, SSL"</span> 
+<span class="yaml-key">tags:</span> <span class="yaml-val">[apache, httpd, web, linux, ops, vhost, ssl]</span> 
+<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
+<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
+<span class="yaml-key">---</span>
+
+<span class="md-heading">## Purpose</span>
+Operate Apache HTTP Server via SSH. Manage virtual hosts, test and apply configuration changes with graceful restart, analyse access/error logs, inspect mod_status for live connection metrics, manage modules (enable/disable), and diagnose SSL certificate issues.
+
+<span class="md-heading">## Workflow</span>
+1. Identify the target host from the request  
+2. Call `get_system_info` to confirm OS and Apache version (`apache2 -v` or `httpd -v`)  
+3. Execute diagnostic or operational commands  
+4. Parse output and return a structured report  
+5. Apply fixes or suggest corrective actions
+
+<span class="md-heading">## Available MCP Tools (SSH)</span>
+| Method | Parameters | Description |
+|--------|-----------|-------------|
+| `exec_command` | `host`, `cmd`, `timeout?` | Run a single shell command |
+| `exec_multi` | `host`, `commands[]` | Run multiple commands sequentially |
+| `check_service` | `host`, `service` | Check apache2/httpd systemctl status |
+| `restart_service` | `host`, `service` | Restart Apache service |
+| `get_system_info` | `host` | Collect OS info |
+| `upload_file` | `host`, `local_path`, `remote_path` | Upload VHost config files via SFTP |
+| `download_file` | `host`, `remote_path`, `local_path` | Download logs via SFTP |
+
+<span class="md-heading">## Instructions</span>
+**Test config syntax:**  
+exec_command: host=<name> cmd="apachectl configtest"
+
+**Graceful restart (no dropped connections):**  
+exec_multi: host=<name> commands=[ "apachectl configtest", "apachectl graceful" ]
+
+**List enabled virtual hosts:**  
+exec_command: host=<name> cmd="apachectl -S 2>&1"
+
+**Enable / disable a VHost (Debian/Ubuntu):**  
+exec_multi: host=<name> commands=[ "a2ensite mysite.conf", "apachectl graceful" ]
+
+**Enable / disable a module:**  
+exec_multi: host=<name> commands=[ "a2enmod rewrite", "apachectl graceful" ]
+
+**Read mod_status (live connections):**  
+exec_command: host=<name> cmd="curl -s http://localhost/server-status?auto"
+
+**Tail error log:**  
+exec_command: host=<name> cmd="tail -n 100 /var/log/apache2/error.log"
+
+**Detect 5xx errors in access log:**  
+exec_command: host=<name> cmd="awk '$9 ~ /^5/' /var/log/apache2/access.log | tail -50"
+
+**Top IPs by request count:**  
+exec_command: host=<name> cmd="awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -15"
+
+**Check SSL certificate expiry:**  
+exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>/dev/null | openssl x509 -noout -dates"
+
+<span class="md-heading">## Output Format</span>
+- **Host**: name + Apache version  
+- **Status**: OK / WARNING / CRITICAL  
+- **Config test**: pass/fail + error details  
+- **Active VHosts**: list with ports and document roots  
+- **Log analysis**: top errors, 5xx rate, top IPs  
+- **Actions taken**: commands executed with exit codes  
+- **Recommendations**: config fixes, module issues, SSL renewal</pre>
+</div> 
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
