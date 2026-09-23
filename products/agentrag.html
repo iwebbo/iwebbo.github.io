@@ -716,6 +716,17 @@
         <span class="skill-idea-item">"Search for authentication documentation"</span>
       </div>
     </div>
+
+  <div class="skill-card">
+    <div class="skill-card-header"><code>sonarqube</code></div>
+    <p>Analyze code for bugs, vulnerabilities and standards violations via LLM.</p>
+    <div class="skill-ideas">
+      <span class="skill-idea-item">"Find security vulnerabilities in this source file"</span>
+      <span class="skill-idea-item">"Check quality gate status for production branch"</span>
+      <span class="skill-idea-item">"List all open issues and hotspots by severity"</span>
+    </div>
+  </div>
+
   </div>
 </div>
 
@@ -1933,7 +1944,7 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
       </div>
     </div>
 
-    <!-- WikiJS - NEW -->
+    <!-- WikiJS-->
     <div class="mcp-card">
       <div class="mcp-card-header">
         <div class="mcp-card-icon purple"><i class="fa-brands fa-wikipedia-w"></i></div>
@@ -1950,6 +1961,25 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
         <span class="mcp-tool-pill">update_page</span>
       </div>
     </div>
+<!-- SonarQube -->
+  <div class="mcp-card">
+    <div class="mcp-card-header">
+      <div class="mcp-card-icon purple"><i class="fa-brands fa-wikipedia-w"></i></div>
+      <div>
+        <div class="mcp-card-title">SonarQube Security <code>sonarqube</code> <span class="new-badge">New</span></div>
+        <span class="mcp-transport transport-http">HTTP</span>
+      </div>
+    </div>
+    <p>Security operations — project inventory, vulnerabilities, security hotspots, quality gate, and LLM-assisted remediation (modes: projects, overview, issues, hotspots, remediate). Configuration stored in <code>mcp_config.sonarqube</code>. Optional - repository project (<code>use_rag: true</code> + <code>project_id</code>)</p>
+    <div class="mcp-tools">
+      <span class="mcp-tool-pill">list_security_hotspots</span>
+      <span class="mcp-tool-pill">get_security_hotspot</span>
+      <span class="mcp-tool-pill">get_rule</span>
+      <span class="mcp-tool-pill">get_source_snippet</span>
+      <span class="mcp-tool-pill">get_quality_gate</span>
+      <span class="mcp-tool-pill">get_measures</span>
+    </div>
+  </div>
 
   </div>
 </section>
