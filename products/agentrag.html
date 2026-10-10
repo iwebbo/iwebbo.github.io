@@ -1983,17 +1983,57 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
 
   </div>
 </section>
+</div>
 
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     AUTOMATION & SCHEDULING (NEW FEATURE)
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="scheduler-section" aria-label="Scheduler Automation">
+  <h2>Scheduler</h2>
+  <p class="section-sub">
+    Transform your autonomous agents into reliable background processes. Schedule the periodic execution of complex agents or run simple LLM prompts according to a precise calendar, with complete supervision over the task lifecycle.
+  </p>
+
+  <div class="scheduler-feature-grid">
+    <!-- Card 1: Cron Scheduling -->
+    <div class="scheduler-card">
+      <h4>Cron-Based Scheduling</h4>
+      <p>Define recurring tasks with a precise `cron` frequency. Ideal for daily reports, maintenance, or periodic monitoring.</p>
+    </div>
+
+    <!-- Card 2: Agent Execution -->
+    <div class="scheduler-card">
+      <h4>Deterministic Agents</h4>
+      <p>Execute agents with fixed and predefined arguments. Perfect for routine tasks like system status checks or log reporting.</p>
+    </div>
+
+    <!-- Card 3: LLM Prompt Scheduling -->
+    <div class="scheduler-card">
+      <h4>Periodic LLM Prompt Scheduling</h4>
+      <p>Launch simple prompts directly via a calendar. Useful for regular content generation or automated market analysis.</p>
+    </div>
+
+    <!-- Card 4: Safety & Control -->
+    <div class="scheduler-card">
+      <h4>Approval Modes</h4>
+      <p>Control every execution with `manual`, `auto`, or `skip-all` modes. Ensure safety in case of critical tasks.</p>
+    </div>
+
+    <!-- Card 5: Output & Delivery -->
+    <div class="scheduler-card">
+      <h4>Notifications and Auditing</h4>
+      <p>Receive results via in-app notification or email. Every execution is logged for complete traceability (audit trail).</p>
+    </div>
+
+    <!-- Card 6: Workflow Orchestration -->
+    <div class="scheduler-card">
+      <h4>Multi-Step Workflows</h4>
+      <p>Chain multiple agents or steps sequentially. One agent triggers the next, ensuring a complete and reliable workflow.</p>
+    </div>
   </div>
 
-  <!-- Transport legend -->
-  <div style="margin-top:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-    <span style="font-size:0.8rem;color:var(--text-muted);margin-right:.25rem">Transport:</span>
-    <span class="mcp-transport transport-stdio">stdio — local subprocess</span>
-    <span class="mcp-transport transport-http">HTTP — remote REST API</span>
-    <span class="mcp-transport transport-sse">SSE — server-sent events</span>
-  </div>
 </section>
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
 
 <!-- ABOUT -->
 <section class="about" aria-label="About">
@@ -2011,7 +2051,7 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
 </section>
 
 <footer>
-  <p>© 2025 aecoding.io — Tous droits réservés.</p>
+  <p>© 2026 aecoding.io — Tous droits réservés.</p>
 </footer>
 </div>
 

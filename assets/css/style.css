@@ -340,3 +340,52 @@ footer {
   color: var(--accent-glow);
   transform: scale(1.2);
 }
+
+/* ── Scheduler Feature Block ── */
+.scheduler-section {
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.scheduler-section h2 {
+    font-size: 2.2rem; /* Un peu plus grand pour l'impact */
+    color: var(--accent);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.scheduler-section .section-sub {
+    max-width: 900px; /* Gardé pour centrer le texte de description */
+    padding: 0 2rem;
+    margin: 0 auto 3rem;
+}
+
+/* ================================================== */
+/* MODIFICATION CLÉ ICI : On force 3 colonnes et on centre la grille */
+.scheduler-feature-grid {
+    display: grid;
+    /* Force exactement 3 colonnes de largeur égale (1fr) */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 2rem; /* Augmentation du gap pour plus d'aération */
+    padding: 0 2rem;
+    max-width: 1200px; /* Limite la largeur maximale de la grille sur les très grands écrans */
+    margin: 0 auto; /* Centre le bloc entier horizontalement */
+}
+
+.scheduler-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid rgba(58,123,253,0.1); /* Bordure plus douce */
+    box-shadow: 0 4px 16px rgba(58,123,253,0.05);
+}
+/* Le reste du CSS des cartes est parfait et ne change pas */
+.scheduler-card h4 {
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.scheduler-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
