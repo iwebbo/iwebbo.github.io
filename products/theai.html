@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THEAI.io — Monitoring de vulnérabilités IA</title>
+  <title>THEAI.io Monitoring & Vulnerability Platform</title>
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
@@ -51,6 +51,7 @@
     <i class="fa-brands fa-python" title="Python"></i>
     <i class="fa-brands fa-github" title="Github"></i>
     <i class="fa-brands fa-react" title="React"></i>
+    <i class="fa-brands fa-golang" title="Go"></i>
   </div>
 </section>
 
@@ -58,11 +59,15 @@
   <article class="product-card" id="theai" tabindex="0">
     <h2>Current Features</h2>
     <ul class="features-list">
-      <li><strong>Multi-Protocol Monitoring :</strong> Support for ICMP (ping), HTTP/HTTPS, and SSH monitoring</li>
+      <li><strong>Multi-Protocol Monitoring :</strong> Support for ICMP (ping), TCP, HTTP/HTTPS, and SSH monitoring</li>
+      <li><strong>Agent Monitoring :</strong> Optional Go agent (Linux, Windows, AIX, BSD, macOS) pushing metrics, inventory and open ports over HTTPS</li>
+      <li><strong>CVE Correlation :</strong> Installed packages matched against OSV.dev (Debian, Ubuntu, Alpine), sorted by KEV, EPSS, CVSS</li>
+      <li><strong>Grafana Dashboards :</strong> Monitoring and CVE dashboards provisioned automatically</li>
       <li><strong>Real-time Dashboard :</strong> Modern, responsive interface with server status overview</li>
       <li><strong>Server Management :</strong> Add, edit, delete, and configure servers to monitor</li>
       <li><strong>Automated Checks :</strong> Periodic server health checks with configurable intervals</li>
-      <li><strong>Modern UI :</strong> Visual status indicators and response time monitoring</li>
+      <li><strong>Status Tracking :</strong> Visual status indicators and response time monitoring</li>
+      <li><strong>Modern UI :</strong> Professional interface with customizable themes</li>
       <li><strong>Settings Panel :</strong> Configure monitoring intervals, alerts, and preferences</li>
       <li><strong>Dockerized Deployment :</strong> Complete containerized setup with Docker Compose</li>
       <li><strong>Authentication System :</strong> JWT-based login with environment-configured default user</li>
@@ -72,6 +77,7 @@
   <article class="product-card" id="theai" tabindex="0">
     <h2>Monitoring Capabilities</h2>
     <ul class="features-list">
+      <li><strong>Agent :</strong> CPU, memory, swap, load, disks, network, uptime, open ports, installed packages</li>
       <li><strong>ICMP Ping :</strong> Basic connectivity testing with response time measurement</li>
       <li><strong>TCP :</strong> TCP availability with custom ports</li>
       <li><strong>HTTP/HTTPS Monitoring :</strong> Web service availability with custom ports and paths</li>
@@ -84,6 +90,8 @@
   <article class="product-card" id="theai" tabindex="0">
     <h2>Vulnerability Scanning</h2>
     <ul class="features-list">
+      <li><strong>CVE Correlation :</strong> OSV.dev source and patched versions, prioritized by KEV, then EPSS, then CVSS</li>
+      <li><strong>Automatic Re-scan :</strong> On demand from the UI or every VULN_SCAN_INTERVAL_HOURS</li>
       <li><strong>Critical Ports Detection :</strong> Identifies dangerous open ports that pose security risks.</li>
       <li><strong>SSL/TLS Security Check :</strong> Validates HTTPS protocol configuration</li>
       <li><strong>Real-time Results :</strong> Synchronous execution with immediate feedback</li>
