@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homelab Dashboard — Dashboard personnel pour gestion financière, todo list, infrastructure homelab et IA</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+      .logo-img {
+        height: 120px;
+        width: auto;
+        object-fit: contain;
+      }
+      
+      /* Badge styling */
+      .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      
+      .badge {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      
+      .badge:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+  </style>
+</head>
+
+<body>
+<div class="container">
+<header class="site-header">
+  <nav>
+    <a href="../index.html" class="logo">        
+      <!-- Logo from README (Quality Gate Status badge) -->
+      <img src="http://192.168.1.110:7000/api/project_badges/measure?project=homelab-project&metric=alert_status&token=sqb_8df5c6413ffc2bb41bb30e2861beb7483471b6a8" alt="Homelab Dashboard Logo" class="logo-img" />
+    </a>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Homelab Dashboard</h1>
+  <p class="subtitle">
+    Dashboard personnel pour gestion financière, todo list, infrastructure homelab et IA.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#installation" class="btn-primary">Get Started</a>
+    <a href="http://192.168.1.110:7000/dashboard?id=homelab-project" class="btn-secondary" target="_blank">Dashboard Live</a>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="hero-glass">
+  <h2>Built with</h2>
+    <div class="badge-container tech-icons">
+      <i class="fa-brands fa-docker" title="Docker"></i>
+      <i class="fa-brands fa-linux" title="Linux"></i>
+      <i class="fa-brands fa-python" title="Python"></i>
+      <i class="fa-solid fa-react" title="React"></i>
+      <i class="fa-solid fa-database" title="PostgreSQL"></i>
+      <i class="fa-solid fa-robot" title="AgentRAG.io"></i>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="products" aria-label="Core Features">
+  <article class="product-card" id="features1" tabindex="0">
+    <h2>Dashboard Capabilities</h2>
+    <ul class="features-list">
+      <li><strong>Financial Management:</strong> ETF watchlist with AI analysis via AgentRAG</li>
+      <li><strong>News Aggregation:</strong> RSS feeds + DuckDuckGo keywords for real-time updates</li>
+      <li><strong>Infrastructure Monitoring:</strong> Health checks, version tracking, custom integrations</li>
+      <li><strong>Task Management:</strong> Todo list with CalDAV sync (iCloud/Apple)</li>
+      <li><strong>AI Integration:</strong> AgentRAG for intelligent document retrieval and analysis</li>
+    </ul>
+  </article>
+
+  <article class="product-card" id="features2" tabindex="0">
+    <h2>Architecture & Stack</h2>
+    <ul class="features-list">
+      <li><strong>Docker / Docker Compose:</strong> Quick start with simple commands</li>
+      <li><strong>Kubernetes-ready:</strong> Production-ready deployment options</li>
+      <li><strong>REST API:</strong> Programmatic interface for developers</li>
+      <li><strong>Settings UI:</strong> Complete configuration without redeployment</li>
+    </ul>
+  </article>
+
+  <article class="product-card" id="features3" tabindex="0">
+    <h2>Tech Stack</h2>
+    <ul class="features-list">
+      <li><strong>Backend:</strong> FastAPI + Python 3.12</li>
+      <li><strong>Frontend:</strong> React 18 + Vite + React Query</li>
+      <li><strong>Database:</strong> PostgreSQL 16</li>
+      <li><strong>Orchestration:</strong> Docker & Kubernetes</li>
+    </ul>
+  </article>
+</section>
+
+<!-- ABOUT -->
+<section class="about" aria-label="About Homelab Dashboard">
+  <h2>About</h2>
+  <p>Homelab Dashboard is a personal dashboard for financial management, todo list, homelab infrastructure monitoring and AI integration. Perfect for system administrators and DevOps engineers.</p>
+  <div class="badge-container" style="margin-top: 30px;">
+    <a href="http://192.168.1.110:7000/api/project_badges/measure?project=homelab-project&metric=alert_status&token=sqb_8df5c6413ffc2bb41bb30e2861beb7483471b6a8" target="_blank" class="badge">Quality Gate</a>
+    <a href="https://img.shields.io/badge/Python-4EAA25?style=for-the-badge&logo=Python&logoColor=black" target="_blank" class="badge">Python 3.12+</a>
+    <a href="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" target="_blank" class="badge">React 18</a>
+    <a href="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white" target="_blank" class="badge">Docker</a>
+    <a href="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=PostgreSQL&logoColor=white" target="_blank" class="badge">PostgreSQL 16</a>
+    <a href="https://img.shields.io/badge/FastAPI-0098f2?style=for-the-badge&logo=FastAPI&logoColor=black" target="_blank" class="badge">FastAPI</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="about" aria-label="Contact">
+  <h2>Contact me</h2>
+  <p>Built with ❤️ for system administrators and DevOps engineers</p>
+  <p>For questions, suggestions, or support, please open an issue or contact the maintainers.<a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
+</section>
+
+
+<footer>
+  <p>© 2026 aecoding.io — All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>
