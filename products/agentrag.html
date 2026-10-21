@@ -2035,6 +2035,56 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
 </section>
 <!-- ═══════════════════════════════════════════════════════════════════════════ -->
 
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     AUTOMATION & VERIFICATION JUDGEMENT (NEW FEATURE)
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="scheduler-section" aria-label="LLM Judge Verification">
+  <h2>Automated LLM Auditing and Verification - LLMJudge</h2>
+  <p class="section-sub">
+    Transform your generated responses into reliable, auditable outputs. The LLM Judge pipeline executes a multi-layered series of mechanical checks (syntax, format) followed by advanced AI judgment to ensure the answer is grounded, correct, and adheres to all specified constraints.
+  </p>
+
+  <div class="verification-feature-grid">
+    <!-- Card 1: Sanity & Format Validation -->
+    <div class="verification-card">
+      <h4 class="check-name">Structural Integrity (Sanity/Schema)</h4>
+      <p>Performs mechanical checks on the response structure. Detects empty answers, truncated reasoning blocks, and validates adherence to required formats like JSON or YAML schemas.</p>
+    </div>
+
+    <!-- Card 2: Code Quality & Syntax -->
+    <div class="verification-card">
+      <h4 class="check-name">Code Block Validation</h4>
+      <p>Analyzes code snippets (Python, JS, etc.) for syntax errors, unclosed fences, and potential placeholders (`TODO:`). Supports linting via tools like Ruff to catch bugs and best practices violations.</p>
+    </div>
+
+    <!-- Card 3: Source Grounding & Citation -->
+    <div class="verification-card">
+      <h4 class="check-name">Citation and Retrieval Check</h4>
+      <p>Ensures every claim is supported by the provided context. Verifies that all citations [SOURCE N] point to valid, non-empty documents and checks if the retrieved context was relevant enough.</p>
+    </div>
+
+    <!-- Card 4: Iterative Repair (Gate Mode) -->
+    <div class="verification-card">
+      <h4 class="check-name">Guided Regeneration (Gate Mode)</h4>
+      <p>If the initial answer fails verification, the system automatically enters a repair loop. It uses the detailed findings to prompt the LLM for regeneration, retrying up to N times until a passing score or maximum rounds are reached.</p>
+    </div>
+
+    <!-- Card 5: Comprehensive Verdict & Scoring -->
+    <div class="verification-card">
+      <h4 class="check-name">Aggregated Verdict and Score</h4>
+      <p>Collects all findings (errors, warnings) from the entire pipeline into a single `Verdict`. Assigns a quantitative score (0.0 to 1.0) and a clear status (Passed, Failed, Warning).</p>
+    </div>
+
+    <!-- Card 6: Advanced LLM Judgment -->
+    <div class="verification-card">
+      <h4 class="check-name">LLM Judge Audit</h4>
+      <p>The final, high-level audit. An advanced LLM assesses the answer for logical bugs, contradictions against sources, and overall completeness, providing a human-readable judgment.</p>
+    </div>
+  </div >
+
+</section>
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
 <!-- ABOUT -->
 <section class="about" aria-label="About">
   <h2>About</h2>
@@ -2051,7 +2101,7 @@ exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>
 </section>
 
 <footer>
-  <p>© 2026 aecoding.io — Tous droits réservés.</p>
+  <p>© 2026 AgentRAG.io.</p>
 </footer>
 </div>
 

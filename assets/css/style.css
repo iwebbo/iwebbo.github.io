@@ -389,3 +389,54 @@ footer {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
+
+/* ============================================================== */
+/* STYLES ADAPTÉS POUR LLM JUDGE VERIFICATION (Verification-Section) */
+/* ============================================================== */
+
+/* 1. Conteneur principal de la grille des fonctionnalités */
+.verification-feature-grid {
+    display: grid;
+    /* Force exactement 3 colonnes de largeur égale (1fr) */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 2rem; /* Augmentation du gap pour plus d'aération */
+    padding: 0 2rem;
+    max-width: 1200px; /* Limite la largeur maximale de la grille sur les très grands écrans */
+    margin: 0 auto; /* Centre le bloc entier horizontalement */
+}
+
+/* 2. Style des cartes de fonctionnalité (le cœur du changement) */
+.verification-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid rgba(58,123,253,0.1); /* Bordure plus douce */
+    box-shadow: 0 4px 16px rgba(58,123,253,0.05);
+}
+
+/* 3. Styles internes des cartes (H4 et P) */
+.verification-card h4 {
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.verification-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* OPTIONNEL : Media Query pour la réactivité (recommandé) */
+@media (max-width: 1024px) {
+    /* Sur les tablettes, passer à 2 colonnes */
+    .verification-feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    /* Sur mobile, forcer une seule colonne pour la lisibilité */
+    .verification-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
