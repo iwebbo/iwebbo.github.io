@@ -1,101 +1,353 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>A&ECoding.io - Engineering & Open Source</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-      .logo-img {
-      height: 90px;
-      width: auto;
-      object-fit: contain;
+<!doctype html>
+<html lang="en" data-theme="glass">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>aecoding.io — Self-hosted ops tooling</title>
+    <meta
+      name="description"
+      content="Self-hosted monitoring, RAG, agents and LLM evaluation tools by Senior DevOps engineers."
+    />
+    <meta property="og:title" content="aecoding.io — Self-hosted ops tooling" />
+    <meta
+      property="og:description"
+      content="Self-hosted monitoring, RAG, agents and LLM evaluation tools by Senior DevOps engineers."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#F3F5FB" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("theme") || "glass";
+      } catch (e) {
+        document.documentElement.dataset.theme = "glass";
       }
-      .app-img {
-      height: 140px;
-      width: auto;
-      object-fit: contain;
-      }
-</style>
-</head>
-<body>
-<div class="container">
-  <header class="site-header">
-    <nav>
-      <a href="index.html" class="logo">
-        <img src="assets/img/logo.png" alt="A&ECoding Logo" class="logo-img" />
-      </a>
-      <ul>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="hero-minimal">
-    <h1>Welcome </h1>
-    <p>Open Source, Innovation & Engineering.</p>
-    <a href="https://github.com/iwebbo" class="btn-primary">Discover all projects in GitHub</a>
-  </section>
-
-  <section class="products" aria-label="Nos applications principales">
-    <article class="product-card" id="theai" tabindex="0">
-      <img src="assets/img/theai.png" alt="THEAI.io logo" class="app-img" />
-      <h2>THEAI.io</h2>
-      <p>The comprehensive server monitoring and vulnerability platform. Monitor systems in real-time using multi-protocols (ICMP, TCP, HTTP/S, SSH) and an optional Go agent for deep metrics collection across multiple OSs. Features include advanced CVE correlation against OSV.dev (KEV, EPSS, CVSS), automatic Grafana dashboard provisioning, and a modern, responsive overview.</p>
-      <a href="products/theai.html" class="btn-secondary">Discover THEAI.io</a>
-    </article>
-
-    <article class="product-card" id="ragio" tabindex="0">
-      <img src="assets/img/agentragio.png" alt="AgentRAG.io logo" class="app-img" />
-      <h2>AgentRAG.io</h2>
-      <p>The Enterprise-Grade RAG & Agent Orchestration Platform. Deploy self-hosted, connect multi-provider LLMs, and leverage advanced document intelligence. Features include real-time streaming and sophisticated scheduling for everything from basic tasks to complex autonomous agents.</p>
-      <a href="products/agentrag.html" class="btn-secondary">Discover AgentRAG.io</a>
-    </article>
-
-    <article class="product-card" id="ragio" tabindex="0">
-      <img src="assets/img/ragio.png" alt="RAG.io logo" class="app-img" />
-      <h2>RAG.io</h2>
-      <p>RAG.IO transforms your document repositories into expert assistants that do more than just respond, with 13+ LLM providers through a unified interface. Designed for developers and enterprises needing flexibility, traceability, and GDPR compliance.</p>
-      <a href="products/rag.html" class="btn-secondary">Discover RAG.io</a>
-    </article>
-
-    <article class="product-card" id="llmio" tabindex="0">
-      <img src="assets/img/llmio.png" alt="LLM.io logo" class="app-img" />
-      <h2>LLM.io</h2>
-      <p>LLM.io is a full-stack web application that enables interaction with 13+ LLM providers through a unified interface. Designed for developers and enterprises needing flexibility, traceability, and GDPR compliance.</p>
-      <a href="products/llm.html" class="btn-secondary">Discover LLM.io</a>
-    </article>
-
-    <article class="product-card" id="llmio" tabindex="0">
-      <img src="assets/img/docvectorio.png" alt="docvectorio.io logo" class="app-img" />
-      <h2>DocVector.io</h2>
-      <p>A multi‑format document ingestion pipeline for OpenSearch with automatic vectorisation and RAG search.</p>
-      <a href="products/docvector.html" class="btn-secondary">Discover DocVector.io</a>
-    </article>
-
-    <article class="product-card" id="llmjudge" tabindex="0">
-      <img src="assets/img/LLMJudge.png" alt="LLMJudge logo" class="app-img" />
-      <h2>LLMJudge</h2>
-      <p>Answer verification (LLMJudge) : Every chat and RAG chat answer is checked before or after deliver.</p>
-      <a href="products/llmjudge.html" class="btn-secondary">Discover LLMJudge</a>
-    </article>
-  </section>
-
-  <section class="about" aria-label="Présentation de aecoding.io">
-    <h2>About Me</h2>
-    <p>Senior Production & DevOps Engineer with 10+ years in banking, delivering secure, scalable and automated platforms. Expert in CI/CD, high-level troubleshooting and system engineering. Passionate about open-source and AI, building innovative, reliable and automation-driven solutions.</p>
-  </section>
-
-  <section class="contact" id="contact" aria-label="Contact">
-    <h2>Contact</h2>
-    <p>For any business inquiries or collaboration opportunities, please send a email via <a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
-  </section>
-
-  <footer>
-    &copy; 2025 aecoding.io - Tous droits réservés
-  </footer>
-</div>
-</body>
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="acc" style="--c-dk: #818cf8; --c-lt: #4338ca">
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="index.html">
+          <img class="logo-img" src="assets/img/aecoding.png" alt="" height="32" />
+          aecoding.io
+        </a>
+        <nav class="nav-links" aria-label="Main">
+          <a href="index.html#products">Products</a>
+          <a href="index.html#stack">How they fit</a>
+          <a class="btn ghost sm" href="https://github.com/iwebbo" target="_blank" rel="noopener">
+            GitHub ↗
+          </a>
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 3v18" />
+              <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="wrap hero">
+        <div class="hero-text">
+          <span class="status">
+            <i></i>
+            Open source · MIT
+          </span>
+          <h1>Self-hosted tools for the people who run production.</h1>
+          <p class="lead">
+            Built by a DevOps engineers for DevOps engineers and anyone. Your servers, your data, your models.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="#products">Browse the tools</a>
+            <a class="btn ghost" href="https://github.com/iwebbo" target="_blank" rel="noopener">
+              View on GitHub ↗
+            </a>
+          </div>
+        </div>
+        <div class="card term">
+          <div class="term-bar">
+            <span class="dots">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+            ~/ops
+          </div>
+          <div class="term-body">
+            <div>
+              <span class="p">$</span>
+              git clone https://github.com/iwebbo/THEAI
+            </div>
+            <div>
+              <span class="p">$</span>
+              cd THEAI &amp;&amp; docker compose up -d
+            </div>
+            <div class="p"># dashboard, agent API and Grafana — up</div>
+            <div>
+              <span class="p">$</span>
+              <span class="cursor">_</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="sec" id="products">
+        <div class="wrap">
+          <div class="sec-h">
+            <div class="eyebrow">Products</div>
+            <h2>Open Source tools.</h2>
+          </div>
+          <div class="grid g-2">
+            <article class="card top pcard acc" style="--c-dk: #34d399; --c-lt: #047857">
+              <div class="row">
+                <img class="tile-img" src="assets/img/theai.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Monitoring · CVE</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">THEAI.io</h3>
+                <p class="body">
+                  The comprehensive server monitoring and vulnerability platform. Monitor systems in real-time
+                  using multi-protocols (ICMP, TCP, HTTP/S, SSH) and an optional Go agent for deep metrics
+                  collection across multiple OSs. Features include advanced CVE correlation against OSV.dev
+                  (KEV, EPSS, CVSS), automatic Grafana dashboard provisioning, and a modern, responsive
+                  overview.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Go</span>
+                <span class="chip">Python</span>
+                <span class="chip">React</span>
+                <span class="chip">Docker</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/theai.html">See the page →</a>
+                <a href="https://github.com/iwebbo/THEAI" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+            <article class="card top pcard acc" style="--c-dk: #818cf8; --c-lt: #4338ca">
+              <div class="row">
+                <img class="tile-img" src="assets/img/agentragio.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Agents · MCP</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">AgentRAG.io</h3>
+                <p class="body">
+                  The Enterprise-Grade RAG &amp; Agent Orchestration Platform. Deploy self-hosted, connect
+                  multi-provider LLMs, and leverage advanced document intelligence. Features include real-time
+                  streaming and sophisticated scheduling for everything from basic tasks to complex autonomous
+                  agents.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">React</span>
+                <span class="chip">Docker</span>
+                <span class="chip">MCP</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/agentrag.html">See the page →</a>
+                <a href="https://github.com/iwebbo/AgentRAG.io" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+            <article class="card top pcard acc" style="--c-dk: #60a5fa; --c-lt: #1d4ed8">
+              <div class="row">
+                <img class="tile-img" src="assets/img/ragio.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Retrieval</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">RAG.io</h3>
+                <p class="body">
+                  RAG.IO transforms your document repositories into expert assistants that do more than just
+                  respond, with 13+ LLM providers through a unified interface. Designed for developers and
+                  enterprises needing flexibility, traceability, and GDPR compliance.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">React</span>
+                <span class="chip">ChromaDB</span>
+                <span class="chip">Docker</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/rag.html">See the page →</a>
+                <a href="https://github.com/iwebbo/RAG.io" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+            <article class="card top pcard acc" style="--c-dk: #c084fc; --c-lt: #7e22ce">
+              <div class="row">
+                <img class="tile-img" src="assets/img/llmio.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Chat</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">LLM.io</h3>
+                <p class="body">
+                  One chat interface for 13+ providers, with automatic fallback, SSE streaming, prompt
+                  templates and token analytics.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">React</span>
+                <span class="chip">PostgreSQL</span>
+                <span class="chip">Docker</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/llm.html">See the page →</a>
+                <a href="https://github.com/iwebbo/LLM.io" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+            <article class="card top pcard acc" style="--c-dk: #fbbf24; --c-lt: #b45309">
+              <div class="row">
+                <img class="tile-img" src="assets/img/LLMJudge.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Evaluation</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">LLMJudge</h3>
+                <p class="body">
+                  Score and verify model output: mechanical checks first, then an LLM judge, with a gate that
+                  regenerates until it passes.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">CLI</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/llmjudge.html">See the page →</a>
+                <a href="https://github.com/iwebbo/LLMJudge" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+            <article class="card top pcard acc" style="--c-dk: #22d3ee; --c-lt: #0e7490">
+              <div class="row">
+                <img class="tile-img" src="assets/img/docvectorio.png" alt="" style="width:60px;height:60px" />
+                <span class="pill">Ingestion</span>
+              </div>
+              <div class="stack-col">
+                <h3 style="font-size: 20px">DocVector</h3>
+                <p class="body">
+                  Ingest PDF, Word, Excel, Markdown, code and YAML into OpenSearch with automatic
+                  vectorization and hybrid search.
+                </p>
+              </div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">FastAPI</span>
+                <span class="chip">OpenSearch</span>
+                <span class="chip">Helm</span>
+              </div>
+              <div class="pcard-foot">
+                <a href="products/docvector.html">See the page →</a>
+                <a href="https://github.com/iwebbo/DocVector" target="_blank" rel="noopener">GitHub ↗</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="sec" id="stack">
+        <div class="wrap">
+          <div class="card band">
+            <div class="sec-h" style="padding: 0">
+              <div class="eyebrow">How they fit</div>
+              <h2 style="font-size: 28px">Each tool stands alone. Together they cover the loop.</h2>
+              <p class="lead" style="font-size: 15px">
+                Ingest your documents, retrieve what matters, let agents act on your infrastructure, verify
+                what the models say, and watch it all run.
+              </p>
+            </div>
+            <div class="grid g-6">
+              <a class="role" href="products/docvector.html">
+                <span class="v">
+                  <i style="background: #22d3ee"></i>
+                  Ingest
+                </span>
+                <b>DocVector</b>
+              </a>
+              <a class="role" href="products/rag.html">
+                <span class="v">
+                  <i style="background: #60a5fa"></i>
+                  Retrieve
+                </span>
+                <b>RAG.io</b>
+              </a>
+              <a class="role" href="products/agentrag.html">
+                <span class="v">
+                  <i style="background: #818cf8"></i>
+                  Act
+                </span>
+                <b>AgentRAG.io</b>
+              </a>
+              <a class="role" href="products/llmjudge.html">
+                <span class="v">
+                  <i style="background: #fbbf24"></i>
+                  Verify
+                </span>
+                <b>LLMJudge</b>
+              </a>
+              <a class="role" href="products/llm.html">
+                <span class="v">
+                  <i style="background: #c084fc"></i>
+                  Chat
+                </span>
+                <b>LLM.io</b>
+              </a>
+              <a class="role" href="products/theai.html">
+                <span class="v">
+                  <i style="background: #34d399"></i>
+                  Observe
+                </span>
+                <b>THEAI.io</b>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <div class="providers">
+            <p>Model-agnostic by design: models are discovered per provider, so the list never goes stale.</p>
+            <div class="chips">
+              <span class="chip solid">OpenAI</span>
+              <span class="chip solid">Anthropic</span>
+              <span class="chip solid">Google Gemini</span>
+              <span class="chip solid">OpenRouter</span>
+              <span class="chip solid">xAI</span>
+              <span class="chip solid">Groq</span>
+              <span class="chip solid">Hugging Face</span>
+              <span class="chip solid">Ollama</span>
+              <span class="chip solid">vLLM</span>
+              <span class="chip solid">LM Studio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="wrap">
+        <div>© 2026 aecoding.io · MIT licensed · Built by Senior DevOps engineers.</div>
+        <nav aria-label="Footer">
+          <a href="index.html">Home</a>
+          <a href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:l.kieran95@gmail.com">Contact</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="assets/js/site.js" defer></script>
+  </body>
 </html>

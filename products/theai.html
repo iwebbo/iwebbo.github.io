@@ -1,124 +1,44 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="en" data-theme="glass">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THEAI.io Monitoring & Vulnerability Platform wiht Agent</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-      .logo-img {
-      height: 120px;
-      width: auto;
-      object-fit: contain;
-      }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THEAI.io — Monitoring · Vulnerability scanning</title>
+<meta name="description" content="THEAI watches your servers with ICMP, TCP, HTTP and SSH checks or a lightweight Go agent, then matches every installed package against OSV.dev and ranks the findings by KEV, EPSS and CVSS.">
+<meta property="og:title" content="THEAI.io — Monitoring · Vulnerability scanning">
+<meta property="og:description" content="THEAI watches your servers with ICMP, TCP, HTTP and SSH checks or a lightweight Go agent, then matches every installed package against OSV.dev and ranks the findings by KEV, EPSS and CVSS.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F3F5FB">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'glass'}catch(e){document.documentElement.dataset.theme='glass'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
-<body>
-<div class="container">
-<header class="site-header">
-  <nav>
-    <a href="../index.html" class="logo">        
-      <img src="../assets/img/theai.png" alt="A&ECoding Logo" class="logo-img" />
-      </a>
-    <ul>
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <h1>THEAI.io</h1>
-  <p class="subtitle">
-    Monitoring & Vulnerability Platform.
-  </p>
-
-  <div class="hero-cta">
-    <a href="#" class="btn-primary">Presentation</a>
-    <a href="https://github.com/iwebbo/THEAI" class="btn-secondary" target="_blank">Code source</a>
-  </div>
-</section>
-
-<!-- PRESENTATION -->
-<section class="hero-glass">
-  <h2>Build with</h2>
-    <div class="tech-icons">
-    <i class="fa-brands fa-docker" title="Docker"></i>
-    <i class="fa-brands fa-linux" title="Linux"></i>
-    <i class="fa-brands fa-python" title="Python"></i>
-    <i class="fa-brands fa-github" title="Github"></i>
-    <i class="fa-brands fa-react" title="React"></i>
-    <i class="fa-brands fa-golang" title="Go"></i>
-  </div>
-</section>
-
-<section class="products" aria-label="Nos applications principales">
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Current Features</h2>
-    <ul class="features-list">
-      <li><strong>Multi-Protocol Monitoring :</strong> Support for ICMP (ping), TCP, HTTP/HTTPS, and SSH monitoring</li>
-      <li><strong>Agent Monitoring :</strong> Optional Go agent (Linux, Windows, AIX, BSD, macOS) pushing metrics, inventory and open ports over HTTPS</li>
-      <li><strong>CVE Correlation :</strong> Installed packages matched against OSV.dev (Debian, Ubuntu, Alpine), sorted by KEV, EPSS, CVSS</li>
-      <li><strong>Grafana Dashboards :</strong> Monitoring and CVE dashboards provisioned automatically</li>
-      <li><strong>Real-time Dashboard :</strong> Modern, responsive interface with server status overview</li>
-      <li><strong>Server Management :</strong> Add, edit, delete, and configure servers to monitor</li>
-      <li><strong>Automated Checks :</strong> Periodic server health checks with configurable intervals</li>
-      <li><strong>Status Tracking :</strong> Visual status indicators and response time monitoring</li>
-      <li><strong>Modern UI :</strong> Professional interface with customizable themes</li>
-      <li><strong>Settings Panel :</strong> Configure monitoring intervals, alerts, and preferences</li>
-      <li><strong>Dockerized Deployment :</strong> Complete containerized setup with Docker Compose</li>
-      <li><strong>Authentication System :</strong> JWT-based login with environment-configured default user</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Monitoring Capabilities</h2>
-    <ul class="features-list">
-      <li><strong>Agent :</strong> CPU, memory, swap, load, disks, network, uptime, open ports, installed packages</li>
-      <li><strong>ICMP Ping :</strong> Basic connectivity testing with response time measurement</li>
-      <li><strong>TCP :</strong> TCP availability with custom ports</li>
-      <li><strong>HTTP/HTTPS Monitoring :</strong> Web service availability with custom ports and paths</li>
-      <li><strong>SSH Connectivity:</strong> SSH service monitoring with authentication support</li>
-      <li><strong>Response Time Tracking :</strong> Monitor and track server response times</li>
-      <li><strong>Status History :</strong> Track server status changes over time</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Vulnerability Scanning</h2>
-    <ul class="features-list">
-      <li><strong>CVE Correlation :</strong> OSV.dev source and patched versions, prioritized by KEV, then EPSS, then CVSS</li>
-      <li><strong>Automatic Re-scan :</strong> On demand from the UI or every VULN_SCAN_INTERVAL_HOURS</li>
-      <li><strong>Critical Ports Detection :</strong> Identifies dangerous open ports that pose security risks.</li>
-      <li><strong>SSL/TLS Security Check :</strong> Validates HTTPS protocol configuration</li>
-      <li><strong>Real-time Results :</strong> Synchronous execution with immediate feedback</li>
-      <li><strong>Advanced Port Scanning :</strong> Extended port analysis and service detection</li>
-      <li><strong>Protocol Vulnerability Detection :</strong> Identifies protocol-specific weaknesses</li>
-      <li><strong>Technology Stack Assessment :</strong> Detects and analyzes installed services and versions</li>
-      <li><strong>Detailed Vulnerability Reporting :</strong> Complete vulnerability descriptions with severity ratings</li>
-      <li><strong>Background Execution :</strong> Asynchronous scanning for large-scale deployments</li>
-    </ul>
-  </article>
-</section>
-
-  <section class="about" aria-label="Présentation de aecoding.io">
-    <h2>About</h2>
-      <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
-  </section>
-
-  <section class="about" aria-label="Contact">
-    <h2>Contact me</h2>
-    <p>Built with ❤️ for system administrators and DevOps engineers</p>
-    <p>For questions, suggestions, or support, please open an issue or contact the maintainers.<a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
-  </section>
-
-
-<footer>
-  <p>© 2025 aecoding.io — Tous droits réservés.</p>
-</footer>
-</div>
+<body class="acc" style="--c-dk:#34D399;--c-lt:#047857">
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="logo" aria-hidden="true">&gt;_</span>aecoding.io <span class="sub">/ THEAI.io</span></a>
+<nav class="nav-links" aria-label="Main">
+<a href="../index.html#products">Products</a>
+<a href="../index.html#stack">How they fit</a>
+<a class="btn ghost sm" href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub ↗</a>
+<button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+</nav></div></header><main><div class="wrap hero"><div class="hero-text">
+<span class="status"><i></i>Monitoring · Vulnerability scanning</span>
+<h1>Know what is down. Know what is exploitable.</h1>
+<p class="lead">THEAI watches your servers with ICMP, TCP, HTTP and SSH checks or a lightweight Go agent, then matches every installed package against OSV.dev and ranks the findings by KEV, EPSS and CVSS.</p>
+<div class="cta"><a class="btn accent" href="#quickstart">Get started</a><a class="btn ghost" href="https://github.com/iwebbo/THEAI" target="_blank" rel="noopener">Source code ↗</a></div>
+<div class="chips"><span class="chip">MIT</span><span class="chip">Docker Compose</span><span class="chip">Go agent</span><span class="chip">Grafana</span></div>
+</div><div class="card term" id="quickstart"><div class="term-bar"><span class="dots"><i></i><i></i><i></i></span>bash</div><div class="term-body"><div><span class="p">$</span> git clone https://github.com/iwebbo/THEAI</div><div><span class="p">$</span> cd THEAI &amp;&amp; docker compose up -d</div><div class="p"># dashboard, agent API and Grafana</div><div><span class="p">$</span> <span class="cursor">_</span></div></div></div></div>
+<section class="sec"><div class="wrap"><div class="card" style="padding:0;overflow:hidden"><div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>theai · dashboard</div>
+<div class="mock-body"><div class="panel" style="flex:3 1 480px"><h4>Servers</h4><div style="min-width:440px"><div class="r"><span class="dot" style="background:#34D399"></span><span class="n">web-01</span><span class="k">HTTPS</span><span class="m">42 ms</span></div><div class="r"><span class="dot" style="background:#34D399"></span><span class="n">db-01</span><span class="k">TCP 5432</span><span class="m">3 ms</span></div><div class="r"><span class="dot" style="background:#34D399"></span><span class="n">bastion</span><span class="k">SSH</span><span class="m">18 ms</span></div><div class="r"><span class="dot" style="background:#F87171"></span><span class="n">edge-gw</span><span class="k">ICMP</span><span class="m">—</span></div><div class="r"><span class="dot" style="background:#FBBF24"></span><span class="n">build-agent</span><span class="k">Go agent</span><span class="m">push</span></div></div></div>
+<div class="panel" style="flex:2 1 320px"><h4>Vulnerability queue</h4><div class="r" style="flex-direction:column;align-items:stretch;gap:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:13px">openssl</span><span class="sev" style="border-color:#F87171">KEV</span></div><div class="bar"><i style="width:92%;background:#F87171"></i></div></div><div class="r" style="flex-direction:column;align-items:stretch;gap:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:13px">libc6</span><span class="sev" style="border-color:#FBBF24">EPSS high</span></div><div class="bar"><i style="width:64%;background:#FBBF24"></i></div></div><div class="r" style="flex-direction:column;align-items:stretch;gap:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:13px">nginx</span><span class="sev" style="border-color:#FBBF24">CVSS high</span></div><div class="bar"><i style="width:48%;background:#FBBF24"></i></div></div><div class="r mono muted" style="font-size:12px;border:0">KEV → EPSS → CVSS</div></div></div></div>
+<div class="caption">Illustration.</div></div></section>
+<section class="sec" id="how"><div class="wrap"><div class="sec-h"><div class="eyebrow">How it works</div><h2>From a host to a ranked fix list.</h2></div><div class="grid g-4"><article class="card top stack-col"><div class="step">01 · COLLECT</div><h3>Agent or checks</h3><p class="body">A Go agent pushes metrics, inventory and open ports over HTTPS. Or skip it and probe with ICMP, TCP, HTTP and SSH.</p></article><article class="card top stack-col"><div class="step">02 · INGEST</div><h3>THEAI API</h3><p class="body">Authenticated with JWT. Stores status history, response times and the package inventory of each host.</p></article><article class="card top stack-col"><div class="step">03 · CORRELATE</div><h3>OSV.dev matching</h3><p class="body">Installed packages on Debian, Ubuntu and Alpine are matched to advisories, with patched versions attached.</p></article><article class="card top stack-col"><div class="step">04 · PRIORITIZE</div><h3>KEV, then EPSS, then CVSS</h3><p class="body">Findings are sorted so actively exploited issues come first. Browse them in the UI or in Grafana.</p></article></div><p class="note">Agentless checks (ICMP, TCP, HTTP/HTTPS, SSH) feed the same API, so mixed fleets live in one dashboard.</p></div></section>
+<section class="sec" id="features"><div class="wrap"><div class="sec-h"><div class="eyebrow">Features</div><h2>The six things you will actually use.</h2></div><div class="grid g-3"><article class="card stack-col"><div class="step">CHECKS</div><h3>Four protocols, one view</h3><p class="body">ICMP ping, TCP ports, HTTP/HTTPS with custom ports and paths, and SSH with authentication — each with response-time tracking and status history.</p></article><article class="card stack-col"><div class="step">AGENT</div><h3>Optional Go agent</h3><p class="body">Runs on Linux, Windows, AIX, BSD and macOS. Reports CPU, memory, swap, load, disks, network, uptime, open ports and installed packages.</p></article><article class="card stack-col"><div class="step">CVE</div><h3>Prioritized, not just listed</h3><p class="body">Package inventory matched against OSV.dev and ordered by KEV, EPSS and CVSS so the first line is the one to fix today.</p></article><article class="card stack-col"><div class="step">DASHBOARDS</div><h3>Grafana, pre-provisioned</h3><p class="body">Monitoring and CVE dashboards appear automatically alongside the built-in real-time interface.</p></article><article class="card stack-col"><div class="step">SCANS</div><h3>Re-scan on your terms</h3><p class="body">Trigger a scan from the UI or let it run every VULN_SCAN_INTERVAL_HOURS. Large fleets scan in the background.</p></article><article class="card stack-col"><div class="step">EXPOSURE</div><h3>Ports and TLS</h3><p class="body">Flags dangerous open ports, validates HTTPS configuration and detects protocol-specific weaknesses.</p></article></div><details class="card" style="margin-top:20px"><summary><span>Every capability</span><span class="mono muted" style="font-size:12px">expand</span></summary><div class="groups"><div class="group"><h4>Platform</h4><ul><li><b>Real-time dashboard</b> — responsive overview of server status</li><li><b>Server management</b> — add, edit, delete and configure targets</li><li><b>Automated checks</b> — configurable intervals</li><li><b>Settings panel</b> — intervals, alerts and preferences</li><li><b>Themes</b> — customizable interface</li><li><b>Authentication</b> — JWT login with an environment-configured default user</li></ul></div><div class="group"><h4>Monitoring</h4><ul><li><b>Agent metrics</b> — CPU, memory, swap, load, disks, network, uptime</li><li><b>ICMP ping</b> — connectivity and response time</li><li><b>TCP</b> — availability on custom ports</li><li><b>HTTP/HTTPS</b> — service checks with custom ports and paths</li><li><b>SSH</b> — connectivity with authentication support</li><li><b>History</b> — status changes tracked over time</li></ul></div><div class="group"><h4>Vulnerabilities</h4><ul><li><b>CVE correlation</b> — OSV.dev source with patched versions</li><li><b>Critical ports</b> — dangerous open ports identified</li><li><b>SSL/TLS check</b> — HTTPS protocol validation</li><li><b>Advanced port scan</b> — service detection and version analysis</li><li><b>Technology assessment</b> — installed services and versions</li><li><b>Reporting</b> — descriptions with severity ratings</li><li><b>Execution</b> — synchronous results or asynchronous background scans</li></ul></div></div></details></div></section>
+<section class="sec"><div class="wrap"><div class="built"><div class="chips"><span class="muted" style="font-size:14px;padding-right:8px">Built with</span><span class="chip solid">Go</span><span class="chip solid">Python</span><span class="chip solid">React</span><span class="chip solid">Docker</span><span class="chip solid">Linux</span><span class="chip solid">Grafana</span></div><a class="ac" style="font-weight:600" href="https://github.com/iwebbo/THEAI" target="_blank" rel="noopener">Star or fork on GitHub ↗</a></div></div></section></main><footer class="footer"><div class="wrap">
+<div>© 2026 aecoding.io · MIT licensed · Built by Senior DevOps engineers.</div>
+<nav aria-label="Footer"><a href="../index.html">Home</a><a href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub</a><a href="mailto:l.kieran95@gmail.com">Contact</a></nav>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
 </body>
 </html>

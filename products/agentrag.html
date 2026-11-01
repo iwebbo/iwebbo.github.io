@@ -1,1064 +1,309 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="glass">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AgentRAG.io - Intelligent RAG with Autonomous Agents</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    .logo-img {
-      height: 120px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    /* ── Hero tagline ── */
-    .hero-tagline {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 680px;
-      margin: -1rem auto 2rem;
-      line-height: 1.6;
-    }
-    .hero-tagline code {
-      background: rgba(58,123,253,0.15);
-      color: var(--accent);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
-    .hero-tagline .badge-openclaw {
-      display: inline-block;
-      background: rgba(58,123,253,0.12);
-      border: 1px solid rgba(58,123,253,0.35);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.04em;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    /* ── Sections ── */
-    .agent-library {
-      margin-top: 4rem;
-      padding-top: 4rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .agent-library > h2 {
-      font-size: 2rem;
-      color: var(--accent);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-    .agent-library > .section-sub {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      max-width: 640px;
-      margin: 0 auto 3rem;
-    }
-    .agent-library > .section-sub code {
-      background: rgba(58,123,253,0.15);
-      color: var(--accent);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 0.88em;
-    }
-
-    .agent-os-block {
-      margin-bottom: 2.5rem;
-    }
-    .agent-os-block h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .agent-os-block h3 span.os-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 2px 10px;
-      border-radius: 20px;
-      background: rgba(58,123,253,0.12);
-      border: 1px solid rgba(58,123,253,0.3);
-      color: var(--accent);
-    }
-
-    /* ── Skill cards ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-    .skill-card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      padding: 1.2rem 1.4rem;
-      border: 1px solid rgba(255,255,255,0.04);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .skill-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(58,123,253,0.25);
-      box-shadow: 0 8px 24px rgba(58,123,253,0.08);
-      transform: translateY(-3px);
-    }
-    .skill-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-    .skill-card-header code {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--accent);
-      background: rgba(58,123,253,0.12);
-      padding: 2px 8px;
-      border-radius: 5px;
-      font-family: "Menlo", "Consolas", monospace;
-    }
-    .skill-card p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin: 0;
-    }
-    .skill-card .skill-ideas {
-      margin-top: 0.6rem;
-      padding-top: 0.6rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-    .skill-card .skill-idea-item {
-      font-size: 0.78rem;
-      color: #7a8aaa;
-      padding-left: 0.8rem;
-      position: relative;
-      line-height: 1.4;
-    }
-    .skill-card .skill-idea-item::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      opacity: 0.5;
-    }
-
-    /* ── .md example block ── */
-    .md-example {
-      margin-top: 4rem;
-      padding-top: 4rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .md-example > h2 {
-      font-size: 2rem;
-      color: var(--accent);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-    .md-example > .section-sub {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 660px;
-      margin: 0 auto 3rem;
-      line-height: 1.6;
-    }
-    .md-example > .section-sub code {
-      background: rgba(58,123,253,0.15);
-      color: var(--accent);
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 0.88em;
-    }
-    .md-tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    .md-tab-btn {
-      background: rgba(58,123,253,0.08);
-      border: 1px solid rgba(58,123,253,0.2);
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .md-tab-btn:hover,
-    .md-tab-btn.active {
-      background: rgba(58,123,253,0.18);
-      border-color: rgba(58,123,253,0.5);
-      color: var(--accent);
-    }
-    .md-block {
-      display: none;
-      background: #0d1117;
-      border: 1px solid rgba(58,123,253,0.15);
-      border-radius: 12px;
-      padding: 1.5rem 1.8rem;
-      position: relative;
-    }
-    .md-block.visible {
-      display: block;
-    }
-    .md-block pre {
-      margin: 0;
-      font-family: "Menlo", "Consolas", "JetBrains Mono", monospace;
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: #c9d1d9;
-      white-space: pre;
-      overflow-x: auto;
-    }
-    .md-block .yaml-key   { color: #79c0ff; }
-    .md-block .yaml-val   { color: #a5d6ff; }
-    .md-block .yaml-str   { color: #a8daff; }
-    .md-block .md-heading { color: #ffa657; font-weight: 700; }
-    .md-block .md-comment { color: #8b949e; }
-    .md-block .md-cmd     { color: #7ee787; }
-    .md-block .md-sep     { color: #30363d; }
-    .md-block .md-icon-row { color: #d2a8ff; }
-    .md-copy-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: rgba(58,123,253,0.12);
-      border: 1px solid rgba(58,123,253,0.25);
-      color: var(--accent);
-      font-size: 0.75rem;
-      padding: 3px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-    .md-copy-btn:hover { background: rgba(58,123,253,0.25); }
-
-    /* ── MCP section ── */
-    .mcp-section {
-      margin-top: 4rem;
-      padding-top: 4rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .mcp-section > h2 {
-      font-size: 2rem;
-      color: var(--accent);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-    .mcp-section > .section-sub {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 660px;
-      margin: 0 auto 3rem;
-      line-height: 1.6;
-    }
-    .mcp-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.2rem;
-    }
-    .mcp-card {
-      background: var(--bg-card);
-      border-radius: 14px;
-      padding: 1.4rem 1.6rem;
-      border: 1px solid rgba(255,255,255,0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-      transition: var(--transition);
-    }
-    .mcp-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(58,123,253,0.3);
-      box-shadow: 0 8px 28px rgba(58,123,253,0.1);
-      transform: translateY(-3px);
-    }
-    .mcp-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .mcp-card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    .mcp-card-icon.blue  { background: rgba(58,123,253,0.15); color: #79c0ff; }
-    .mcp-card-icon.green { background: rgba(34,197,94,0.12);  color: #6ee7b7; }
-    .mcp-card-icon.amber { background: rgba(251,191,36,0.12); color: #fcd34d; }
-    .mcp-card-icon.red   { background: rgba(248,113,113,0.12);color: #fca5a5; }
-    .mcp-card-icon.purple{ background: rgba(167,139,250,0.12);color: #c4b5fd; }
-    .mcp-card-icon.teal  { background: rgba(45,212,191,0.12); color: #5eead4; }
-    .mcp-card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-    .mcp-card-title code {
-      font-size: 0.82rem;
-      background: rgba(58,123,253,0.12);
-      color: var(--accent);
-      padding: 1px 7px;
-      border-radius: 5px;
-      margin-left: 6px;
-      font-family: "Menlo", "Consolas", monospace;
-    }
-    .mcp-card p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
-    }
-    .mcp-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.2rem;
-    }
-    .mcp-tool-pill {
-      font-size: 0.72rem;
-      font-weight: 600;
-      font-family: "Menlo", "Consolas", monospace;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #8b949e;
-      padding: 2px 8px;
-      border-radius: 5px;
-    }
-    .mcp-transport {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 2px 9px;
-      border-radius: 20px;
-    }
-    .transport-sse    { background: rgba(34,197,94,0.1);  border: 1px solid rgba(34,197,94,0.25);  color: #6ee7b7; }
-    .transport-stdio  { background: rgba(167,139,250,0.1);border: 1px solid rgba(167,139,250,0.25);color: #c4b5fd; }
-    .transport-http   { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); color: #fcd34d; }
-
-    /* ── openclaw banner ── */
-    .openclaw-banner {
-      background: linear-gradient(135deg, rgba(58,123,253,0.08) 0%, rgba(18,24,34,0.9) 100%);
-      border: 1px solid rgba(58,123,253,0.2);
-      border-radius: var(--radius);
-      padding: 2rem 2.5rem;
-      margin-bottom: 3rem;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .openclaw-banner .banner-icon { font-size: 2.5rem; color: var(--accent); opacity: 0.8; flex-shrink: 0; }
-    .openclaw-banner .banner-text h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.4rem; }
-    .openclaw-banner .banner-text p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
-    .openclaw-banner .banner-text p code { background: rgba(58,123,253,0.15); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
-    .openclaw-banner .banner-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
-    .openclaw-banner .pill { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; background: rgba(58,123,253,0.1); border: 1px solid rgba(58,123,253,0.25); color: var(--accent); }
-
-    /* ── New feature badges ── */
-    .new-badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 20px;
-      background: rgba(34,197,94,0.15);
-      border: 1px solid rgba(34,197,94,0.3);
-      color: #6ee7b7;
-      vertical-align: middle;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentRAG.io - Intelligent RAG with Autonomous Agents</title>
+<meta name="description" content="Self-hosted, multi-provider LLM support, document intelligence, real-time streaming, and advanced scheduling for basic tasks or complex autonomous agents.">
+<meta property="og:title" content="AgentRAG.io - Intelligent RAG with Autonomous Agents">
+<meta property="og:description" content="Self-hosted, multi-provider LLM support, document intelligence, real-time streaming, and advanced scheduling for basic tasks or complex autonomous agents.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F3F5FB">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'glass'}catch(e){document.documentElement.dataset.theme='glass'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
+<body class="acc" style="--c-dk:#818CF8;--c-lt:#4338CA">
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="logo" aria-hidden="true">&gt;_</span>aecoding.io <span class="sub">/ AgentRAG.io</span></a>
+<nav class="nav-links" aria-label="Main">
+<a href="../index.html#products">Products</a>
+<a href="../index.html#stack">How they fit</a>
+<a class="btn ghost sm" href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub ↗</a>
+<button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+</nav></div></header><main><div class="wrap hero"><div class="hero-text">
+<h1>AgentRAG.io</h1>
+<p class="subtitle">Enterprise-Grade RAG &amp; Agent Orchestration Platform.</p>
+<p class="lead">Self-hosted, multi-provider LLM support, document intelligence, real-time streaming, and advanced scheduling for basic tasks or complex autonomous agents.</p>
+<div class="cta"><a class="btn accent" href="#library">Agent Library</a><a class="btn ghost" href="https://github.com/iwebbo/AgentRAG.io" target="_blank" rel="noopener">Code source ↗</a></div>
+</div><div class="card term"><div class="term-bar"><span class="dots"><i></i><i></i><i></i></span>ssh_admin.md</div><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> ssh_admin
+<span class="sy-k">name:</span>     ssh_admin
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "Administration Linux distante via SSH"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [linux, ssh, admin, infra]
+<span class="sy-k">slash_command:</span> /ssh
+<span class="sy-k">at_command:</span> true
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-<body>
-<div class="container">
-<header class="site-header">
-  <nav>
-    <a href="../index.html" class="logo">
-      <img src="../assets/img/agentragio.png" alt="AgentRAG Logo" class="logo-img" />
-    </a>
-    <ul>
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+<span class="sy-h">## Objective</span>
+You are an expert Linux administrator. Translate user requests
+into precise SSH commands and report results clearly.</pre></div></div><section class="sec" id="features"><div class="wrap"><div class="grid g-3"><article class="card stack-col"><h3>Current Features</h3><ul class="fl"><li><b>Intelligent Document Search:</b> ChromaDB-powered semantic search with adjustable retrieval parameters</li><li><b>Multi-Provider LLM Support:</b> Seamless integration with OpenAI, Claude, Gemini, Ollama, and 10+ providers</li><li><b>Temperature Control:</b> Per-conversation adjustment (0.0–2.0)</li><li><b>Project-Based Organization:</b> Isolate document collections and conversations by project</li><li><b>Real-Time Streaming:</b> Server-Sent Events for progressive responses</li><li><b>Fine-Grained Control:</b> Per-conversation temperature, top-k, and context window management</li><li><b>Enterprise Security:</b> JWT authentication, AES-256 encryption, GDPR compliance</li></ul></article><article class="card stack-col"><h3>Advanced Features — Agent &amp; RAG</h3><ul class="fl"><li><b>RAG-Powered Context:</b> Agents automatically retrieve relevant context from your document knowledge base</li><li><b>LLM Integration:</b> Agents call LLMs with intelligent prompts and context management</li><li><b>MCP Tool Access:</b> Connect to external services (Gitea, GitHub, DataGouv, linter, SSH, WinRM, etc.)</li><li><b>Multi-Step Workflows:</b> Orchestrate complex tasks (fetch repo → generate code → lint → commit → PR)</li><li><b>Remote Host Management:</b> <span class="new">New</span> SSH &amp; WinRM hosts registered once, executed anywhere — credentials AES-256 encrypted</li><li><b>Skill .md Files:</b> <span class="new">New</span> Register agents from a single Markdown file — semantic resolution, no config</li><li><b>Real-Time Streaming:</b> Live execution logs and progress updates via SSE</li><li><b>Scheduled Agent Execution:</b> Automate workflows by scheduling agents to run at specific times or intervals.</li></ul></article><article class="card stack-col"><h3>Providers Supported</h3><ul class="fl"><li><b>OpenAI:</b> GPT-4o, GPT-4-turbo, o1-preview, o1-mini</li><li><b>Anthropic Claude:</b> Claude 3.5 Sonnet, Claude 3 Opus</li><li><b>Google Gemini:</b> Gemini 1.5 Pro/Flash, Gemini 2.0</li><li><b>OpenRouter:</b> 200+ models (free + paid)</li><li><b>xAI Grok:</b> Grok-3, Grok-3-mini, Grok-3-vision</li><li><b>Groq:</b> Mixtral, LLaMA 3, Gemma</li><li><b>HuggingFace:</b> Zephyr, Mistral, LLaMA 2</li><li><b>Ollama:</b> ollama pull llama3</li><li><b>LM Studio:</b> GUI app</li><li><b>vLLM:</b> Python + CUDA</li><li><b>SGlang:</b> Python + CUDA</li><li><b>LMDeploy:</b> Python + TurboMind</li><li><b>Oobabooga:</b> Web UI</li></ul></article></div></div></section><section class="sec" id="library"><div class="wrap"><div class="sec-h"><h2>Agent Library</h2><p class="lead">Each agent is defined by a single <code>.md</code> file with YAML frontmatter. Register via <code>POST /api/skills/register</code> — credentials resolved securely from DB, never in plain config.</p></div><div class="card banner"><h3>Open-source alternative to OpenClaw &amp; Claude Computer Use</h3><p>AgentRAG.io brings the same skill-based agent paradigm — self-hosted, fully controllable, multi-provider. Drop a <code>.md</code> file to create an agent. Connect SSH or WinRM hosts once, run anywhere. No vendor lock-in, no usage caps.</p><div class="chips"><span class="chip">Self-hosted</span><span class="chip">Multi-provider</span><span class="chip">SSH / WinRM</span><span class="chip">Skill .md files</span><span class="chip">Gitea MCP</span><span class="chip">DataGouv MCP</span><span class="chip">MIT License</span><span class="chip">No vendor lock-in</span></div></div><div class="filters" role="group" aria-label="Filter agents"><button type="button" class="filter" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="linux" aria-pressed="false">Linux SSH Agents</button><button type="button" class="filter" data-filter="windows" aria-pressed="false">Windows WinRM Agents</button><button type="button" class="filter" data-filter="mcp" aria-pressed="false">Fixed Agents — MCP-backed</button></div><div class="os-block" data-os="linux"><h3>Linux SSH Agents <span class="pill">SSH</span></h3><div class="grid g-3"><article class="card lib"><code>nginx_ops</code><p>Manage Nginx — config test, reload, log analysis, upstream health, SSL expiry check.</p><ul class="ideas"><li>&quot;nginx is returning 502 on prod, check upstream and reload&quot;</li><li>&quot;Show me the top 10 slowest endpoints from access.log&quot;</li><li>&quot;Check SSL cert expiry on all vhosts&quot;</li></ul></article><article class="card lib"><code>apache_ops</code><p>Manage Apache — VHost management, mod_status, graceful restart, SSL, access log analysis.</p><ul class="ideas"><li>&quot;Test Apache config and do a graceful restart&quot;</li><li>&quot;Enable mod_rewrite and reload&quot;</li><li>&quot;Which IPs generated the most 403s today?&quot;</li></ul></article><article class="card lib"><code>kubernetes_node_ops</code><p>Inspect Kubernetes — pod triage, CrashLoopBackOff diagnosis, node drain, rolling restarts, rollback.</p><ul class="ideas"><li>&quot;List all pods in CrashLoopBackOff and show their last logs&quot;</li><li>&quot;Drain node k8s-node-02 for maintenance&quot;</li><li>&quot;Rollback the payment-service deployment&quot;</li></ul></article><article class="card lib"><code>docker_ops</code><p>Operate Docker — container lifecycle, image pull, health checks, Compose redeploy, prune.</p><ul class="ideas"><li>&quot;Pull latest image and recreate the api container&quot;</li><li>&quot;Show memory usage for all running containers&quot;</li><li>&quot;Prune unused images and volumes to free disk&quot;</li></ul></article><article class="card lib"><code>postgres_ops</code><p>Monitor PostgreSQL — replication lag, slow queries, lock contention, bloat, backup status.</p><ul class="ideas"><li>&quot;Check replication lag on all replicas&quot;</li><li>&quot;Find the top 5 slowest queries this hour&quot;</li><li>&quot;Which tables have the most dead tuples and need VACUUM?&quot;</li></ul></article><article class="card lib"><code>mysql_ops</code><p>Monitor MySQL/MariaDB — processlist, replica lag, slow log, InnoDB metrics, backup check.</p><ul class="ideas"><li>&quot;Show full processlist and kill queries running over 30s&quot;</li><li>&quot;Check replica status on db-replica-01&quot;</li><li>&quot;Top 10 slowest queries from slow log this week&quot;</li></ul></article><article class="card lib"><code>linux_incident</code><p>Triage Linux incidents — CPU/memory/disk pressure, OOM kills, systemd failures, network saturation.</p><ul class="ideas"><li>&quot;The server is slow, run a full triage and report&quot;</li><li>&quot;Check for OOM kills in the last hour&quot;</li><li>&quot;List all failed systemd units and their last error&quot;</li></ul></article><article class="card lib"><code>log_analyzer</code><p>Analyse any log — grep/awk/tail, error patterns, log rotation, SFTP download.</p><ul class="ideas"><li>&quot;Count error occurrences by type in /var/log/app.log&quot;</li><li>&quot;Force log rotation and archive logs older than 7 days&quot;</li><li>&quot;Download the last nginx error log for offline analysis&quot;</li></ul></article><article class="card lib"><code>deploy_rollback</code><p>Deploy &amp; rollback — git pull, build, service restart, health check, auto-rollback on failure.</p><ul class="ideas"><li>&quot;Deploy main branch to prod-web-01 with health check&quot;</li><li>&quot;Rollback to the previous commit on staging&quot;</li><li>&quot;Run full deploy pipeline: pull → npm ci → reload service&quot;</li></ul></article></div></div><div class="os-block" data-os="windows"><h3>Windows WinRM Agents <span class="pill">WinRM</span></h3><div class="grid g-3"><article class="card lib"><code>iis_ops</code><p>Manage IIS — app pool lifecycle, site bindings, SSL certificates, access log analysis, FREB.</p><ul class="ideas"><li>&quot;Recycle the MyApp pool and check its state after&quot;</li><li>&quot;Show all IIS sites with their bindings and SSL expiry&quot;</li><li>&quot;Detect 500 errors in IIS logs from the last hour&quot;</li></ul></article><article class="card lib"><code>windows_incident</code><p>Triage Windows incidents — CPU/memory/disk pressure, event log errors, stuck processes, service failures.</p><ul class="ideas"><li>&quot;The server is unresponsive, run a full Windows triage&quot;</li><li>&quot;List critical events from System log in the last 2h&quot;</li><li>&quot;Find and kill the process consuming the most memory&quot;</li></ul></article><article class="card lib"><code>sqlserver_ops</code><p>Monitor SQL Server — blocking queries, AG replication lag, failed jobs, index fragmentation, backup status.</p><ul class="ideas"><li>&quot;Show all blocking sessions with their query text&quot;</li><li>&quot;Check AG sync lag on all replicas&quot;</li><li>&quot;List SQL Agent jobs that failed in the last 24h&quot;</li></ul></article><article class="card lib"><code>windows_deploy_rollback</code><p>Deploy &amp; rollback — robocopy staging, app pool recycle, health check, auto-rollback, backup snapshots.</p><ul class="ideas"><li>&quot;Deploy staging build to IIS and verify health endpoint&quot;</li><li>&quot;Rollback to yesterday&#x27;s backup snapshot&quot;</li><li>&quot;Stop pool → robocopy → start pool → health check pipeline&quot;</li></ul></article><article class="card lib"><code>windows_log_analyzer</code><p>Analyse Windows logs — Event Log queries, failed logins, lockouts, IIS W3C logs, custom app logs.</p><ul class="ideas"><li>&quot;Show all failed login attempts from the Security log today&quot;</li><li>&quot;Which accounts got locked out in the last 24h?&quot;</li><li>&quot;Search custom app log for EXCEPTION patterns&quot;</li></ul></article></div></div><div class="os-block" data-os="mcp"><h3>Fixed Agents — MCP-backed <span class="new">New</span></h3><div class="grid g-3"><article class="card lib"><code>gitea_code_generator</code><p>Generate code, lint, commit and create PRs on a self-hosted Gitea repository via MCP. Supports clone, file-level update, branch creation and pull request automation.</p><ul class="ideas"><li>&quot;Add a /healthz endpoint returning JSON status&quot;</li><li>&quot;Refactor the auth module and open a PR on ai-feature&quot;</li><li>&quot;Lint and fix all PEP8 issues in src/&quot;</li></ul></article><article class="card lib"><code>datagouv_explorer</code><p>Explore the data.gouv.fr catalogue — search datasets, fetch resources and download URLs, browse organisations and DINUM API v2 topics.</p><ul class="ideas"><li>&quot;Find all CSV datasets about population by commune&quot;</li><li>&quot;List INSEE datasets updated in the last month&quot;</li><li>&quot;Fetch download URL for the 2023 electoral results&quot;</li></ul></article><article class="card lib"><code>branch_code_review</code><p>Automatic code review on Git branches — security analysis, style checks, LLM-generated comments, optional auto-fix and PR creation.</p><ul class="ideas"><li>&quot;Review the feature/auth branch for security issues&quot;</li><li>&quot;Auto-fix PEP8 warnings and push the result&quot;</li><li>&quot;Open a review PR with inline LLM comments&quot;</li></ul></article><article class="card lib"><code>ansible_role_generator</code><p>Generate role Ansible, lint, commit and create PRs on a self-hosted Gitea repository via MCP. Supports clone, file-level update, branch creation and pull request automation.</p><ul class="ideas"><li>&quot;role_name&quot;: &quot;nginx_hardening&quot;</li><li>&quot;Rôle Ansible pour Nginx : TLS, headers, fail2ban&quot;</li></ul></article><article class="card lib"><code>wikijs</code><p>Search, read, create and update Wiki.js documentation pages via LLM.</p><ul class="ideas"><li>&quot;Create a new page about API integration&quot;</li><li>&quot;Update the installation guide with latest steps&quot;</li><li>&quot;Search for authentication documentation&quot;</li></ul></article><article class="card lib"><code>sonarqube</code><p>Analyze code for bugs, vulnerabilities and standards violations via LLM.</p><ul class="ideas"><li>&quot;Find security vulnerabilities in this source file&quot;</li><li>&quot;Check quality gate status for production branch&quot;</li><li>&quot;List all open issues and hotspots by severity&quot;</li></ul></article></div></div></div></section><section class="sec" id="skills"><div class="wrap"><div class="sec-h"><h2>Skill <code>.md</code> file examples</h2><p class="lead">One file = one agent. The YAML frontmatter configures routing, MCP servers and memory. The Markdown body is the system prompt — including the <code>## Mapping</code> section that defines the commands the agent understands at execution.</p></div><div class="tabs" role="tablist" aria-label="Skill examples"><button type="button" class="tab" role="tab" id="tab-md-ssh" aria-controls="md-ssh" aria-selected="true">ssh_admin</button><button type="button" class="tab" role="tab" id="tab-md-winrm" aria-controls="md-winrm" aria-selected="false">winrm_admin</button><button type="button" class="tab" role="tab" id="tab-md-k8s" aria-controls="md-k8s" aria-selected="false">k8s_ops</button><button type="button" class="tab" role="tab" id="tab-md-postgres" aria-controls="md-postgres" aria-selected="false">postgres_ops</button><button type="button" class="tab" role="tab" id="tab-md-gitea" aria-controls="md-gitea" aria-selected="false">gitea_code_generator</button><button type="button" class="tab" role="tab" id="tab-md-web" aria-controls="md-web" aria-selected="false">web_server_ops</button><button type="button" class="tab" role="tab" id="tab-md-windows-log" aria-controls="md-windows-log" aria-selected="false">windows_log_analyzer</button><button type="button" class="tab" role="tab" id="tab-md-sql" aria-controls="md-sql" aria-selected="false">sqlserver_ops</button><button type="button" class="tab" role="tab" id="tab-md-deploy" aria-controls="md-deploy" aria-selected="false">deploy_rollback</button><button type="button" class="tab" role="tab" id="tab-md-log" aria-controls="md-log" aria-selected="false">log_analyzer</button><button type="button" class="tab" role="tab" id="tab-md-mysql" aria-controls="md-mysql" aria-selected="false">mysql_ops</button><button type="button" class="tab" role="tab" id="tab-md-iis" aria-controls="md-iis" aria-selected="false">iis_ops</button><button type="button" class="tab" role="tab" id="tab-md-linux" aria-controls="md-linux" aria-selected="false">linux_incident</button><button type="button" class="tab" role="tab" id="tab-md-docker" aria-controls="md-docker" aria-selected="false">docker_ops</button><button type="button" class="tab" role="tab" id="tab-md-apache" aria-controls="md-apache" aria-selected="false">apache_ops</button></div><div class="card md-panel" role="tabpanel" id="md-ssh" aria-labelledby="tab-md-ssh"><button type="button" class="copy" data-copy="md-ssh">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> ssh_admin
+<span class="sy-k">name:</span>     ssh_admin
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "Administration Linux distante via SSH"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [linux, ssh, admin, infra]
+<span class="sy-k">slash_command:</span> /ssh
+<span class="sy-k">at_command:</span> true
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>AgentRAG.io</h1>
-  <p class="subtitle">Enterprise-Grade RAG & Agent Orchestration Platform.</p>
-  <p class="hero-tagline">
-    Self-hosted, multi-provider LLM support, document intelligence, real-time streaming, and advanced scheduling for basic tasks or complex autonomous agents.
-  </p>
-  <div class="hero-cta">
-    <a href="#" class="btn-primary">Presentation</a>
-    <a href="https://github.com/iwebbo/AgentRAG.io" class="btn-secondary" target="_blank">Code source</a>
-  </div>
-</section>
-
-<!-- BUILD WITH -->
-<section class="hero-glass">
-  <h2>Build with</h2>
-  <div class="tech-icons">
-    <i class="fa-brands fa-docker" title="Docker"></i>
-    <i class="fa-brands fa-linux" title="Linux"></i>
-    <i class="fa-brands fa-python" title="Python"></i>
-    <i class="fa-brands fa-github" title="Github"></i>
-    <i class="fa-brands fa-react" title="React"></i>
-  </div>
-</section>
-
-<!-- FEATURE CARDS -->
-<section class="products" aria-label="Features">
-  <article class="product-card" tabindex="0">
-    <h2>Current Features</h2>
-    <ul class="features-list">
-      <li><strong>Intelligent Document Search:</strong> ChromaDB-powered semantic search with adjustable retrieval parameters</li>
-      <li><strong>Multi-Provider LLM Support:</strong> Seamless integration with OpenAI, Claude, Gemini, Ollama, and 10+ providers</li>
-      <li><strong>Temperature Control:</strong> Per-conversation adjustment (0.0–2.0)</li>
-      <li><strong>Project-Based Organization:</strong> Isolate document collections and conversations by project</li>
-      <li><strong>Real-Time Streaming:</strong> Server-Sent Events for progressive responses</li>
-      <li><strong>Fine-Grained Control:</strong> Per-conversation temperature, top-k, and context window management</li>
-      <li><strong>Enterprise Security:</strong> JWT authentication, AES-256 encryption, GDPR compliance</li>
-    </ul>
-  </article>
-
-<article class="product-card" tabindex="0">
-    <h2>Advanced Features — Agent &amp; RAG</h2>
-    <ul class="features-list">
-      <li><strong>RAG-Powered Context:</strong> Agents automatically retrieve relevant context from your document knowledge base</li>
-      <li><strong>LLM Integration:</strong> Agents call LLMs with intelligent prompts and context management</li>
-      <li><strong>MCP Tool Access:</strong> Connect to external services (Gitea, GitHub, DataGouv, linter, SSH, WinRM, etc.)</li>
-      <li><strong>Multi-Step Workflows:</strong> Orchestrate complex tasks (fetch repo → generate code → lint → commit → PR)</li>
-      <li><strong>Remote Host Management:</strong> <span class="new-badge">New</span> SSH &amp; WinRM hosts registered once, executed anywhere — credentials AES-256 encrypted</li>
-      <li><strong>Skill .md Files:</strong> <span class="new-badge">New</span> Register agents from a single Markdown file — semantic resolution, no config</li>
-      <li><strong>Real-Time Streaming:</strong> Live execution logs and progress updates via SSE</li>
-      <li><strong>Scheduled Agent Execution:</strong> Automate workflows by scheduling agents to run at specific times or intervals.</li>
-    </ul>
-</article>
-
-  <article class="product-card" tabindex="0">
-    <h2>Providers Supported</h2>
-    <ul class="features-list">
-      <li><strong>OpenAI:</strong> GPT-4o, GPT-4-turbo, o1-preview, o1-mini</li>
-      <li><strong>Anthropic Claude:</strong> Claude 3.5 Sonnet, Claude 3 Opus</li>
-      <li><strong>Google Gemini:</strong> Gemini 1.5 Pro/Flash, Gemini 2.0</li>
-      <li><strong>OpenRouter:</strong> 200+ models (free + paid)</li>
-      <li><strong>xAI Grok:</strong> Grok-3, Grok-3-mini, Grok-3-vision</li>
-      <li><strong>Groq:</strong> Mixtral, LLaMA 3, Gemma</li>
-      <li><strong>HuggingFace:</strong> Zephyr, Mistral, LLaMA 2</li>
-      <li><strong>Ollama:</strong> ollama pull llama3</li>
-      <li><strong>LM Studio:</strong> GUI app</li>
-      <li><strong>vLLM:</strong> Python + CUDA</li>
-      <li><strong>SGlang:</strong> Python + CUDA</li>
-      <li><strong>LMDeploy:</strong> Python + TurboMind</li>
-      <li><strong>Oobabooga:</strong> Web UI</li>
-    </ul>
-  </article>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     AGENT LIBRARY
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="agent-library" aria-label="Agent Library">
-  <h2>Agent Library</h2>
-  <p class="section-sub">
-    Each agent is defined by a single <code>.md</code> file with YAML frontmatter.
-    Register via <code>POST /api/skills/register</code> — credentials resolved securely from DB, never in plain config.
-  </p>
-
-  <div class="openclaw-banner">
-    <div class="banner-icon"><i class="fa-solid fa-robot"></i></div>
-    <div class="banner-text">
-      <h3>Open-source alternative to OpenClaw &amp; Claude Computer Use</h3>
-      <p>
-        AgentRAG.io brings the same skill-based agent paradigm — self-hosted, fully controllable,
-        multi-provider. Drop a <code>.md</code> file to create an agent. Connect SSH or WinRM hosts
-        once, run anywhere. No vendor lock-in, no usage caps.
-      </p>
-      <div class="banner-pills">
-        <span class="pill">Self-hosted</span>
-        <span class="pill">Multi-provider</span>
-        <span class="pill">SSH / WinRM</span>
-        <span class="pill">Skill .md files</span>
-        <span class="pill">Gitea MCP</span>
-        <span class="pill">DataGouv MCP</span>
-        <span class="pill">MIT License</span>
-        <span class="pill">No vendor lock-in</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Linux SSH -->
-  <div class="agent-os-block">
-    <h3><i class="fa-brands fa-linux"></i> Linux SSH Agents <span class="os-badge">SSH</span></h3>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-card-header"><code>nginx_ops</code></div>
-        <p>Manage Nginx — config test, reload, log analysis, upstream health, SSL expiry check.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"nginx is returning 502 on prod, check upstream and reload"</span>
-          <span class="skill-idea-item">"Show me the top 10 slowest endpoints from access.log"</span>
-          <span class="skill-idea-item">"Check SSL cert expiry on all vhosts"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>apache_ops</code></div>
-        <p>Manage Apache — VHost management, mod_status, graceful restart, SSL, access log analysis.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Test Apache config and do a graceful restart"</span>
-          <span class="skill-idea-item">"Enable mod_rewrite and reload"</span>
-          <span class="skill-idea-item">"Which IPs generated the most 403s today?"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>kubernetes_node_ops</code></div>
-        <p>Inspect Kubernetes — pod triage, CrashLoopBackOff diagnosis, node drain, rolling restarts, rollback.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"List all pods in CrashLoopBackOff and show their last logs"</span>
-          <span class="skill-idea-item">"Drain node k8s-node-02 for maintenance"</span>
-          <span class="skill-idea-item">"Rollback the payment-service deployment"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>docker_ops</code></div>
-        <p>Operate Docker — container lifecycle, image pull, health checks, Compose redeploy, prune.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Pull latest image and recreate the api container"</span>
-          <span class="skill-idea-item">"Show memory usage for all running containers"</span>
-          <span class="skill-idea-item">"Prune unused images and volumes to free disk"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>postgres_ops</code></div>
-        <p>Monitor PostgreSQL — replication lag, slow queries, lock contention, bloat, backup status.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Check replication lag on all replicas"</span>
-          <span class="skill-idea-item">"Find the top 5 slowest queries this hour"</span>
-          <span class="skill-idea-item">"Which tables have the most dead tuples and need VACUUM?"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>mysql_ops</code></div>
-        <p>Monitor MySQL/MariaDB — processlist, replica lag, slow log, InnoDB metrics, backup check.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Show full processlist and kill queries running over 30s"</span>
-          <span class="skill-idea-item">"Check replica status on db-replica-01"</span>
-          <span class="skill-idea-item">"Top 10 slowest queries from slow log this week"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>linux_incident</code></div>
-        <p>Triage Linux incidents — CPU/memory/disk pressure, OOM kills, systemd failures, network saturation.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"The server is slow, run a full triage and report"</span>
-          <span class="skill-idea-item">"Check for OOM kills in the last hour"</span>
-          <span class="skill-idea-item">"List all failed systemd units and their last error"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>log_analyzer</code></div>
-        <p>Analyse any log — grep/awk/tail, error patterns, log rotation, SFTP download.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Count error occurrences by type in /var/log/app.log"</span>
-          <span class="skill-idea-item">"Force log rotation and archive logs older than 7 days"</span>
-          <span class="skill-idea-item">"Download the last nginx error log for offline analysis"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>deploy_rollback</code></div>
-        <p>Deploy &amp; rollback — git pull, build, service restart, health check, auto-rollback on failure.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Deploy main branch to prod-web-01 with health check"</span>
-          <span class="skill-idea-item">"Rollback to the previous commit on staging"</span>
-          <span class="skill-idea-item">"Run full deploy pipeline: pull → npm ci → reload service"</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Windows WinRM -->
-  <div class="agent-os-block">
-    <h3><i class="fa-brands fa-windows"></i> Windows WinRM Agents <span class="os-badge">WinRM</span></h3>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-card-header"><code>iis_ops</code></div>
-        <p>Manage IIS — app pool lifecycle, site bindings, SSL certificates, access log analysis, FREB.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Recycle the MyApp pool and check its state after"</span>
-          <span class="skill-idea-item">"Show all IIS sites with their bindings and SSL expiry"</span>
-          <span class="skill-idea-item">"Detect 500 errors in IIS logs from the last hour"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>windows_incident</code></div>
-        <p>Triage Windows incidents — CPU/memory/disk pressure, event log errors, stuck processes, service failures.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"The server is unresponsive, run a full Windows triage"</span>
-          <span class="skill-idea-item">"List critical events from System log in the last 2h"</span>
-          <span class="skill-idea-item">"Find and kill the process consuming the most memory"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>sqlserver_ops</code></div>
-        <p>Monitor SQL Server — blocking queries, AG replication lag, failed jobs, index fragmentation, backup status.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Show all blocking sessions with their query text"</span>
-          <span class="skill-idea-item">"Check AG sync lag on all replicas"</span>
-          <span class="skill-idea-item">"List SQL Agent jobs that failed in the last 24h"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>windows_deploy_rollback</code></div>
-        <p>Deploy &amp; rollback — robocopy staging, app pool recycle, health check, auto-rollback, backup snapshots.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Deploy staging build to IIS and verify health endpoint"</span>
-          <span class="skill-idea-item">"Rollback to yesterday's backup snapshot"</span>
-          <span class="skill-idea-item">"Stop pool → robocopy → start pool → health check pipeline"</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header"><code>windows_log_analyzer</code></div>
-        <p>Analyse Windows logs — Event Log queries, failed logins, lockouts, IIS W3C logs, custom app logs.</p>
-        <div class="skill-ideas">
-          <span class="skill-idea-item">"Show all failed login attempts from the Security log today"</span>
-          <span class="skill-idea-item">"Which accounts got locked out in the last 24h?"</span>
-          <span class="skill-idea-item">"Search custom app log for EXCEPTION patterns"</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
- <!-- Fixed Agents — NEW -->
-<div class="agent-os-block">
-  <h3><i class="fa-solid fa-robot"></i> Fixed Agents — MCP-backed <span class="os-badge new-badge" style="margin-left:.5rem">New</span></h3>
-  <div class="skills-grid">
-    <!-- Existing agents remain the same -->
-    <div class="skill-card">
-      <div class="skill-card-header"><code>gitea_code_generator</code></div>
-      <p>Generate code, lint, commit and create PRs on a self-hosted Gitea repository via MCP. Supports clone, file-level update, branch creation and pull request automation.</p>
-      <div class="skill-ideas">
-        <span class="skill-idea-item">"Add a /healthz endpoint returning JSON status"</span>
-        <span class="skill-idea-item">"Refactor the auth module and open a PR on ai-feature"</span>
-        <span class="skill-idea-item">"Lint and fix all PEP8 issues in src/"</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header"><code>datagouv_explorer</code></div>
-      <p>Explore the data.gouv.fr catalogue — search datasets, fetch resources and download URLs, browse organisations and DINUM API v2 topics.</p>
-      <div class="skill-ideas">
-        <span class="skill-idea-item">"Find all CSV datasets about population by commune"</span>
-        <span class="skill-idea-item">"List INSEE datasets updated in the last month"</span>
-        <span class="skill-idea-item">"Fetch download URL for the 2023 electoral results"</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header"><code>branch_code_review</code></div>
-      <p>Automatic code review on Git branches — security analysis, style checks, LLM-generated comments, optional auto-fix and PR creation.</p>
-      <div class="skill-ideas">
-        <span class="skill-idea-item">"Review the feature/auth branch for security issues"</span>
-        <span class="skill-idea-item">"Auto-fix PEP8 warnings and push the result"</span>
-        <span class="skill-idea-item">"Open a review PR with inline LLM comments"</span>
-      </div>
-    </div>
-
-    <div class="skill-card">
-      <div class="skill-card-header"><code>ansible_role_generator</code></div>
-      <p>Generate role Ansible, lint, commit and create PRs on a self-hosted Gitea repository via MCP. Supports clone, file-level update, branch creation and pull request automation.</p>
-      <div class="skill-ideas">
-        <span class="skill-idea-item">"role_name": "nginx_hardening"</span>
-        <span class="skill-idea-item">"Rôle Ansible pour Nginx : TLS, headers, fail2ban"</span>
-      </div>
-    </div>
-
-    <!-- NEW AGENT ADDED -->
-    <div class="skill-card">
-      <div class="skill-card-header"><code>wikijs</code></div>
-      <p>Search, read, create and update Wiki.js documentation pages via LLM.</p>
-      <div class="skill-ideas">
-        <span class="skill-idea-item">"Create a new page about API integration"</span>
-        <span class="skill-idea-item">"Update the installation guide with latest steps"</span>
-        <span class="skill-idea-item">"Search for authentication documentation"</span>
-      </div>
-    </div>
-
-  <div class="skill-card">
-    <div class="skill-card-header"><code>sonarqube</code></div>
-    <p>Analyze code for bugs, vulnerabilities and standards violations via LLM.</p>
-    <div class="skill-ideas">
-      <span class="skill-idea-item">"Find security vulnerabilities in this source file"</span>
-      <span class="skill-idea-item">"Check quality gate status for production branch"</span>
-      <span class="skill-idea-item">"List all open issues and hotspots by severity"</span>
-    </div>
-  </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     .md SKILL FILE EXAMPLES
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="md-example" aria-label="Skill .md file examples">
-  <h2>Skill <code style="font-size:1.2rem">.md</code> file examples</h2>
-  <p class="section-sub">
-    One file = one agent. The YAML frontmatter configures routing, MCP servers and memory.
-    The Markdown body is the system prompt — including the <code>## Mapping</code> section that defines
-    the commands the agent understands at execution.
-  </p>
-
-  <div class="md-tabs" id="mdTabs">
-    <button class="md-tab-btn active" data-target="md-ssh">ssh_admin</button>
-    <button class="md-tab-btn" data-target="md-winrm">winrm_admin</button>
-    <button class="md-tab-btn" data-target="md-k8s">k8s_ops</button>
-    <button class="md-tab-btn" data-target="md-postgres">postgres_ops</button>
-    <button class="md-tab-btn" data-target="md-gitea">gitea_code_generator</button>
-    <button class="md-tab-btn" data-target="md-web">web_server_ops</button>
-    <button class="md-tab-btn" data-target="md-windows-log">windows_log_analyzer</button>
-    <button class="md-tab-btn" data-target="md-sql">sqlserver_ops</button>
-    <button class="md-tab-btn" data-target="md-deploy">deploy_rollback</button>
-    <button class="md-tab-btn" data-target="md-log">log_analyzer</button>
-    <button class="md-tab-btn" data-target="md-mysql">mysql_ops</button>
-    <button class="md-tab-btn" data-target="md-iis">iis_ops</button>
-    <button class="md-tab-btn" data-target="md-linux">linux_incident</button>
-    <button class="md-tab-btn" data-target="md-docker">docker_ops</button>
-    <button class="md-tab-btn" data-target="md-apache">apache_ops</button>
-  </div>
-
-  <!-- ssh_admin -->
-  <div class="md-block visible" id="md-ssh">
-    <button class="md-copy-btn" onclick="copyMd('md-ssh')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">ssh_admin</span>
-<span class="yaml-key">name:</span>     <span class="yaml-val">ssh_admin</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Administration Linux distante via SSH"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[linux, ssh, admin, infra]</span>
-<span class="yaml-key">slash_command:</span> <span class="yaml-val">/ssh</span>
-<span class="yaml-key">at_command:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You are an expert Linux administrator. Translate user requests
 into precise SSH commands and report results clearly.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- restart &lt;service&gt;  → systemctl restart &lt;service&gt;</span>
-<span class="md-cmd">- stop &lt;service&gt;     → systemctl stop &lt;service&gt;</span>
-<span class="md-cmd">- check &lt;service&gt;    → systemctl status &lt;service&gt; --no-pager</span>
-<span class="md-cmd">- logs &lt;service&gt;     → journalctl -u &lt;service&gt; -n 50 --no-pager</span>
-<span class="md-cmd">- disk               → df -h</span>
-<span class="md-cmd">- memory             → free -h</span>
-<span class="md-cmd">- processes          → ps aux --sort=-%mem | head -20</span>
-<span class="md-cmd">- ports              → ss -tlnp</span>
-<span class="md-cmd">- cleanup            → apt autoremove -y &amp;&amp; journalctl --vacuum-time=7d</span>
+<span class="sy-h">## Mapping</span>
+- restart &lt;service&gt;  → systemctl restart &lt;service&gt;
+- stop &lt;service&gt;     → systemctl stop &lt;service&gt;
+- check &lt;service&gt;    → systemctl status &lt;service&gt; --no-pager
+- logs &lt;service&gt;     → journalctl -u &lt;service&gt; -n 50 --no-pager
+- disk               → df -h
+- memory             → free -h
+- processes          → ps aux --sort=-%mem | head -20
+- ports              → ss -tlnp
+- cleanup            → apt autoremove -y &amp;&amp; journalctl --vacuum-time=7d
 
-<span class="md-heading">## First run on unknown host</span>
+<span class="sy-h">## First run on unknown host</span>
 Execute get_system_info to detect OS and store globally.
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + suggested fix</span></pre>
-  </div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + suggested fix</pre></div><div class="card md-panel" role="tabpanel" id="md-winrm" aria-labelledby="tab-md-winrm" hidden><button type="button" class="copy" data-copy="md-winrm">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> winrm_admin
+<span class="sy-k">name:</span>     winrm_admin
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [winrm]
+<span class="sy-k">description:</span> "Administration Windows distante via WinRM PowerShell"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [windows, winrm, powershell, admin]
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-  <!-- winrm_admin -->
-  <div class="md-block" id="md-winrm">
-    <button class="md-copy-btn" onclick="copyMd('md-winrm')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">winrm_admin</span>
-<span class="yaml-key">name:</span>     <span class="yaml-val">winrm_admin</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Administration Windows distante via WinRM PowerShell"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[windows, winrm, powershell, admin]</span>
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You are an expert Windows administrator. Translate requests
 into WinRM/PowerShell calls and report results clearly.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- restart &lt;service&gt;   → restart_service</span>
-<span class="md-cmd">- stop &lt;service&gt;      → stop_service</span>
-<span class="md-cmd">- check &lt;service&gt;     → check_service</span>
-<span class="md-cmd">- services stopped     → list_services status=Stopped</span>
-<span class="md-cmd">- all services         → list_services status=All</span>
-<span class="md-cmd">- error logs           → get_event_logs level=2 count=20</span>
-<span class="md-cmd">- processes            → get_running_processes top_n=15</span>
-<span class="md-cmd">- system info          → get_system_info</span>
-<span class="md-cmd">- cleanup              → exec_cleanup</span>
+<span class="sy-h">## Mapping</span>
+- restart &lt;service&gt;   → restart_service
+- stop &lt;service&gt;      → stop_service
+- check &lt;service&gt;     → check_service
+- services stopped     → list_services status=Stopped
+- all services         → list_services status=All
+- error logs           → get_event_logs level=2 count=20
+- processes            → get_running_processes top_n=15
+- system info          → get_system_info
+- cleanup              → exec_cleanup
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + PowerShell stderr + fix</span></pre>
-  </div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + PowerShell stderr + fix</pre></div><div class="card md-panel" role="tabpanel" id="md-k8s" aria-labelledby="tab-md-k8s" hidden><button type="button" class="copy" data-copy="md-k8s">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> k8s_ops
+<span class="sy-k">name:</span>     k8s_ops
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "Kubernetes node ops via kubectl over SSH"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [kubernetes, k8s, kubectl, ssh]
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-  <!-- k8s_ops -->
-  <div class="md-block" id="md-k8s">
-    <button class="md-copy-btn" onclick="copyMd('md-k8s')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">k8s_ops</span>
-<span class="yaml-key">name:</span>     <span class="yaml-val">k8s_ops</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Kubernetes node ops via kubectl over SSH"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[kubernetes, k8s, kubectl, ssh]</span>
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You are a Kubernetes operator. Execute kubectl commands via SSH
 and interpret cluster state for the user.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- pods               → kubectl get pods -A</span>
-<span class="md-cmd">- logs &lt;pod&gt;         → kubectl logs &lt;pod&gt; --tail=50</span>
-<span class="md-cmd">- describe &lt;pod&gt;     → kubectl describe pod &lt;pod&gt;</span>
-<span class="md-cmd">- nodes              → kubectl get nodes -o wide</span>
-<span class="md-cmd">- drain &lt;node&gt;       → kubectl drain &lt;node&gt; --ignore-daemonsets \
-                         --delete-emptydir-data</span>
-<span class="md-cmd">- events             → kubectl get events \
-                         --sort-by=.lastTimestamp -A | tail -20</span>
-<span class="md-cmd">- rollback &lt;deploy&gt;  → kubectl rollout undo deployment/&lt;deploy&gt;</span>
-<span class="md-cmd">- restart &lt;deploy&gt;   → kubectl rollout restart deployment/&lt;deploy&gt;</span>
+<span class="sy-h">## Mapping</span>
+- pods               → kubectl get pods -A
+- logs &lt;pod&gt;         → kubectl logs &lt;pod&gt; --tail=50
+- describe &lt;pod&gt;     → kubectl describe pod &lt;pod&gt;
+- nodes              → kubectl get nodes -o wide
+- drain &lt;node&gt;       → kubectl drain &lt;node&gt; --ignore-daemonsets \
+                         --delete-emptydir-data
+- events             → kubectl get events \
+                         --sort-by=.lastTimestamp -A | tail -20
+- rollback &lt;deploy&gt;  → kubectl rollout undo deployment/&lt;deploy&gt;
+- restart &lt;deploy&gt;   → kubectl rollout restart deployment/&lt;deploy&gt;
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span></pre>
-  </div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</pre></div><div class="card md-panel" role="tabpanel" id="md-postgres" aria-labelledby="tab-md-postgres" hidden><button type="button" class="copy" data-copy="md-postgres">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> postgres_ops
+<span class="sy-k">name:</span>     postgres_ops
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "PostgreSQL operations via psql over SSH"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [postgres, postgresql, db, sql, ssh]
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-  <!-- postgres_ops -->
-  <div class="md-block" id="md-postgres">
-    <button class="md-copy-btn" onclick="copyMd('md-postgres')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">postgres_ops</span>
-<span class="yaml-key">name:</span>     <span class="yaml-val">postgres_ops</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"PostgreSQL operations via psql over SSH"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[postgres, postgresql, db, sql, ssh]</span>
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You are a PostgreSQL DBA. Diagnose and operate PostgreSQL
 instances via psql commands executed over SSH.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- status       → systemctl status postgresql --no-pager</span>
-<span class="md-cmd">- restart      → systemctl restart postgresql</span>
-<span class="md-cmd">- connections  → psql -U postgres -c "SELECT count(*), state \
-                   FROM pg_stat_activity GROUP BY state"</span>
-<span class="md-cmd">- db sizes     → psql -U postgres -c "SELECT datname, \
+<span class="sy-h">## Mapping</span>
+- status       → systemctl status postgresql --no-pager
+- restart      → systemctl restart postgresql
+- connections  → psql -U postgres -c "SELECT count(*), state \
+                   FROM pg_stat_activity GROUP BY state"
+- db sizes     → psql -U postgres -c "SELECT datname, \
                    pg_size_pretty(pg_database_size(datname)) \
-                   FROM pg_database ORDER BY 2 DESC"</span>
-<span class="md-cmd">- locks        → psql -U postgres -c "SELECT pid, usename, \
+                   FROM pg_database ORDER BY 2 DESC"
+- locks        → psql -U postgres -c "SELECT pid, usename, \
                    state, wait_event_type, query \
                    FROM pg_stat_activity \
-                   WHERE wait_event_type='Lock'"</span>
-<span class="md-cmd">- slow queries → psql -U postgres -c "SELECT pid, \
+                   WHERE wait_event_type='Lock'"
+- slow queries → psql -U postgres -c "SELECT pid, \
                    now()-query_start AS duration, query \
                    FROM pg_stat_activity WHERE state='active' \
-                   ORDER BY duration DESC LIMIT 10"</span>
-<span class="md-cmd">- vacuum       → psql -U postgres -c "VACUUM ANALYZE"</span>
-<span class="md-cmd">- logs         → tail -n 100 /var/log/postgresql/postgresql-*.log</span>
-<span class="md-cmd">- disk         → df -h /var/lib/postgresql</span>
+                   ORDER BY duration DESC LIMIT 10"
+- vacuum       → psql -U postgres -c "VACUUM ANALYZE"
+- logs         → tail -n 100 /var/log/postgresql/postgresql-*.log
+- disk         → df -h /var/lib/postgresql
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + psql stderr + fix</span></pre>
-  </div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + psql stderr + fix</pre></div><div class="card md-panel" role="tabpanel" id="md-gitea" aria-labelledby="tab-md-gitea" hidden><button type="button" class="copy" data-copy="md-gitea">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> gitea_code_generator
+<span class="sy-k">type:</span>     skill
+<span class="sy-k">mcp_servers:</span> ["gitea", "linter"]
+<span class="sy-k">description:</span> "Generates code, lints, commits and opens PRs on
+  a self-hosted Gitea repository"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [code, git, gitea, codegen, ci, automation]
+<span class="sy-k">project_required:</span> false
+<span class="sy-s">---</span>
 
-  <!-- gitea_code_generator -->
-  <div class="md-block" id="md-gitea">
-    <button class="md-copy-btn" onclick="copyMd('md-gitea')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">gitea_code_generator</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">skill</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">["gitea", "linter"]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Generates code, lints, commits and opens PRs on
-  a self-hosted Gitea repository"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[code, git, gitea, codegen, ci, automation]</span>
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You are an expert code-generation agent. You work on a repository
 hosted on a self-hosted Gitea instance (GitHub v3-compatible API).
 
-<span class="md-heading">## Mandatory workflow</span>
-<span class="md-cmd">clone_repository → get_repo_tree → [get_file_content]
+<span class="sy-h">## Mandatory workflow</span>
+clone_repository → get_repo_tree → [get_file_content]
 → LLM generation → lint/format
-→ commit_and_push → [create_pull_request if auto_create_pr=true]</span>
+→ commit_and_push → [create_pull_request if auto_create_pr=true]
 
-<span class="md-heading">## Generation rules</span>
+<span class="sy-h">## Generation rules</span>
 - Respect existing code style (indent, naming, patterns)
 - Never overwrite an entire file to change a single function
 - Docstring required on all new public functions
-- Always work on <span class="yaml-val">target_branch</span>, never directly on main
+- Always work on target_branch, never directly on main
 
-<span class="md-heading">## Branching</span>
-- <span class="yaml-key">base_branch</span> — source branch (default: main)
-- <span class="yaml-key">target_branch</span> — AI feature branch (default: ai-feature)
+<span class="sy-h">## Branching</span>
+- base_branch — source branch (default: main)
+- target_branch — AI feature branch (default: ai-feature)
 - Create target branch via create_branch if it does not exist
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">{
+<span class="sy-h">## Response format</span>
+{
   "files_modified": ["path/to/file.py"],
   "commit_hash": "abc1234",
   "branch": "ai-feature",
   "pr_url": null,
   "summary": "Description of changes"
-}</span></pre>
-  </div>
+}</pre></div><div class="card md-panel" role="tabpanel" id="md-web" aria-labelledby="tab-md-web" hidden><button type="button" class="copy" data-copy="md-web">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> web_server_ops
+<span class="sy-k">name:</span>     web_server_ops
+<span class="sy-k">type:</span>     agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "Nginx/Apache web server operations over SSH"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [nginx, apache, web, ssh]
+<span class="sy-k">host_required:</span> true
+<span class="sy-k">memory_scope:</span> session+global
+<span class="sy-s">---</span>
 
-  <!-- web_server_ops -->
-  <div class="md-block" id="md-web">
-    <button class="md-copy-btn" onclick="copyMd('md-web')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">web_server_ops</span>
-<span class="yaml-key">name:</span>     <span class="yaml-val">web_server_ops</span>
-<span class="yaml-key">type:</span>     <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Nginx/Apache web server operations over SSH"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[nginx, apache, web, ssh]</span>
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span>
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 You manage Nginx and Apache web servers. Execute the correct
 command on the target host and interpret the output.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- reload nginx    → nginx -t &amp;&amp; systemctl reload nginx</span>
-<span class="md-cmd">- logs access     → tail -n 100 /var/log/nginx/access.log</span>
-<span class="md-cmd">- logs error      → tail -n 100 /var/log/nginx/error.log</span>
-<span class="md-cmd">- config nginx    → cat /etc/nginx/nginx.conf</span>
-<span class="md-cmd">- check sites     → ls /etc/nginx/sites-enabled/</span>
-<span class="md-cmd">- status          → systemctl status nginx --no-pager</span>
-<span class="md-cmd">- reload apache2  → systemctl reload apache2</span>
-<span class="md-cmd">- status apache2  → systemctl status apache2</span>
+<span class="sy-h">## Mapping</span>
+- reload nginx    → nginx -t &amp;&amp; systemctl reload nginx
+- logs access     → tail -n 100 /var/log/nginx/access.log
+- logs error      → tail -n 100 /var/log/nginx/error.log
+- config nginx    → cat /etc/nginx/nginx.conf
+- check sites     → ls /etc/nginx/sites-enabled/
+- status          → systemctl status nginx --no-pager
+- reload apache2  → systemctl reload apache2
+- status apache2  → systemctl status apache2
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span></pre>
-  </div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</pre></div><div class="card md-panel" role="tabpanel" id="md-windows-log" aria-labelledby="tab-md-windows-log" hidden><button type="button" class="copy" data-copy="md-windows-log">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> windows_log_analyzer
+<span class="sy-k">type:</span> agent
+<span class="sy-k">description:</span> "Analyse Windows Event Logs and application logs via WinRM — security events, application errors, service failures, IIS logs, custom log files"
+<span class="sy-k">mcp_servers:</span> [winrm]
+<span class="sy-k">tags:</span> [windows, logs, event-log, security, iis, ops, powershell, analysis]
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">project_required:</span> false
+<span class="sy-s">---</span>
 
-<!-- windows_log_analyzer -->
-<div class="md-block" id="md-windows-log">
-  <button class="md-copy-btn" onclick="copyMd('md-windows-log')">Copy</button>
-  <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">windows_log_analyzer</span>
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Analyse Windows Event Logs and application logs via WinRM — security events, application errors, service failures, IIS logs, custom log files"</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[windows, logs, event-log, security, iis, ops, powershell, analysis]</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
-Analyse and search Windows Event Logs and application log files via WinRM/PowerShell.<br/>
+<span class="sy-h">## Purpose</span>
+Analyse and search Windows Event Logs and application log files via WinRM/PowerShell.
 Query System, Application, and Security event logs for critical errors, service failures,
 and security anomalies (failed logins, account lockouts, privilege escalation). Parse IIS
 W3C logs for HTTP error patterns. Search custom application log files, detect recurring
 error signatures, and export findings for compliance or incident reporting.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host and log source from the request.
-2. Call <code>get_system_info</code> to confirm Windows version and available log paths.
+2. Call `get_system_info` to confirm Windows version and available log paths.
 3. Execute targeted Get‑WinEvent or Get‑Content PowerShell queries.
 4. Aggregate findings and return a structured log report.
 5. Optionally export findings as CSV or download via SFTP.
 
-<span class="md-heading">## Available MCP Tools (WinRM)</span>
+<span class="sy-h">## Available MCP Tools (WinRM)</span>
 
 | Method | Parameters | Description |
 |--------|-----------|-------------|
-| <code>exec_powershell</code> | <code>host, script</code> | Run Get‑WinEvent / Get‑Content scripts |
-| <code>get_event_logs</code> | <code>host, log_name, level, count</code> | Quick query Windows Event Log |
-| <code>get_system_info</code> | <code>host</code> | Confirm Windows version + log paths |
+| `exec_powershell` | `host, script` | Run Get‑WinEvent / Get‑Content scripts |
+| `get_event_logs` | `host, log_name, level, count` | Quick query Windows Event Log |
+| `get_system_info` | `host` | Confirm Windows version + log paths |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
 **Critical system errors (last 2 hours):**
-get_event_logs: host=<name> log_name=System level=1 count=30
+get_event_logs: host=&lt;name&gt; log_name=System level=1 count=30
 
 **Application errors with message detail:**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName Application -MaxEvents 50 | Where-Object { $_.Level -le 2 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | ConvertTo-Json -Compress "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName Application -MaxEvents 50 | Where-Object { $_.Level -le 2 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | ConvertTo-Json -Compress "
 
 **Failed login attempts (Security log):**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4625]]' -MaxEvents 20 | Select-Object TimeCreated, @{N='Account';E={$.Properties[5].Value}}, @{N='SourceIP';E={$.Properties[19].Value}} | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4625]]' -MaxEvents 20 | Select-Object TimeCreated, @{N='Account';E={$.Properties[5].Value}}, @{N='SourceIP';E={$.Properties[19].Value}} | ConvertTo-Json "
 
 **Account lockouts:**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4740]]' -MaxEvents 10 | Select-Object TimeCreated, @{N='LockedAccount';E={$_.Properties[0].Value}} | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName Security -FilterXPath '*[System[EventID=4740]]' -MaxEvents 10 | Select-Object TimeCreated, @{N='LockedAccount';E={$_.Properties[0].Value}} | ConvertTo-Json "
 
 **Service start/stop events:**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(7036, 7040) } | Select-Object -First 20 TimeCreated, Message | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(7036, 7040) } | Select-Object -First 20 TimeCreated, Message | ConvertTo-Json "
 
 **Crash / unexpected shutdown events:**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(1074, 6008, 41) } | Select-Object -First 10 TimeCreated, Id, Message | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName System | Where-Object { $_.Id -in @(1074, 6008, 41) } | Select-Object -First 10 TimeCreated, Id, Message | ConvertTo-Json "
 
 **IIS access log — top 5xx errors:**
-exec_powershell: host=<name> script=" Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { Select-String -Path $_.FullName -Pattern ' [5][0-9][0-9] ' } | Select-Object -Last 30 | Select-Object Line "
+exec_powershell: host=&lt;name&gt; script=" Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { Select-String -Path $_.FullName -Pattern ' [5][0-9][0-9] ' } | Select-Object -Last 30 | Select-Object Line "
 
 **IIS log — top 404 URLs:**
-exec_powershell: host=<name> script=" Get-Content (Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName) | Where-Object { $_ -match ' 404 ' } | ForEach-Object { ($_ -split ' ')[4] } | Group-Object | Sort-Object Count -Descending | Select-Object -First 10 Name, Count | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-Content (Get-ChildItem 'C:\inetpub\logs\LogFiles\W3SVC1' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName) | Where-Object { $_ -match ' 404 ' } | ForEach-Object { ($_ -split ' ')[4] } | Group-Object | Sort-Object Count -Descending | Select-Object -First 10 Name, Count | ConvertTo-Json "
 
 **Custom application log — search for errors:**
-exec_powershell: host=<name> script=" Select-String -Path 'C:\logs\myapp*.log' -Pattern 'ERROR|EXCEPTION|FATAL' | Select-Object -Last 50 | Select-Object Line, Filename, LineNumber | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Select-String -Path 'C:\logs\myapp*.log' -Pattern 'ERROR|EXCEPTION|FATAL' | Select-Object -Last 50 | Select-Object Line, Filename, LineNumber | ConvertTo-Json "
 
 **Export event log to CSV:**
-exec_powershell: host=<name> script=" Get-WinEvent -LogName Application -MaxEvents 200 | Where-Object { $_.Level -le 3 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | Export-Csv -Path 'C:\Temp\app_events.csv' -NoTypeInformation Write-Output 'Exported to C:\Temp\app_events.csv' "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -LogName Application -MaxEvents 200 | Where-Object { $_.Level -le 3 } | Select-Object TimeCreated, Id, LevelDisplayName, Message | Export-Csv -Path 'C:\Temp\app_events.csv' -NoTypeInformation Write-Output 'Exported to C:\Temp\app_events.csv' "
 **Event log sizes and retention:**
 
-exec_powershell: host=<name> script=" Get-WinEvent -ListLog System, Application, Security | Select-Object LogName, MaximumSizeInBytes, RecordCount, IsEnabled | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WinEvent -ListLog System, Application, Security | Select-Object LogName, MaximumSizeInBytes, RecordCount, IsEnabled | ConvertTo-Json "
 
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host**: name + Windows Server version
 - **Log sources**: queried logs + record count analysed
 - **Critical findings**: event IDs, timestamps, messages
@@ -1066,106 +311,94 @@ exec_powershell: host=<name> script=" Get-WinEvent -ListLog System, Application,
 - **Application errors**: top recurring error patterns
 - **IIS errors**: 4xx/5xx distribution, top failing URLs
 - **Actions taken**: PowerShell queries executed
-- **Recommendations**: log retention tuning, alerting rules, remediation steps</pre>
-</div>
+- **Recommendations**: log retention tuning, alerting rules, remediation steps</pre></div><div class="card md-panel" role="tabpanel" id="md-sql" aria-labelledby="tab-md-sql" hidden><button type="button" class="copy" data-copy="md-sql">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> sqlserver_ops 
+<span class="sy-k">name:</span> sqlserver_ops 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [winrm] 
+<span class="sy-k">description:</span> "Monitor and operate SQL Server via WinRM — service health, blocking queries, AG replication lag, job failures, index fragmentation, backup status" 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">tags:</span> [sqlserver, mssql, database, windows, ops, replication, ag, powershell] 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-s">---</span>
 
-<!-- sqlserver_ops --> 
-<div class="md-block" id="md-sql">
-  <button class="md-copy-btn" onclick="copyMd('md-sql')">Copy</button>
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">sqlserver_ops</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">sqlserver_ops</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Monitor and operate SQL Server via WinRM — service health, blocking queries, AG replication lag, job failures, index fragmentation, backup status"</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[sqlserver, mssql, database, windows, ops, replication, ag, powershell]</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 Monitor and operate Microsoft SQL Server via WinRM/PowerShell.  
 Check service health, blocking queries, Always On AG status, failed jobs, index fragmentation, backup recency and database file usage.
 
-<span class="md-heading">## Mapping</span>
-<span class="md-cmd">- check_service MSSQLSERVER → check_service: host=<name> service=MSSQLSERVER</span>
-<span class="md-cmd">- check_service SQLSERVERAGENT → check_service: host=<name> service=SQLSERVERAGENT</span>
-<span class="md-cmd">- active sessions → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"SELECT login_name, count(*) AS sessions FROM sys.dm_exec_sessions GROUP BY login_name ORDER BY sessions DESC\" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- blocking queries → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+<span class="sy-h">## Mapping</span>
+- check_service MSSQLSERVER → check_service: host=&lt;name&gt; service=MSSQLSERVER
+- check_service SQLSERVERAGENT → check_service: host=&lt;name&gt; service=SQLSERVERAGENT
+- active sessions → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"SELECT login_name, count(*) AS sessions FROM sys.dm_exec_sessions GROUP BY login_name ORDER BY sessions DESC\" -ServerInstance localhost | ConvertTo‑Json"
+- blocking queries → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT blocking_session_id, session_id, wait_type, wait_time/1000 AS wait_sec,
   LEFT(st.text, 200) AS query
 FROM sys.dm_exec_requests r
 CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) st
-WHERE blocking_session_id > 0" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- AG sync status → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+WHERE blocking_session_id &gt; 0" -ServerInstance localhost | ConvertTo‑Json"
+- AG sync status → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT ag.name AS ag_name, ar.replica_server_name, drs.synchronization_state_desc,
   drs.synchronization_health_desc, drs.log_send_queue_size, drs.redo_queue_size
 FROM sys.dm_hadr_database_replica_states drs
 JOIN sys.availability_replicas ar ON drs.replica_id = ar.replica_id
-JOIN sys.availability_groups ag ON ar.group_id = ag.group_id" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- failed jobs (last 24h) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+JOIN sys.availability_groups ag ON ar.group_id = ag.group_id" -ServerInstance localhost | ConvertTo‑Json"
+- failed jobs (last 24h) → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT j.name, h.run_date, h.run_time, h.message
 FROM msdb.dbo.sysjobhistory h
 JOIN msdb.dbo.sysjobs j ON h.job_id = j.job_id
 WHERE h.run_status = 0
-  AND msdb.dbo.agent_datetime(h.run_date, h.run_time) > DATEADD(hour, -24, GETDATE())
-ORDER BY h.run_date DESC, h.run_time DESC" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- slow queries (Query Store) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+  AND msdb.dbo.agent_datetime(h.run_date, h.run_time) &gt; DATEADD(hour, -24, GETDATE())
+ORDER BY h.run_date DESC, h.run_time DESC" -ServerInstance localhost | ConvertTo‑Json"
+- slow queries (Query Store) → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT TOP 10 SUBSTRING(qt.query_sql_text, 1, 200) AS query,
   rs.avg_duration/1000 AS avg_ms, rs.count_executions
 FROM sys.query_store_query_text qt
 JOIN sys.query_store_query q ON qt.query_text_id = q.query_text_id
 JOIN sys.query_store_plan p ON q.query_id = p.query_id
 JOIN sys.query_store_runtime_stats rs ON p.plan_id = rs.plan_id
-ORDER BY rs.avg_duration DESC" -ServerInstance localhost -Database <dbname> | ConvertTo‑Json"</span>
-<span class="md-cmd">- index fragmentation (top 10) → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+ORDER BY rs.avg_duration DESC" -ServerInstance localhost -Database &lt;dbname&gt; | ConvertTo‑Json"
+- index fragmentation (top 10) → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT TOP 10 OBJECT_NAME(i.object_id) AS table_name, i.name AS index_name,
   s.avg_fragmentation_in_percent, s.page_count
-FROM sys.dm_db_index_physical_stats(DB_ID('<dbname>'), NULL, NULL, NULL, 'SAMPLED') s
+FROM sys.dm_db_index_physical_stats(DB_ID('&lt;dbname&gt;'), NULL, NULL, NULL, 'SAMPLED') s
 JOIN sys.indexes i ON s.object_id = i.object_id AND s.index_id = i.index_id
-WHERE s.avg_fragmentation_in_percent > 30 AND s.page_count > 1000
-ORDER BY s.avg_fragmentation_in_percent DESC" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- last backup per DB → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+WHERE s.avg_fragmentation_in_percent &gt; 30 AND s.page_count &gt; 1000
+ORDER BY s.avg_fragmentation_in_percent DESC" -ServerInstance localhost | ConvertTo‑Json"
+- last backup per DB → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT database_name, backup_type = CASE type WHEN 'D' THEN 'Full' WHEN 'L' THEN 'Log' WHEN 'I' THEN 'Diff' END,
   MAX(backup_finish_date) AS last_backup
 FROM msdb.dbo.backupset
 GROUP BY database_name, type
-ORDER BY database_name, type" -ServerInstance localhost | ConvertTo‑Json"</span>
-<span class="md-cmd">- file space usage → exec_powershell: host=<name> script="Invoke‑Sqlcmd -Query \"
+ORDER BY database_name, type" -ServerInstance localhost | ConvertTo‑Json"
+- file space usage → exec_powershell: host=&lt;name&gt; script="Invoke‑Sqlcmd -Query \"
 SELECT name, type_desc,
   ROUND(size*8.0/1024, 2) AS size_mb,
   ROUND(FILEPROPERTY(name,'SpaceUsed')*8.0/1024, 2) AS used_mb,
   physical_name
-FROM sys.database_files" -ServerInstance localhost -Database <dbname> | ConvertTo‑Json"</span>
+FROM sys.database_files" -ServerInstance localhost -Database &lt;dbname&gt; | ConvertTo‑Json"
 
-<span class="md-heading">## Response format</span>
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix suggestion</span></pre>
-</div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix suggestion</pre></div><div class="card md-panel" role="tabpanel" id="md-deploy" aria-labelledby="tab-md-deploy" hidden><button type="button" class="copy" data-copy="md-deploy">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> deploy_rollback 
+<span class="sy-k">name:</span> Deploy &amp; Rollback 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [ssh] 
+<span class="sy-k">description:</span> "Zero‑downtime deploy and rollback on Linux via SSH — git pull, build, service restart, health check, automatic rollback on failure" 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">tags:</span> [deploy, rollback, git, ci, linux, ops, devops] 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-k">host_required:</span> true 
+<span class="sy-k">memory_scope:</span> session+global 
+<span class="sy-s">---</span>
 
-<!-- deploy_rollback -->
-<div class="md-block" id="md-deploy">
-  <button class="md-copy-btn" onclick="copyMd('md-deploy')">Copy</button>
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">deploy_rollback</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">Deploy & Rollback</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Zero‑downtime deploy and rollback on Linux via SSH — git pull, build, service restart, health check, automatic rollback on failure"</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[deploy, rollback, git, ci, linux, ops, devops]</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Execute and manage application deployments on Linux servers via SSH. Pull the latest code
 from git, run build steps, restart services with zero downtime, verify health checks after
 deployment, and automatically trigger rollback to the previous version if the health check
 fails. Works for any stack — Node.js, Python, Java, Go, PHP, static sites — on bare metal,
 VM, or Docker‑based deployments.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host and application path from the request  
 2. Capture the current git commit hash as rollback reference  
 3. Pull latest code from the configured branch  
@@ -1174,7 +407,7 @@ VM, or Docker‑based deployments.
 6. Run health check — rollback automatically if it fails  
 7. Return a deployment report with commit diff, duration, and final status
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 
 | Method | Parameters | Description |
 |--------|-----------|-------------|
@@ -1185,14 +418,14 @@ VM, or Docker‑based deployments.
 | `get_system_info` | `host` | Confirm OS and available runtimes |
 | `upload_file` | `host`, `local_path`, `remote_path` | Push .env or config overrides |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
 **Capture rollback reference before deploying:**
-exec_command: host= cmd="cd /opt/myapp && git rev-parse HEAD"
+exec_command: host= cmd="cd /opt/myapp &amp;&amp; git rev-parse HEAD"
 
 **Full deploy pipeline — Node.js:**
 exec_multi: host= commands=[
-"cd /opt/myapp && git fetch origin",
+"cd /opt/myapp &amp;&amp; git fetch origin",
 "git reset --hard origin/main",
 "npm ci --production",
 "systemctl reload myapp || systemctl restart myapp"
@@ -1200,41 +433,41 @@ exec_multi: host= commands=[
 
 **Full deploy pipeline — Python (gunicorn):**
 exec_multi: host= commands=[
-"cd /opt/myapp && git pull origin main",
-"source venv/bin/activate && pip install -r requirements.txt",
+"cd /opt/myapp &amp;&amp; git pull origin main",
+"source venv/bin/activate &amp;&amp; pip install -r requirements.txt",
 "python manage.py migrate --noinput",
 "systemctl reload gunicorn"
 ]
 
 **Full deploy pipeline — Docker Compose:**
 exec_multi: host= commands=[
-"cd /opt/myapp && git pull origin main",
+"cd /opt/myapp &amp;&amp; git pull origin main",
 "docker compose pull",
 "docker compose up -d --remove-orphans --no-build"
 ]
 
 **Full deploy pipeline — Go binary:**
 exec_multi: host= commands=[
-"cd /opt/myapp && git pull origin main",
+"cd /opt/myapp &amp;&amp; git pull origin main",
 "go build -o bin/app ./cmd/server",
 "systemctl restart myapp"
 ]
 
 **Health check after deploy:**
-exec_command: host= cmd="curl -sf http://localhost:8080/health && echo OK || echo FAIL"
+exec_command: host= cmd="curl -sf http://localhost:8080/health &amp;&amp; echo OK || echo FAIL"
 
 **Advanced health check with retry (3 attempts, 5s apart):**
-exec_command: host= cmd="for i in 1 2 3; do curl -sf http://localhost:8080/health && echo OK && exit 0; sleep 5; done; echo FAIL; exit 1"
+exec_command: host= cmd="for i in 1 2 3; do curl -sf http://localhost:8080/health &amp;&amp; echo OK &amp;&amp; exit 0; sleep 5; done; echo FAIL; exit 1"
 
 **Automatic rollback on failure:**
 exec_multi: host= commands=[
-"cd /opt/myapp && git reset --hard ",
+"cd /opt/myapp &amp;&amp; git reset --hard ",
 "npm ci --production",
 "systemctl restart myapp"
 ]
 
 **Check deploy diff (what changed):**
-exec_command: host= cmd="cd /opt/myapp && git log --oneline ..HEAD"
+exec_command: host= cmd="cd /opt/myapp &amp;&amp; git log --oneline ..HEAD"
 
 **Check service logs post‑deploy:**
 exec_command: host= cmd="journalctl -u myapp -n 50 --no-pager"
@@ -1245,13 +478,13 @@ exec_multi: host= commands=[
 "systemctl reload nginx"
 ]
 
-<span class="md-heading">## Rollback Decision Logic</span>
+<span class="sy-h">## Rollback Decision Logic</span>
 1. Run health check immediately after service restart  
 2. If health check fails after 3 retries → execute rollback automatically  
 3. If rollback also fails → alert and leave service in maintenance mode  
 4. Always report: previous commit, deployed commit, rollback commit, total duration
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host**: name + app path  
 - **Deploy status**: SUCCESS / FAILED / ROLLED BACK  
 - **Commit deployed**: hash + message + author  
@@ -1261,39 +494,32 @@ exec_multi: host= commands=[
 - **Actions taken**: each pipeline step with exit code  
 - **Recommendations**: DB migration warnings, cache flush, CDN invalidation
 
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span>
-  </pre>
-</div>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix
+  </pre></div><div class="card md-panel" role="tabpanel" id="md-log" aria-labelledby="tab-md-log" hidden><button type="button" class="copy" data-copy="md-log">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> log_analyzer
+<span class="sy-k">name:</span> log_analyzer
+<span class="sy-k">type:</span> agent
+<span class="sy-k">mcp_servers:</span> [ssh]
+<span class="sy-k">description:</span> "Analyse, tail, search, rotate and archive any log file on Linux hosts via SSH — application logs, system logs, access logs"
+<span class="sy-k">tags:</span> [logs, linux, ops, grep, analysis, rotation, sftp]
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">project_required:</span> false
+<span class="sy-s">---</span>
 
-<!-- log_analyzer -->
-<section>
-<div class="md-block" id="md-log">
-  <button class="md-copy-btn" onclick="copyMd('md-log')">Copy</button>
-  <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">log_analyzer</span>
-<span class="yaml-key">name:</span> <span class="yaml-val">log_analyzer</span>
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Analyse, tail, search, rotate and archive any log file on Linux hosts via SSH — application logs, system logs, access logs"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[logs, linux, ops, grep, analysis, rotation, sftp]</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Analyse any log file on Linux servers via SSH. Tail real‑time log streams, search for
 error patterns with grep/awk, extract metrics from access logs (top IPs, slowest endpoints,
 error rate), detect anomalies or recurring patterns, force log rotation, archive old logs,
 and download log files locally via SFTP for deeper offline analysis.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host and log file path from the request  
 2. Call `get_system_info` if the log path is unknown (detect installed services)  
 3. Run targeted grep/awk/tail commands for the requested analysis  
 4. Aggregate findings and return a structured log report  
 5. Optionally download the log file via SFTP for local inspection
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 
 | Method          | Parameters                          | Description                                 |
 |-----------------|-------------------------------------|---------------------------------------------|
@@ -1303,7 +529,7 @@ and download log files locally via SFTP for deeper offline analysis.
 | `download_file` | `host`, `remote_path`, `local_path` | Download log file via SFTP                  |
 | `upload_file`   | `host`, `local_path`, `remote_path` | Upload custom logrotate config              |
 
-<span class="md-heading">## Common Log Paths Reference</span>
+<span class="sy-h">## Common Log Paths Reference</span>
 
 | Service | Log Path |
 |---------|----------|
@@ -1315,88 +541,81 @@ and download log files locally via SFTP for deeper offline analysis.
 | MySQL   | `/var/log/mysql/error.log`, `/var/log/mysql/mysql-slow.log` |
 | PostgreSQL | `/var/log/postgresql/postgresql-*.log` |
 | Systemd | `journalctl` |
-| App (custom) | `/opt/<app>/logs/*.log`, `/var/log/<app>/` |
+| App (custom) | `/opt/&lt;app&gt;/logs/*.log`, `/var/log/&lt;app&gt;/` |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
 **Tail last N lines:**
-exec_command: host=<name> cmd="tail -n 200 /path/to/app.log"
+exec_command: host=&lt;name&gt; cmd="tail -n 200 /path/to/app.log"
 
 **Search for errors (case‑insensitive):**
-exec_command: host=<name> cmd="grep -i 'error|exception|fatal|critical' /path/to/app.log | tail -50"
+exec_command: host=&lt;name&gt; cmd="grep -i 'error|exception|fatal|critical' /path/to/app.log | tail -50"
 
 **Count error occurrences by type:**
-exec_command: host=<name> cmd="grep -oP '(ERROR|WARN|FATAL|CRITICAL)' /path/to/app.log | sort | uniq -c | sort -rn"
+exec_command: host=&lt;name&gt; cmd="grep -oP '(ERROR|WARN|FATAL|CRITICAL)' /path/to/app.log | sort | uniq -c | sort -rn"
 
 **Extract errors from a time window:**
-exec_command: host=<name> cmd="awk '/2025-05-31 14:/{flag=1} flag && /ERROR/' /path/to/app.log | head -50"
+exec_command: host=&lt;name&gt; cmd="awk '/2025-05-31 14:/{flag=1} flag &amp;&amp; /ERROR/' /path/to/app.log | head -50"
 
 **Top IPs in Nginx/Apache access log:**
-exec_command: host=<name> cmd="awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head -15"
+exec_command: host=&lt;name&gt; cmd="awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -rn | head -15"
 
 **HTTP status code distribution:**
-exec_command: host=<name> cmd="awk '{print $9}' /var/log/nginx/access.log | sort | uniq -c | sort -rn"
+exec_command: host=&lt;name&gt; cmd="awk '{print $9}' /var/log/nginx/access.log | sort | uniq -c | sort -rn"
 
 **Slowest requests (if response time is logged):**
-exec_command: host=<name> cmd="awk '{print $NF, $7}' /var/log/nginx/access.log | sort -rn | head -15"
+exec_command: host=&lt;name&gt; cmd="awk '{print $NF, $7}' /var/log/nginx/access.log | sort -rn | head -15"
 
 **Systemd journal — filter by unit and time:**
-exec_command: host=<name> cmd="journalctl -u <service> --since '1 hour ago' --no-pager | tail -100"
+exec_command: host=&lt;name&gt; cmd="journalctl -u &lt;service&gt; --since '1 hour ago' --no-pager | tail -100"
 
 **Force log rotation:**
-exec_command: host=<name> cmd="logrotate -f /etc/logrotate.d/<service>"
+exec_command: host=&lt;name&gt; cmd="logrotate -f /etc/logrotate.d/&lt;service&gt;"
 
 **Check logrotate status:**
-exec_command: host=<name> cmd="cat /var/lib/logrotate/status | grep <service>"
+exec_command: host=&lt;name&gt; cmd="cat /var/lib/logrotate/status | grep &lt;service&gt;"
 
 **Archive old logs (compress + move):**
-exec_multi: host=<name> commands=[ "gzip /var/log/myapp/app.log.1", "mv /var/log/myapp/app.log.1.gz /var/backups/logs/" ]
+exec_multi: host=&lt;name&gt; commands=[ "gzip /var/log/myapp/app.log.1", "mv /var/log/myapp/app.log.1.gz /var/backups/logs/" ]
 
 **Download log file locally for analysis:**
-download_file: host=<name> remote_path=/var/log/nginx/access.log local_path=/tmp/access.log
+download_file: host=&lt;name&gt; remote_path=/var/log/nginx/access.log local_path=/tmp/access.log
 
 **Log file sizes:**
-exec_command: host=<name> cmd="du -sh /var/log// 2>/dev/null | sort -rh | head -15"
+exec_command: host=&lt;name&gt; cmd="du -sh /var/log// 2&gt;/dev/null | sort -rh | head -15"
 
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host** – name + log file path + file size  
 - **Time window** – start/end of analysed period  
 - **Error summary** – count by type/level  
 - **Top patterns** – most frequent error messages  
 - **Anomalies** – spikes, new error types, auth failures  
 - **Actions taken** – rotation, archival, download  
-- **Recommendations** – log level tuning, rotation policy, alerting rules
-</pre>
-</div>
+- **Recommendations** – log level tuning, rotation policy, alerting rules</pre></div><div class="card md-panel" role="tabpanel" id="md-mysql" aria-labelledby="tab-md-mysql" hidden><button type="button" class="copy" data-copy="md-mysql">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> mysql_ops 
+<span class="sy-k">name:</span> MySQL / MariaDB Ops 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [ssh] 
+<span class="sy-k">description:</span> "Monitor and operate MySQL/MariaDB via SSH – processlist, replica status, slow log analysis, flush, table checks, backup verification" 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">tags:</span> [mysql, mariadb, database, ops, replication, sql] 
+<span class="sy-k">host_required:</span> true 
+<span class="sy-k">memory_scope:</span> session+global 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-s">---</span>
 
-<!-- mysql_ops -->
-<div class="md-block" id="md-mysql">
-  <button class="md-copy-btn" onclick="copyMd('md-mysql')">Copy</button>
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">mysql_ops</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">MySQL / MariaDB Ops</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Monitor and operate MySQL/MariaDB via SSH – processlist, replica status, slow log analysis, flush, table checks, backup verification"</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[mysql, mariadb, database, ops, replication, sql]</span> 
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Monitor and operate MySQL/MariaDB instances via SSH. Inspect the processlist for long‑running queries, check replication health and lag, analyse the slow query log, flush tables/logs, verify InnoDB buffer pool usage, manage user connections, and confirm backup recency.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1️⃣ Identify target host from request  
 2️⃣ Call `get_system_info` to confirm MySQL/MariaDB version  
 3️⃣ Execute mysql CLI or mysqladmin commands via SSH  
-4️⃣ Parse output & return a structured health report  
+4️⃣ Parse output &amp; return a structured health report  
 5️⃣ Suggest or apply corrective actions (never DROP without explicit confirmation)
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 
 | Method | Parameters | Description |
 |--------|-----------|-------------|
@@ -1404,53 +623,53 @@ Monitor and operate MySQL/MariaDB instances via SSH. Inspect the processlist for
 | `exec_multi` | `host`, `commands[]` | Run multiple commands sequentially |
 | `check_service` | `host`, `service` | Check mysql/mariadb systemctl status |
 | `restart_service` | `host`, `service` | Restart MySQL service (use with caution) |
-| `get_system_info` | `host` | Confirm OS & MySQL version |
+| `get_system_info` | `host` | Confirm OS &amp; MySQL version |
 | `download_file` | `host`, `remote_path`, `local_path` | Retrieve slow query logs or dumps |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
-**Service status & uptime**
-exec_command: host=<name> cmd="systemctl status mysql --no-pager" exec_command: host=<name> cmd="mysqladmin -u root status"
+**Service status &amp; uptime**
+exec_command: host=&lt;name&gt; cmd="systemctl status mysql --no-pager" exec_command: host=&lt;name&gt; cmd="mysqladmin -u root status"
 
 **Full processlist (all connections)**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW FULL PROCESSLIST\G' 2>/dev/null | head -100"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW FULL PROCESSLIST\G' 2&gt;/dev/null | head -100"
 
 **Kill a long‑running query**
-exec_command: host=<name> cmd="mysql -u root -e 'KILL QUERY <thread_id>;'"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'KILL QUERY &lt;thread_id&gt;;'"
 
 **Replica status**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW REPLICA STATUS\G'"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW REPLICA STATUS\G'"
 
 **Check replication lag (Seconds_Behind_Source)**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW REPLICA STATUS\G' | grep Seconds_Behind"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW REPLICA STATUS\G' | grep Seconds_Behind"
 
 **Enable / inspect slow query log**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW VARIABLES LIKE "%slow%";'" exec_command: host=<name> cmd="tail -n 100 /var/log/mysql/mysql-slow.log"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW VARIABLES LIKE "%slow%";'" exec_command: host=&lt;name&gt; cmd="tail -n 100 /var/log/mysql/mysql-slow.log"
 
 **Top slow queries summary (mysqldumpslow)**
-exec_command: host=<name> cmd="mysqldumpslow -s t -t 10 /var/log/mysql/mysql-slow.log"
+exec_command: host=&lt;name&gt; cmd="mysqldumpslow -s t -t 10 /var/log/mysql/mysql-slow.log"
 
 **InnoDB buffer pool usage**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW STATUS LIKE "Innodb_buffer_pool%";'"
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW STATUS LIKE "Innodb_buffer_pool%";'"
 
 **Table sizes (top 10)**
-exec_command: host=<name> cmd="mysql -u root information_schema -e 'SELECT table_schema, table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS size_mb FROM tables ORDER BY size_mb DESC LIMIT 10;'"
+exec_command: host=&lt;name&gt; cmd="mysql -u root information_schema -e 'SELECT table_schema, table_name, ROUND(((data_length + index_length) / 1024 / 1024), 2) AS size_mb FROM tables ORDER BY size_mb DESC LIMIT 10;'"
 
-**Flush slow logs & binary logs**
-exec_multi: host=<name> commands=[ "mysql -u root -e 'FLUSH SLOW LOGS;'", "mysql -u root -e 'FLUSH BINARY LOGS;'" ]
+**Flush slow logs &amp; binary logs**
+exec_multi: host=&lt;name&gt; commands=[ "mysql -u root -e 'FLUSH SLOW LOGS;'", "mysql -u root -e 'FLUSH BINARY LOGS;'" ]
 
-**Check open tables & connections**
-exec_command: host=<name> cmd="mysql -u root -e 'SHOW STATUS LIKE "Open_tables"; SHOW STATUS LIKE "Threads_connected";'"
+**Check open tables &amp; connections**
+exec_command: host=&lt;name&gt; cmd="mysql -u root -e 'SHOW STATUS LIKE "Open_tables"; SHOW STATUS LIKE "Threads_connected";'"
 
 **Verify last backup (mysqldump cron output)**
-exec_command: host=<name> cmd="ls -lht /var/backups/mysql/ | head -5"
+exec_command: host=&lt;name&gt; cmd="ls -lht /var/backups/mysql/ | head -5"
 
-<span class="md-heading">## Safety Rules</span>
+<span class="sy-h">## Safety Rules</span>
 - Never execute `DROP DATABASE`, `DROP TABLE` or `DELETE` without explicit user confirmation.  
 - Always confirm the target schema before any write operation.  
 - For `FLUSH TABLES WITH READ LOCK`, warn about global lock impact.
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host**: name + MySQL/MariaDB version  
 - **Status**: OK / WARNING / CRITICAL  
 - **Service**: running state + thread count + uptime  
@@ -1460,118 +679,105 @@ exec_command: host=<name> cmd="ls -lht /var/backups/mysql/ | head -5"
 - **Actions taken**: SQL commands executed with results  
 - **Recommendations**: index optimisation, buffer pool sizing, replica catch‑up steps
 
-<span class="md-icon-row">✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</span>
-  </pre>
-</div>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix
+  </pre></div><div class="card md-panel" role="tabpanel" id="md-iis" aria-labelledby="tab-md-iis" hidden><button type="button" class="copy" data-copy="md-iis">Copy</button><pre class="code"><span class="sy-s">---</span>
+<span class="sy-k">skill_id:</span> iis_ops
+<span class="sy-k">name:</span> iis_ops
+<span class="sy-k">type:</span> agent
+<span class="sy-k">mcp_servers:</span> [winrm]
+<span class="sy-k">description:</span> "Manage IIS web server via WinRM — site and app pool lifecycle, config validation, SSL bindings, request logs analysis, failed request tracing"
+<span class="sy-k">version:</span> "1.0"
+<span class="sy-k">tags:</span> [iis, windows, web, ops, dotnet, ssl, powershell]
+<span class="sy-k">project_required:</span> false
+<span class="sy-s">---</span>
 
-<!-- iis_ops -->
-<div class="md-block" id="md-iis">
-    <button class="md-copy-btn" onclick="copyMd('md-iis')">Copy</button>
-    <pre><span class="yaml-key">---</span>
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">iis_ops</span>
-<span class="yaml-key">name:</span> <span class="yaml-val">iis_ops</span>
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span>
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[winrm]</span>
-<span class="yaml-key">description:</span> <span class="yaml-str">"Manage IIS web server via WinRM — site and app pool lifecycle, config validation, SSL bindings, request logs analysis, failed request tracing"</span>
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span>
-<span class="yaml-key">tags:</span> <span class="yaml-val">[iis, windows, web, ops, dotnet, ssl, powershell]</span>
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span>
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Operate IIS (Internet Information Services) via WinRM/PowerShell. Start, stop and recycle
 application pools, manage site bindings and SSL certificates, analyse IIS access logs for
 error rates and slow requests, enable Failed Request Tracing (FREB), validate site
 configurations, and deploy new application versions with zero downtime using
 web app warm‑up and graceful recycling.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host from the request  
-2. Call <code>get_system_info</code> to confirm Windows Server version and IIS version  
+2. Call `get_system_info` to confirm Windows Server version and IIS version  
 3. Execute PowerShell / WebAdministration module commands  
 4. Parse output and return a structured report  
 5. Apply fixes or suggest corrective actions
 
-<span class="md-heading">## Available MCP Tools (WinRM)</span>
+<span class="sy-h">## Available MCP Tools (WinRM)</span>
 
 | Method            | Parameters                               | Description                            |
 |-------------------|------------------------------------------|----------------------------------------|
-| <code>exec_powershell</code>   | `host`, `script`                           | Run IIS/WebAdministration PowerShell  |
-| <code>check_service</code>     | `host`, `service`                          | Check W3SVC (IIS) service status       |
-| <code>restart_service</code>   | `host`, `service`                          | Restart IIS service                    |
-| <code>get_system_info</code>   | `host`                                     | Confirm Windows/IIS version            |
-| <code>get_event_logs</code>    | `host`, `log_name`, `level`, `count`        | IIS event log entries                  |
+| `exec_powershell`   | `host`, `script`                           | Run IIS/WebAdministration PowerShell  |
+| `check_service`     | `host`, `service`                          | Check W3SVC (IIS) service status       |
+| `restart_service`   | `host`, `service`                          | Restart IIS service                    |
+| `get_system_info`   | `host`                                     | Confirm Windows/IIS version            |
+| `get_event_logs`    | `host`, `log_name`, `level`, `count`        | IIS event log entries                  |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
 **List all IIS sites and their state:**
-exec_powershell: host=<name> script=" Import-Module WebAdministration Get-Website | Select Name, State, PhysicalPath, @{N='Bindings';E={($.Bindings.Collection | ForEach-Object {$.bindingInformation}) -join ', '}} | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Import-Module WebAdministration Get-Website | Select Name, State, PhysicalPath, @{N='Bindings';E={($.Bindings.Collection | ForEach-Object {$.bindingInformation}) -join ', '}} | ConvertTo-Json "
 
 **List app pools and their state:**
-exec_powershell: host=<name> script=" Get-WebConfiguration system.applicationHost/applicationPools/add | Select Name, State, managedRuntimeVersion, processModel.userName | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-WebConfiguration system.applicationHost/applicationPools/add | Select Name, State, managedRuntimeVersion, processModel.userName | ConvertTo-Json "
 
 **Recycle an app pool:**
-exec_powershell: host=<name> script=" Restart-WebAppPool -Name 'MyAppPool' Get-WebAppPoolState -Name 'MyAppPool' | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Restart-WebAppPool -Name 'MyAppPool' Get-WebAppPoolState -Name 'MyAppPool' | ConvertTo-Json "
 
 **Stop / Start a site:**
-exec_powershell: host=<name> script="Stop-WebSite -Name 'MySite'" exec_powershell: host=<name> script="Start-WebSite -Name 'MySite'"
+exec_powershell: host=&lt;name&gt; script="Stop-WebSite -Name 'MySite'" exec_powershell: host=&lt;name&gt; script="Start-WebSite -Name 'MySite'"
 
 **Check SSL certificate bindings:**
-exec_powershell: host=<name> script=" Get-ChildItem IIS:SSLBindings | Select Port, Host, @{N='Expiry';E={$_.Certificate.NotAfter}} | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Get-ChildItem IIS:SSLBindings | Select Port, Host, @{N='Expiry';E={$_.Certificate.NotAfter}} | ConvertTo-Json "
 
 **Analyse IIS access log — top 404s:**
-exec_powershell: host=<name> script=" Get-Content 'C:\inetpub\logs\LogFiles\W3SVC1\u_ex*.log' | Where-Object {$_ -match ' 404 '} | Select-Object -Last 50 "
+exec_powershell: host=&lt;name&gt; script=" Get-Content 'C:\inetpub\logs\LogFiles\W3SVC1\u_ex*.log' | Where-Object {$_ -match ' 404 '} | Select-Object -Last 50 "
 
 **Detect 500 errors in IIS logs:**
-exec_powershell: host=<name> script=" Select-String -Path 'C:\inetpub\logs\LogFiles\W3SVC1*.log' -Pattern ' 500 ' | Select-Object -Last 30 "
+exec_powershell: host=&lt;name&gt; script=" Select-String -Path 'C:\inetpub\logs\LogFiles\W3SVC1*.log' -Pattern ' 500 ' | Select-Object -Last 30 "
 
 **Enable Failed Request Tracing (FREB):**
-exec_powershell: host=<name> script=" Enable-WebRequestTracing -Name 'MySite' -StatusCodes '500' "
+exec_powershell: host=&lt;name&gt; script=" Enable-WebRequestTracing -Name 'MySite' -StatusCodes '500' "
 
 **Deploy new app version (stop → copy → start):**
-exec_powershell: host=<name> script=" Stop-WebSite -Name 'MySite' Copy-Item C:\deploy\myapp* C:\inetpub\wwwroot\myapp\ -Recurse -Force Start-WebSite -Name 'MySite' Get-WebSiteState -Name 'MySite' | ConvertTo-Json "
+exec_powershell: host=&lt;name&gt; script=" Stop-WebSite -Name 'MySite' Copy-Item C:\deploy\myapp* C:\inetpub\wwwroot\myapp\ -Recurse -Force Start-WebSite -Name 'MySite' Get-WebSiteState -Name 'MySite' | ConvertTo-Json "
 
 **IIS worker process memory usage:**
-exec_powershell: host=<name> script=" Get-Process w3wp | Select Id, Name, @{N='Memory_MB';E={[math]::Round($_.WorkingSet64/1MB,1)}} | ConvertTo-Json "
-<span class="md-heading">## Output Format</span>
+exec_powershell: host=&lt;name&gt; script=" Get-Process w3wp | Select Id, Name, @{N='Memory_MB';E={[math]::Round($_.WorkingSet64/1MB,1)}} | ConvertTo-Json "
+<span class="sy-h">## Output Format</span>
 - **Host**: name + Windows Server version + IIS version  
 - **Status**: OK / WARNING / CRITICAL  
 - **Sites**: name, state, bindings, app pool  
 - **App Pools**: name, state, runtime, worker PIDs  
 - **Log analysis**: top 5xx errors, top 404 paths, slow requests  
 - **Actions taken**: PowerShell commands with results  
-- **Recommendations**: pool recycling schedule, SSL renewal, FREB rules
-</pre>
-</div>
+- **Recommendations**: pool recycling schedule, SSL renewal, FREB rules</pre></div><div class="card md-panel" role="tabpanel" id="md-linux" aria-labelledby="tab-md-linux" hidden><button type="button" class="copy" data-copy="md-linux">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> linux_incident 
+<span class="sy-k">name:</span> Linux Incident Triage 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [ssh] 
+<span class="sy-k">description:</span> "Linux incident triage via SSH — CPU/memory/disk pressure, OOM kills, systemd journal analysis, network saturation, zombie processes" 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">tags:</span> [linux, incident, ops, cpu, memory, disk, oom, systemd, triage] 
+<span class="sy-k">host_required:</span> true 
+<span class="sy-k">memory_scope:</span> session+global 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-s">---</span>
 
-<!-- linux_incident --> 
-<div class="md-block" id="md-linux">
-  <button class="md-copy-btn" onclick="copyMd('md-linux')">Copy</button>
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">linux_incident</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">Linux Incident Triage</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Linux incident triage via SSH — CPU/memory/disk pressure, OOM kills, systemd journal analysis, network saturation, zombie processes"</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[linux, incident, ops, cpu, memory, disk, oom, systemd, triage]</span> 
-<span class="yaml-key">host_required:</span> <span class="yaml-val">true</span> 
-<span class="yaml-key">memory_scope:</span> <span class="yaml-val">session+global</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Objective</span>
+<span class="sy-h">## Objective</span>
 Diagnose and remediate Linux system incidents over SSH.  
 From a simple “the server is slow” complaint to a full post‑incident report, the agent gathers baseline metrics, runs targeted diagnostics (CPU, memory, disk, network, systemd), correlates findings, and returns a structured incident summary with severity, root cause, evidence, actions taken and follow‑up recommendations.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify target host from user request.  
 2. Capture baseline snapshot (`get_system_info`).  
 3. Execute diagnostic commands based on the reported symptom.  
 4. Correlate CPU / memory / disk / network / logs.  
 5. Return a structured incident report.
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 
 | Method | Parameters | Description |
 |--------|-----------|-------------|
@@ -1579,14 +785,14 @@ From a simple “the server is slow” complaint to a full post‑incident repor
 | `exec_multi` | `host`, `commands[]` | Run several commands sequentially |
 | `check_service` | `host`, `service` | Check status of a systemd service |
 | `restart_service` | `host`, `service` | Restart a failing service |
-| `get_system_info` | `host` | Baseline OS, uptime, disk & memory snapshot |
+| `get_system_info` | `host` | Baseline OS, uptime, disk &amp; memory snapshot |
 | `download_file` | `host`, `remote_path`, `local_path` | Retrieve journal dumps or core files |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 
 **Baseline snapshot (always first)**  
 ```yaml
-exec_multi: host=<name> commands=[
+exec_multi: host=&lt;name&gt; commands=[
   "uptime",
   "free -h",
   "df -h",
@@ -1594,158 +800,144 @@ exec_multi: host=<name> commands=[
 ]
 CPU saturation — top processes
 
-exec_command: host=<name> cmd="ps aux --sort=-%cpu | head -15"
-exec_command: host=<name> cmd="sar -u 1 5 2>/dev/null || mpstat 1 5"
+exec_command: host=&lt;name&gt; cmd="ps aux --sort=-%cpu | head -15"
+exec_command: host=&lt;name&gt; cmd="sar -u 1 5 2&gt;/dev/null || mpstat 1 5"
 Memory pressure / OOM analysis
 
-exec_command: host=<name> cmd="dmesg | grep -i 'oom\\|killed process' | tail -30"
-exec_command: host=<name> cmd="grep -i 'oom\\|out of memory' /var/log/syslog 2>/dev/null | tail -20"
-exec_command: host=<name> cmd="ps aux --sort=-%mem | head -15"
-Disk space & inode exhaustion
+exec_command: host=&lt;name&gt; cmd="dmesg | grep -i 'oom\\|killed process' | tail -30"
+exec_command: host=&lt;name&gt; cmd="grep -i 'oom\\|out of memory' /var/log/syslog 2&gt;/dev/null | tail -20"
+exec_command: host=&lt;name&gt; cmd="ps aux --sort=-%mem | head -15"
+Disk space &amp; inode exhaustion
 
-exec_command: host=<name> cmd="df -h && echo '---' && du -sh /var/log/* 2>/dev/null | sort -rh | head -10"
-exec_command: host=<name> cmd="find / -xdev -size +500M -type f 2>/dev/null | head -10"
-exec_command: host=<name> cmd="df -i"
+exec_command: host=&lt;name&gt; cmd="df -h &amp;&amp; echo '---' &amp;&amp; du -sh /var/log/* 2&gt;/dev/null | sort -rh | head -10"
+exec_command: host=&lt;name&gt; cmd="find / -xdev -size +500M -type f 2&gt;/dev/null | head -10"
+exec_command: host=&lt;name&gt; cmd="df -i"
 Zombie processes
 
-exec_command: host=<name> cmd="ps aux | awk '$8==\"Z\" {print}'"
+exec_command: host=&lt;name&gt; cmd="ps aux | awk '$8==\"Z\" {print}'"
 Network saturation
 
-exec_command: host=<name> cmd="ss -s"
-exec_command: host=<name> cmd="netstat -i 2>/dev/null || ip -s link"
-exec_command: host=<name> cmd="ss -tnp | wc -l"
-Systemd journal & failed units
+exec_command: host=&lt;name&gt; cmd="ss -s"
+exec_command: host=&lt;name&gt; cmd="netstat -i 2&gt;/dev/null || ip -s link"
+exec_command: host=&lt;name&gt; cmd="ss -tnp | wc -l"
+Systemd journal &amp; failed units
 
-exec_command: host=<name> cmd="journalctl -p err -n 100 --no-pager"
-exec_command: host=<name> cmd="systemctl --failed --no-pager"
-Kernel messages & load average
+exec_command: host=&lt;name&gt; cmd="journalctl -p err -n 100 --no-pager"
+exec_command: host=&lt;name&gt; cmd="systemctl --failed --no-pager"
+Kernel messages &amp; load average
 
-exec_command: host=<name> cmd="dmesg | tail -50"
-exec_command: host=<name> cmd="sar -q 1 5 2>/dev/null || cat /proc/loadavg"
+exec_command: host=&lt;name&gt; cmd="dmesg | tail -50"
+exec_command: host=&lt;name&gt; cmd="sar -q 1 5 2&gt;/dev/null || cat /proc/loadavg"
 IO wait / disk bottleneck
 
-exec_command: host=<name> cmd="iostat -x 1 5 2>/dev/null | tail -20"
+exec_command: host=&lt;name&gt; cmd="iostat -x 1 5 2&gt;/dev/null | tail -20"
 
-<span class="md-heading">## Output Format</span> The agent returns a JSON‑like structure (or plain text) with the following keys:
+<span class="sy-h">## Output Format The agent returns a JSON‑like structure (or plain text) with the following keys:</span>
 Host – name, OS, uptime
 Severity – P1 CRITICAL / P2 HIGH / P3 MEDIUM / P4 LOW
 Symptom reported – user’s description
 Root cause – correlated diagnostic finding
 Evidence – key log lines, top processes, metrics
-Actions taken – commands executed & services restarted
+Actions taken – commands executed &amp; services restarted
 Immediate fix – what was done or next step
 Follow‑up – monitoring, capacity planning, permanent fix
 
-<span class="md-heading">## Response format</span>
-✅ Success | ⚠️ Warning | ❌ Error + stderr + fix
-</pre> 
-</div>
+<span class="sy-h">## Response format</span>
+✅ Success | ⚠️ Warning | ❌ Error + stderr + fix</pre></div><div class="card md-panel" role="tabpanel" id="md-docker" aria-labelledby="tab-md-docker" hidden><button type="button" class="copy" data-copy="md-docker">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> docker_ops 
+<span class="sy-k">name:</span> docker_ops 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [ssh] 
+<span class="sy-k">description:</span> "Manage Docker containers and images via SSH — lifecycle control, health checks, log analysis, image pull, prune, compose operations" 
+<span class="sy-k">tags:</span> [docker, containers, ops, devops, linux, compose] 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-s">---</span>
 
-<!-- docker_ops -->
-<div class="md-block" id="md-docker">
-  <button class="md-copy-btn" onclick="copyMd('md-docker')">Copy</button>
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">docker_ops</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">docker_ops</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Manage Docker containers and images via SSH — lifecycle control, health checks, log analysis, image pull, prune, compose operations"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[docker, containers, ops, devops, linux, compose]</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Operate Docker environments via SSH. Control container lifecycle (start/stop/restart/remove), pull and update images, inspect health checks and resource usage, analyse container logs, manage Docker Compose stacks, clean up dangling images and volumes, and diagnose networking or mount issues between containers.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host from the request  
-2. Call <code>get_system_info</code> to confirm Docker version (<code>docker --version</code>)  
+2. Call `get_system_info` to confirm Docker version (`docker --version`)  
 3. Execute the relevant docker or compose commands  
 4. Parse output and return a structured report  
 5. Apply corrective actions or trigger redeployment
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 | Method | Parameters | Description |
 |--------|-----------|-------------|
-| <code>exec_command</code> | <code>host, cmd, timeout?</code> | Run docker or shell commands |
-| <code>exec_multi</code> | <code>host, commands[]</code> | Run multiple commands sequentially |
-| <code>check_service</code> | <code>host, service</code> | Check docker daemon systemctl status |
-| <code>restart_service</code> | <code>host, service</code> | Restart docker daemon |
-| <code>get_system_info</code> | <code>host</code> | Confirm OS and Docker version |
-| <code>upload_file</code> | <code>host, local_path, remote_path</code> | Push docker‑compose.yml or .env |
-| <code>download_file</code> | <code>host, remote_path, local_path</code> | Download compose files or logs |
+| `exec_command` | `host, cmd, timeout?` | Run docker or shell commands |
+| `exec_multi` | `host, commands[]` | Run multiple commands sequentially |
+| `check_service` | `host, service` | Check docker daemon systemctl status |
+| `restart_service` | `host, service` | Restart docker daemon |
+| `get_system_info` | `host` | Confirm OS and Docker version |
+| `upload_file` | `host, local_path, remote_path` | Push docker‑compose.yml or .env |
+| `download_file` | `host, remote_path, local_path` | Download compose files or logs |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 **List all containers (running + stopped):**
-exec_command: host=<name> cmd="docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.Ports}}'"
+exec_command: host=&lt;name&gt; cmd="docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}\t{{.Ports}}'"
 
 **Inspect container health status:**
-exec_command: host=<name> cmd="docker inspect <container> --format='{{.State.Health.Status}} | {{.State.Status}}'"
+exec_command: host=&lt;name&gt; cmd="docker inspect &lt;container&gt; --format='{{.State.Health.Status}} | {{.State.Status}}'"
 
 **Fetch container logs (last 200 lines):**
-exec_command: host=<name> cmd="docker logs <container> --tail=200 2>&1"
+exec_command: host=&lt;name&gt; cmd="docker logs &lt;container&gt; --tail=200 2&gt;&amp;1"
 
 **Restart a container:**
-exec_command: host=<name> cmd="docker restart <container>"
+exec_command: host=&lt;name&gt; cmd="docker restart &lt;container&gt;"
 
 **Pull latest image and recreate container:**
-exec_multi: host=<name> commands=[ "docker pull <image>:<tag>", "docker stop <container>", "docker rm <container>", "docker run -d --name <container> <image>:<tag>" ]
+exec_multi: host=&lt;name&gt; commands=[ "docker pull &lt;image&gt;:&lt;tag&gt;", "docker stop &lt;container&gt;", "docker rm &lt;container&gt;", "docker run -d --name &lt;container&gt; &lt;image&gt;:&lt;tag&gt;" ]
 
 **Docker Compose — pull and redeploy:**
-exec_multi: host=<name> commands=[ "cd /opt/myapp && docker compose pull", "docker compose up -d --remove-orphans" ]
+exec_multi: host=&lt;name&gt; commands=[ "cd /opt/myapp &amp;&amp; docker compose pull", "docker compose up -d --remove-orphans" ]
 
 **Check resource usage (CPU + memory):**
-exec_command: host=<name> cmd="docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'"
+exec_command: host=&lt;name&gt; cmd="docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'"
 
 **Prune unused images, containers, volumes:**
-exec_multi: host=<name> commands=[ "docker container prune -f", "docker image prune -f", "docker volume prune -f" ]
+exec_multi: host=&lt;name&gt; commands=[ "docker container prune -f", "docker image prune -f", "docker volume prune -f" ]
 
 **Inspect container networking:**
-exec_command: host=<name> cmd="docker network ls && docker inspect <container> --format='{{json .NetworkSettings.Networks}}'"
+exec_command: host=&lt;name&gt; cmd="docker network ls &amp;&amp; docker inspect &lt;container&gt; --format='{{json .NetworkSettings.Networks}}'"
 
 **Check disk usage by Docker:**
-exec_command: host=<name> cmd="docker system df"
+exec_command: host=&lt;name&gt; cmd="docker system df"
 
 **List containers with restart policy:**
-exec_command: host=<name> cmd="docker ps -a --format '{{.Names}}: {{.Status}}' | grep -v Up"
+exec_command: host=&lt;name&gt; cmd="docker ps -a --format '{{.Names}}: {{.Status}}' | grep -v Up"
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host**: name + Docker version  
 - **Status**: OK / WARNING / CRITICAL  
 - **Container inventory**: name, image, status, health  
 - **Resource usage**: CPU/memory per container  
 - **Log analysis**: errors, exit codes, OOM signals  
 - **Actions taken**: commands with results  
-- **Recommendations**: restart policies, resource limits, image updates
-</pre>
-</div>
+- **Recommendations**: restart policies, resource limits, image updates</pre></div><div class="card md-panel" role="tabpanel" id="md-apache" aria-labelledby="tab-md-apache" hidden><button type="button" class="copy" data-copy="md-apache">Copy</button><pre class="code"><span class="sy-s">--- </span>
+<span class="sy-k">skill_id:</span> apache_ops 
+<span class="sy-k">name:</span> apache_ops 
+<span class="sy-k">type:</span> agent 
+<span class="sy-k">mcp_servers:</span> [ssh] 
+<span class="sy-k">description:</span> "Manage and troubleshoot Apache HTTPd — VHost management, mod_status, config syntax check, graceful restart, SSL" 
+<span class="sy-k">tags:</span> [apache, httpd, web, linux, ops, vhost, ssl] 
+<span class="sy-k">version:</span> "1.0" 
+<span class="sy-k">project_required:</span> false 
+<span class="sy-s">---</span>
 
-<!-- apache_ops --> 
-<div class="md-block" id="md-apache"> 
-  <button class="md-copy-btn" onclick="copyMd('md-apache')">Copy</button> 
-  <pre><span class="yaml-key">---</span> 
-<span class="yaml-key">skill_id:</span> <span class="yaml-val">apache_ops</span> 
-<span class="yaml-key">name:</span> <span class="yaml-val">apache_ops</span> 
-<span class="yaml-key">type:</span> <span class="yaml-val">agent</span> 
-<span class="yaml-key">mcp_servers:</span> <span class="yaml-val">[ssh]</span> 
-<span class="yaml-key">description:</span> <span class="yaml-str">"Manage and troubleshoot Apache HTTPd — VHost management, mod_status, config syntax check, graceful restart, SSL"</span> 
-<span class="yaml-key">tags:</span> <span class="yaml-val">[apache, httpd, web, linux, ops, vhost, ssl]</span> 
-<span class="yaml-key">version:</span> <span class="yaml-val">"1.0"</span> 
-<span class="yaml-key">project_required:</span> <span class="yaml-val">false</span> 
-<span class="yaml-key">---</span>
-
-<span class="md-heading">## Purpose</span>
+<span class="sy-h">## Purpose</span>
 Operate Apache HTTP Server via SSH. Manage virtual hosts, test and apply configuration changes with graceful restart, analyse access/error logs, inspect mod_status for live connection metrics, manage modules (enable/disable), and diagnose SSL certificate issues.
 
-<span class="md-heading">## Workflow</span>
+<span class="sy-h">## Workflow</span>
 1. Identify the target host from the request  
 2. Call `get_system_info` to confirm OS and Apache version (`apache2 -v` or `httpd -v`)  
 3. Execute diagnostic or operational commands  
 4. Parse output and return a structured report  
 5. Apply fixes or suggest corrective actions
 
-<span class="md-heading">## Available MCP Tools (SSH)</span>
+<span class="sy-h">## Available MCP Tools (SSH)</span>
 | Method | Parameters | Description |
 |--------|-----------|-------------|
 | `exec_command` | `host`, `cmd`, `timeout?` | Run a single shell command |
@@ -1756,377 +948,50 @@ Operate Apache HTTP Server via SSH. Manage virtual hosts, test and apply configu
 | `upload_file` | `host`, `local_path`, `remote_path` | Upload VHost config files via SFTP |
 | `download_file` | `host`, `remote_path`, `local_path` | Download logs via SFTP |
 
-<span class="md-heading">## Instructions</span>
+<span class="sy-h">## Instructions</span>
 **Test config syntax:**  
-exec_command: host=<name> cmd="apachectl configtest"
+exec_command: host=&lt;name&gt; cmd="apachectl configtest"
 
 **Graceful restart (no dropped connections):**  
-exec_multi: host=<name> commands=[ "apachectl configtest", "apachectl graceful" ]
+exec_multi: host=&lt;name&gt; commands=[ "apachectl configtest", "apachectl graceful" ]
 
 **List enabled virtual hosts:**  
-exec_command: host=<name> cmd="apachectl -S 2>&1"
+exec_command: host=&lt;name&gt; cmd="apachectl -S 2&gt;&amp;1"
 
 **Enable / disable a VHost (Debian/Ubuntu):**  
-exec_multi: host=<name> commands=[ "a2ensite mysite.conf", "apachectl graceful" ]
+exec_multi: host=&lt;name&gt; commands=[ "a2ensite mysite.conf", "apachectl graceful" ]
 
 **Enable / disable a module:**  
-exec_multi: host=<name> commands=[ "a2enmod rewrite", "apachectl graceful" ]
+exec_multi: host=&lt;name&gt; commands=[ "a2enmod rewrite", "apachectl graceful" ]
 
 **Read mod_status (live connections):**  
-exec_command: host=<name> cmd="curl -s http://localhost/server-status?auto"
+exec_command: host=&lt;name&gt; cmd="curl -s http://localhost/server-status?auto"
 
 **Tail error log:**  
-exec_command: host=<name> cmd="tail -n 100 /var/log/apache2/error.log"
+exec_command: host=&lt;name&gt; cmd="tail -n 100 /var/log/apache2/error.log"
 
 **Detect 5xx errors in access log:**  
-exec_command: host=<name> cmd="awk '$9 ~ /^5/' /var/log/apache2/access.log | tail -50"
+exec_command: host=&lt;name&gt; cmd="awk '$9 ~ /^5/' /var/log/apache2/access.log | tail -50"
 
 **Top IPs by request count:**  
-exec_command: host=<name> cmd="awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -15"
+exec_command: host=&lt;name&gt; cmd="awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -rn | head -15"
 
 **Check SSL certificate expiry:**  
-exec_command: host=<name> cmd="echo | openssl s_client -connect localhost:443 2>/dev/null | openssl x509 -noout -dates"
+exec_command: host=&lt;name&gt; cmd="echo | openssl s_client -connect localhost:443 2&gt;/dev/null | openssl x509 -noout -dates"
 
-<span class="md-heading">## Output Format</span>
+<span class="sy-h">## Output Format</span>
 - **Host**: name + Apache version  
 - **Status**: OK / WARNING / CRITICAL  
 - **Config test**: pass/fail + error details  
 - **Active VHosts**: list with ports and document roots  
 - **Log analysis**: top errors, 5xx rate, top IPs  
 - **Actions taken**: commands executed with exit codes  
-- **Recommendations**: config fixes, module issues, SSL renewal</pre>
-</div> 
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     MCP SERVERS
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="mcp-section" aria-label="Available MCP Servers">
-  <h2>MCP Servers</h2>
-  <p class="section-sub">
-    AgentRAG connects agents to external services via Model Context Protocol servers.
-    Declare the MCP server in your <code>.md</code> frontmatter — the backend resolves credentials
-    and routes tool calls automatically.
-  </p>
-
-  <div class="mcp-grid">
-
-    <!-- SSH -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon blue"><i class="fa-brands fa-linux"></i></div>
-        <div>
-          <div class="mcp-card-title">SSH Server <code>ssh</code></div>
-          <span class="mcp-transport transport-stdio">stdio</span>
-        </div>
-      </div>
-      <p>Execute commands on any Linux host over SSH. Supports key-based auth, passphrase keys, and per-session memory. Hosts registered once in DB — never in plain config.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">exec_command</span>
-        <span class="mcp-tool-pill">get_system_info</span>
-        <span class="mcp-tool-pill">upload_file</span>
-        <span class="mcp-tool-pill">download_file</span>
-        <span class="mcp-tool-pill">list_directory</span>
-      </div>
-    </div>
-
-    <!-- WinRM -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon blue"><i class="fa-brands fa-windows"></i></div>
-        <div>
-          <div class="mcp-card-title">WinRM Server <code>winrm</code></div>
-          <span class="mcp-transport transport-stdio">stdio</span>
-        </div>
-      </div>
-      <p>Execute PowerShell commands on Windows hosts via WinRM. Supports NTLM, Kerberos, and Basic auth. Service management, Event Log queries, process control.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">exec_powershell</span>
-        <span class="mcp-tool-pill">get_system_info</span>
-        <span class="mcp-tool-pill">restart_service</span>
-        <span class="mcp-tool-pill">list_services</span>
-        <span class="mcp-tool-pill">get_event_logs</span>
-        <span class="mcp-tool-pill">get_running_processes</span>
-      </div>
-    </div>
-
-    <!-- Gitea -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon amber"><i class="fa-solid fa-code-branch"></i></div>
-        <div>
-          <div class="mcp-card-title">Gitea Server <code>gitea</code> <span class="new-badge">New</span></div>
-          <span class="mcp-transport transport-http">HTTP</span>
-        </div>
-      </div>
-      <p>Full repository operations on a self-hosted Gitea instance (GitHub v3 API). Clone, read files, update content, create branches and pull requests — all without leaving AgentRAG.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">clone_repository</span>
-        <span class="mcp-tool-pill">get_repo_tree</span>
-        <span class="mcp-tool-pill">get_file_content</span>
-        <span class="mcp-tool-pill">update_file</span>
-        <span class="mcp-tool-pill">commit_and_push</span>
-        <span class="mcp-tool-pill">create_branch</span>
-        <span class="mcp-tool-pill">create_pull_request</span>
-      </div>
-    </div>
-
-    <!-- GitHub -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon purple"><i class="fa-brands fa-github"></i></div>
-        <div>
-          <div class="mcp-card-title">GitHub Server <code>github</code></div>
-          <span class="mcp-transport transport-http">HTTP</span>
-        </div>
-      </div>
-      <p>Interact with GitHub repositories — code review automation, PR creation, issue management, branch operations and content updates via the GitHub REST API.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">get_file_content</span>
-        <span class="mcp-tool-pill">update_file</span>
-        <span class="mcp-tool-pill">create_pull_request</span>
-        <span class="mcp-tool-pill">list_issues</span>
-        <span class="mcp-tool-pill">create_review</span>
-      </div>
-    </div>
-
-    <!-- DataGouv -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon green"><i class="fa-solid fa-database"></i></div>
-        <div>
-          <div class="mcp-card-title">DataGouv <code>datagouv</code> <span class="new-badge">New</span></div>
-          <span class="mcp-transport transport-http">HTTP</span>
-        </div>
-      </div>
-      <p>Search and explore the French open data catalogue — data.gouv.fr REST API v1 &amp; v2. No authentication required. Search datasets, fetch resources, browse DINUM topics and organisations.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">search_datasets</span>
-        <span class="mcp-tool-pill">get_dataset</span>
-        <span class="mcp-tool-pill">search_organizations</span>
-        <span class="mcp-tool-pill">list_topics</span>
-        <span class="mcp-tool-pill">get_topic</span>
-      </div>
-    </div>
-
-    <!-- Linter -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon teal"><i class="fa-solid fa-spell-check"></i></div>
-        <div>
-          <div class="mcp-card-title">Linter Server <code>linter</code> <span class="new-badge">New</span></div>
-          <span class="mcp-transport transport-stdio">stdio</span>
-        </div>
-      </div>
-      <p>Run linters and formatters on generated code before committing. Supports Python (ruff, black, flake8), JavaScript (eslint, prettier), and shell scripts. Used automatically by the Gitea code generator.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">lint_file</span>
-        <span class="mcp-tool-pill">format_file</span>
-        <span class="mcp-tool-pill">lint_directory</span>
-        <span class="mcp-tool-pill">check_syntax</span>
-      </div>
-    </div>
-
-    <!-- Test Runner -->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon green"><i class="fa-solid fa-flask"></i></div>
-        <div>
-          <div class="mcp-card-title">Test Runner <code>test_runner</code></div>
-          <span class="mcp-transport transport-stdio">stdio</span>
-        </div>
-      </div>
-      <p>Execute test suites as part of agent workflows. Supports pytest, jest, and custom commands. Results are parsed and returned as structured JSON — failures block commit when enabled.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">run_tests</span>
-        <span class="mcp-tool-pill">run_single_test</span>
-        <span class="mcp-tool-pill">get_coverage</span>
-      </div>
-    </div>
-
-    <!-- WikiJS-->
-    <div class="mcp-card">
-      <div class="mcp-card-header">
-        <div class="mcp-card-icon purple"><i class="fa-brands fa-wikipedia-w"></i></div>
-        <div>
-          <div class="mcp-card-title">WikiJS Server <code>wikijs</code> <span class="new-badge">New</span></div>
-          <span class="mcp-transport transport-http">HTTP</span>
-        </div>
-      </div>
-      <p>Manage Wiki.js documentation pages — search, read, create and update content via the WikiJS API. Configuration stored in <code>mcp_config.wikijs</code>. No authentication required for basic operations.</p>
-      <div class="mcp-tools">
-        <span class="mcp-tool-pill">search_pages</span>
-        <span class="mcp-tool-pill">get_page</span>
-        <span class="mcp-tool-pill">create_page</span>
-        <span class="mcp-tool-pill">update_page</span>
-      </div>
-    </div>
-<!-- SonarQube -->
-  <div class="mcp-card">
-    <div class="mcp-card-header">
-      <div class="mcp-card-icon purple"><i class="fa-solid fa-satellite-dish"></i></div>
-      <div>
-        <div class="mcp-card-title">SonarQube Security <code>sonarqube</code> <span class="new-badge">New</span></div>
-        <span class="mcp-transport transport-http">HTTP</span>
-      </div>
-    </div>
-    <p>Security operations — project inventory, vulnerabilities, security hotspots, quality gate, and LLM-assisted remediation (modes: projects, overview, issues, hotspots, remediate). Configuration stored in <code>mcp_config.sonarqube</code>. Optional - repository project (<code>use_rag: true</code> + <code>project_id</code>)</p>
-    <div class="mcp-tools">
-      <span class="mcp-tool-pill">list_security_hotspots</span>
-      <span class="mcp-tool-pill">get_security_hotspot</span>
-      <span class="mcp-tool-pill">get_rule</span>
-      <span class="mcp-tool-pill">get_source_snippet</span>
-      <span class="mcp-tool-pill">get_quality_gate</span>
-      <span class="mcp-tool-pill">get_measures</span>
-    </div>
-  </div>
-
-  </div>
-</section>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     AUTOMATION & SCHEDULING (NEW FEATURE)
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="scheduler-section" aria-label="Scheduler Automation">
-  <h2>Scheduler</h2>
-  <p class="section-sub">
-    Transform your autonomous agents into reliable background processes. Schedule the periodic execution of complex agents or run simple LLM prompts according to a precise calendar, with complete supervision over the task lifecycle.
-  </p>
-
-  <div class="scheduler-feature-grid">
-    <!-- Card 1: Cron Scheduling -->
-    <div class="scheduler-card">
-      <h4>Cron-Based Scheduling</h4>
-      <p>Define recurring tasks with a precise `cron` frequency. Ideal for daily reports, maintenance, or periodic monitoring.</p>
-    </div>
-
-    <!-- Card 2: Agent Execution -->
-    <div class="scheduler-card">
-      <h4>Deterministic Agents</h4>
-      <p>Execute agents with fixed and predefined arguments. Perfect for routine tasks like system status checks or log reporting.</p>
-    </div>
-
-    <!-- Card 3: LLM Prompt Scheduling -->
-    <div class="scheduler-card">
-      <h4>Periodic LLM Prompt Scheduling</h4>
-      <p>Launch simple prompts directly via a calendar. Useful for regular content generation or automated market analysis.</p>
-    </div>
-
-    <!-- Card 4: Safety & Control -->
-    <div class="scheduler-card">
-      <h4>Approval Modes</h4>
-      <p>Control every execution with `manual`, `auto`, or `skip-all` modes. Ensure safety in case of critical tasks.</p>
-    </div>
-
-    <!-- Card 5: Output & Delivery -->
-    <div class="scheduler-card">
-      <h4>Notifications and Auditing</h4>
-      <p>Receive results via in-app notification or email. Every execution is logged for complete traceability (audit trail).</p>
-    </div>
-
-    <!-- Card 6: Workflow Orchestration -->
-    <div class="scheduler-card">
-      <h4>Multi-Step Workflows</h4>
-      <p>Chain multiple agents or steps sequentially. One agent triggers the next, ensuring a complete and reliable workflow.</p>
-    </div>
-  </div>
-
-</section>
-<!-- ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     AUTOMATION & VERIFICATION JUDGEMENT (NEW FEATURE)
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="scheduler-section" aria-label="LLM Judge Verification">
-  <h2>Automated LLM Auditing and Verification - LLMJudge</h2>
-  <p class="section-sub">
-    Transform your generated responses into reliable, auditable outputs. The LLM Judge pipeline executes a multi-layered series of mechanical checks (syntax, format) followed by advanced AI judgment to ensure the answer is grounded, correct, and adheres to all specified constraints.
-  </p>
-
-  <div class="verification-feature-grid">
-    <!-- Card 1: Sanity & Format Validation -->
-    <div class="verification-card">
-      <h4 class="check-name">Structural Integrity (Sanity/Schema)</h4>
-      <p>Performs mechanical checks on the response structure. Detects empty answers, truncated reasoning blocks, and validates adherence to required formats like JSON or YAML schemas.</p>
-    </div>
-
-    <!-- Card 2: Code Quality & Syntax -->
-    <div class="verification-card">
-      <h4 class="check-name">Code Block Validation</h4>
-      <p>Analyzes code snippets (Python, JS, etc.) for syntax errors, unclosed fences, and potential placeholders (`TODO:`). Supports linting via tools like Ruff to catch bugs and best practices violations.</p>
-    </div>
-
-    <!-- Card 3: Source Grounding & Citation -->
-    <div class="verification-card">
-      <h4 class="check-name">Citation and Retrieval Check</h4>
-      <p>Ensures every claim is supported by the provided context. Verifies that all citations [SOURCE N] point to valid, non-empty documents and checks if the retrieved context was relevant enough.</p>
-    </div>
-
-    <!-- Card 4: Iterative Repair (Gate Mode) -->
-    <div class="verification-card">
-      <h4 class="check-name">Guided Regeneration (Gate Mode)</h4>
-      <p>If the initial answer fails verification, the system automatically enters a repair loop. It uses the detailed findings to prompt the LLM for regeneration, retrying up to N times until a passing score or maximum rounds are reached.</p>
-    </div>
-
-    <!-- Card 5: Comprehensive Verdict & Scoring -->
-    <div class="verification-card">
-      <h4 class="check-name">Aggregated Verdict and Score</h4>
-      <p>Collects all findings (errors, warnings) from the entire pipeline into a single `Verdict`. Assigns a quantitative score (0.0 to 1.0) and a clear status (Passed, Failed, Warning).</p>
-    </div>
-
-    <!-- Card 6: Advanced LLM Judgment -->
-    <div class="verification-card">
-      <h4 class="check-name">LLM Judge Audit</h4>
-      <p>The final, high-level audit. An advanced LLM assesses the answer for logical bugs, contradictions against sources, and overall completeness, providing a human-readable judgment.</p>
-    </div>
-  </div >
-
-</section>
-<!-- ═══════════════════════════════════════════════════════════════════════════ -->
-
-<!-- ABOUT -->
-<section class="about" aria-label="About">
-  <h2>About</h2>
-  <p>This project is licensed under the MIT License — see the LICENSE file for details.</p>
-</section>
-
-<!-- CONTACT -->
-<section class="about" aria-label="Contact">
-  <h2>Contact me</h2>
-  <p>Built with ❤️ for the LLM community</p>
-  <p>For questions, suggestions, or support, please open an issue or contact the maintainers.
-    <a href="mailto:l.kieran95@gmail.com" style="color:var(--accent);">@me</a>.
-  </p>
-</section>
-
-<footer>
-  <p>© 2026 AgentRAG.io.</p>
-</footer>
-</div>
-
-<script>
-  // Tab switching
-  document.getElementById('mdTabs').addEventListener('click', function(e) {
-    var btn = e.target.closest('.md-tab-btn');
-    if (!btn) return;
-    document.querySelectorAll('.md-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-    document.querySelectorAll('.md-block').forEach(function(b){ b.classList.remove('visible'); });
-    btn.classList.add('active');
-    var target = document.getElementById(btn.dataset.target);
-    if (target) target.classList.add('visible');
-  });
-
-  // Copy to clipboard
-  function copyMd(id) {
-    var block = document.getElementById(id);
-    var text = block.querySelector('pre').innerText;
-    navigator.clipboard.writeText(text).then(function() {
-      var btn = block.querySelector('.md-copy-btn');
-      btn.textContent = 'Copied!';
-      setTimeout(function(){ btn.textContent = 'Copy'; }, 1800);
-    });
-  }
-</script>
+- **Recommendations**: config fixes, module issues, SSL renewal</pre></div></div></section>
+<section class="sec" id="mcp"><div class="wrap"><div class="sec-h"><h2>MCP Servers</h2><p class="lead">AgentRAG connects agents to external services via Model Context Protocol servers. Declare the MCP server in your <code>.md</code> frontmatter — the backend resolves credentials and routes tool calls automatically.</p></div><div class="grid g-3"><article class="card mcp stack-col"><h3>SSH Server <code>ssh</code></h3><span class="pill" style="align-self:flex-start">stdio</span><p class="body">Execute commands on any Linux host over SSH. Supports key-based auth, passphrase keys, and per-session memory. Hosts registered once in DB — never in plain config.</p><div class="tools"><span class="tool">exec_command</span><span class="tool">get_system_info</span><span class="tool">upload_file</span><span class="tool">download_file</span><span class="tool">list_directory</span></div></article><article class="card mcp stack-col"><h3>WinRM Server <code>winrm</code></h3><span class="pill" style="align-self:flex-start">stdio</span><p class="body">Execute PowerShell commands on Windows hosts via WinRM. Supports NTLM, Kerberos, and Basic auth. Service management, Event Log queries, process control.</p><div class="tools"><span class="tool">exec_powershell</span><span class="tool">get_system_info</span><span class="tool">restart_service</span><span class="tool">list_services</span><span class="tool">get_event_logs</span><span class="tool">get_running_processes</span></div></article><article class="card mcp stack-col"><h3>Gitea Server <code>gitea</code> <span class="new">New</span></h3><span class="pill" style="align-self:flex-start">HTTP</span><p class="body">Full repository operations on a self-hosted Gitea instance (GitHub v3 API). Clone, read files, update content, create branches and pull requests — all without leaving AgentRAG.</p><div class="tools"><span class="tool">clone_repository</span><span class="tool">get_repo_tree</span><span class="tool">get_file_content</span><span class="tool">update_file</span><span class="tool">commit_and_push</span><span class="tool">create_branch</span><span class="tool">create_pull_request</span></div></article><article class="card mcp stack-col"><h3>GitHub Server <code>github</code></h3><span class="pill" style="align-self:flex-start">HTTP</span><p class="body">Interact with GitHub repositories — code review automation, PR creation, issue management, branch operations and content updates via the GitHub REST API.</p><div class="tools"><span class="tool">get_file_content</span><span class="tool">update_file</span><span class="tool">create_pull_request</span><span class="tool">list_issues</span><span class="tool">create_review</span></div></article><article class="card mcp stack-col"><h3>DataGouv <code>datagouv</code> <span class="new">New</span></h3><span class="pill" style="align-self:flex-start">HTTP</span><p class="body">Search and explore the French open data catalogue — data.gouv.fr REST API v1 &amp; v2. No authentication required. Search datasets, fetch resources, browse DINUM topics and organisations.</p><div class="tools"><span class="tool">search_datasets</span><span class="tool">get_dataset</span><span class="tool">search_organizations</span><span class="tool">list_topics</span><span class="tool">get_topic</span></div></article><article class="card mcp stack-col"><h3>Linter Server <code>linter</code> <span class="new">New</span></h3><span class="pill" style="align-self:flex-start">stdio</span><p class="body">Run linters and formatters on generated code before committing. Supports Python (ruff, black, flake8), JavaScript (eslint, prettier), and shell scripts. Used automatically by the Gitea code generator.</p><div class="tools"><span class="tool">lint_file</span><span class="tool">format_file</span><span class="tool">lint_directory</span><span class="tool">check_syntax</span></div></article><article class="card mcp stack-col"><h3>Test Runner <code>test_runner</code></h3><span class="pill" style="align-self:flex-start">stdio</span><p class="body">Execute test suites as part of agent workflows. Supports pytest, jest, and custom commands. Results are parsed and returned as structured JSON — failures block commit when enabled.</p><div class="tools"><span class="tool">run_tests</span><span class="tool">run_single_test</span><span class="tool">get_coverage</span></div></article><article class="card mcp stack-col"><h3>WikiJS Server <code>wikijs</code> <span class="new">New</span></h3><span class="pill" style="align-self:flex-start">HTTP</span><p class="body">Manage Wiki.js documentation pages — search, read, create and update content via the WikiJS API. Configuration stored in <code>mcp_config.wikijs</code>. No authentication required for basic operations.</p><div class="tools"><span class="tool">search_pages</span><span class="tool">get_page</span><span class="tool">create_page</span><span class="tool">update_page</span></div></article><article class="card mcp stack-col"><h3>SonarQube Security <code>sonarqube</code> <span class="new">New</span></h3><span class="pill" style="align-self:flex-start">HTTP</span><p class="body">Security operations — project inventory, vulnerabilities, security hotspots, quality gate, and LLM-assisted remediation (modes: projects, overview, issues, hotspots, remediate). Configuration stored in <code>mcp_config.sonarqube</code>. Optional - repository project (<code>use_rag: true</code> + <code>project_id</code>)</p><div class="tools"><span class="tool">list_security_hotspots</span><span class="tool">get_security_hotspot</span><span class="tool">get_rule</span><span class="tool">get_source_snippet</span><span class="tool">get_quality_gate</span><span class="tool">get_measures</span></div></article></div></div></section><section class="sec" id="scheduler"><div class="wrap"><div class="sec-h"><h2>Scheduler</h2><p class="lead">Transform your autonomous agents into reliable background processes. Schedule the periodic execution of complex agents or run simple LLM prompts according to a precise calendar, with complete supervision over the task lifecycle.</p></div><div class="grid g-3"><article class="card stack-col"><h3>Cron-Based Scheduling</h3><p class="body">Define recurring tasks with a precise <code>cron</code> frequency. Ideal for daily reports, maintenance, or periodic monitoring.</p></article><article class="card stack-col"><h3>Deterministic Agents</h3><p class="body">Execute agents with fixed and predefined arguments. Perfect for routine tasks like system status checks or log reporting.</p></article><article class="card stack-col"><h3>Periodic LLM Prompt Scheduling</h3><p class="body">Launch simple prompts directly via a calendar. Useful for regular content generation or automated market analysis.</p></article><article class="card stack-col"><h3>Approval Modes</h3><p class="body">Control every execution with <code>manual</code>, <code>auto</code>, or <code>skip-all</code> modes. Ensure safety in case of critical tasks.</p></article><article class="card stack-col"><h3>Notifications and Auditing</h3><p class="body">Receive results via in-app notification or email. Every execution is logged for complete traceability (audit trail).</p></article><article class="card stack-col"><h3>Multi-Step Workflows</h3><p class="body">Chain multiple agents or steps sequentially. One agent triggers the next, ensuring a complete and reliable workflow.</p></article></div></div></section><section class="sec" id="llmjudge"><div class="wrap"><div class="sec-h"><h2>Automated LLM Auditing and Verification - LLMJudge</h2><p class="lead">Transform your generated responses into reliable, auditable outputs. The LLM Judge pipeline executes a multi-layered series of mechanical checks (syntax, format) followed by advanced AI judgment to ensure the answer is grounded, correct, and adheres to all specified constraints.</p></div><div class="grid g-3"><article class="card stack-col"><h3>Structural Integrity (Sanity/Schema)</h3><p class="body">Performs mechanical checks on the response structure. Detects empty answers, truncated reasoning blocks, and validates adherence to required formats like JSON or YAML schemas.</p></article><article class="card stack-col"><h3>Code Block Validation</h3><p class="body">Analyzes code snippets (Python, JS, etc.) for syntax errors, unclosed fences, and potential placeholders (<code>TODO:</code>). Supports linting via tools like Ruff to catch bugs and best practices violations.</p></article><article class="card stack-col"><h3>Citation and Retrieval Check</h3><p class="body">Ensures every claim is supported by the provided context. Verifies that all citations [SOURCE N] point to valid, non-empty documents and checks if the retrieved context was relevant enough.</p></article><article class="card stack-col"><h3>Guided Regeneration (Gate Mode)</h3><p class="body">If the initial answer fails verification, the system automatically enters a repair loop. It uses the detailed findings to prompt the LLM for regeneration, retrying up to N times until a passing score or maximum rounds are reached.</p></article><article class="card stack-col"><h3>Aggregated Verdict and Score</h3><p class="body">Collects all findings (errors, warnings) from the entire pipeline into a single <code>Verdict</code>. Assigns a quantitative score (0.0 to 1.0) and a clear status (Passed, Failed, Warning).</p></article><article class="card stack-col"><h3>LLM Judge Audit</h3><p class="body">The final, high-level audit. An advanced LLM assesses the answer for logical bugs, contradictions against sources, and overall completeness, providing a human-readable judgment.</p></article></div></div></section><section class="sec" id="contact"><div class="wrap"><div class="grid g-2"></div></div></section>
+<section class="sec"><div class="wrap"><div class="built"><div class="chips"><span class="muted" style="font-size:14px;padding-right:8px">Built with</span><span class="chip solid">Docker</span><span class="chip solid">Linux</span><span class="chip solid">Python</span><span class="chip solid">GitHub</span><span class="chip solid">React</span></div><a class="ac" style="font-weight:600" href="https://github.com/iwebbo/AgentRAG.io" target="_blank" rel="noopener">Star or fork on GitHub ↗</a></div></div></section></main><footer class="footer"><div class="wrap">
+<div>© 2026 aecoding.io · MIT licensed · Built by Senior DevOps engineers.</div>
+<nav aria-label="Footer"><a href="../index.html">Home</a><a href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub</a><a href="mailto:l.kieran95@gmail.com">Contact</a></nav>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
 </body>
 </html>

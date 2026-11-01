@@ -1,119 +1,40 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="en" data-theme="glass">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LLM.io — Multi-Provider Chat Application IA</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-      .logo-img {
-      height: 120px;
-      width: auto;
-      object-fit: contain;
-      }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM.io — Multi-provider chat</title>
+<meta name="description" content="A multi-provider chat application with automatic fallback, real-time streaming, prompt templates and token analytics. Switch providers without switching tools.">
+<meta property="og:title" content="LLM.io — Multi-provider chat">
+<meta property="og:description" content="A multi-provider chat application with automatic fallback, real-time streaming, prompt templates and token analytics. Switch providers without switching tools.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F3F5FB">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'glass'}catch(e){document.documentElement.dataset.theme='glass'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
-<body>
-<div class="container">
-<header class="site-header">
-  <nav>
-    <a href="../index.html" class="logo">        
-      <img src="../assets/img/llmio.png" alt="A&ECoding Logo" class="logo-img" />
-      </a>
-    <ul>
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <h1>LLM.io</h1>
-  <p class="subtitle">
-    Multi-Provider Chat Application.
-  </p>
-
-  <div class="hero-cta">
-    <a href="#" class="btn-primary">Presentation</a>
-    <a href="https://github.com/iwebbo/LLM.io" class="btn-secondary" target="_blank">Code source</a>
-  </div>
-</section>
-
-<!-- PRESENTATION -->
-<section class="hero-glass">
-  <h2>Build with</h2>
-    <div class="tech-icons">
-    <i class="fa-brands fa-docker" title="Docker"></i>
-    <i class="fa-brands fa-linux" title="Linux"></i>
-    <i class="fa-brands fa-python" title="Python"></i>
-    <i class="fa-brands fa-github" title="Github"></i>
-    <i class="fa-brands fa-react" title="React"></i>
-  </div>
-</section>
-
-<section class="products" aria-label="Nos applications principales">
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Current Features</h2>
-    <ul class="features-list">
-      <li><strong>Multi-Provider :</strong> 13+ providers with automatic fallback</li>
-      <li><strong>SSE Streaming :</strong> Real-time responses with auto-reconnect</li>
-      <li><strong>Temperature Control :</strong> Per-conversation adjustment (0.0-2.0)</li>
-      <li><strong>Prompt Templates :</strong> Create, share, use {{placeholders}}</li>
-      <li><strong>Token Analytics :</strong> Dashboard with daily/provider/model totals</li>
-      <li><strong>Conversation History :</strong> PostgreSQL storage with full-text search	</li>
-      <li><strong>Export Conversations :</strong> Markdown, JSON, HTML</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Advanced Features</h2>
-    <ul class="features-list">
-      <li><strong>Chain of Thought :</strong> Auto-detection for reasoning models (o1-preview, DeepSeek-R1, etc.)</li>
-      <li><strong>Deep Reasoning Mode :</strong> Enables high max_tokens for long reasoning</li>
-      <li><strong>Model Auto-discovery :</strong> Dynamically fetches available models per provider</li>
-      <li><strong>Health Checks :</strong> Connection testing with latency monitoring</li>
-      <li><strong>Rate Limiting :</strong> Abuse protection (60 req/min, configurable)</li>
-      <li><strong>Multi-origin CORS :</strong> Simultaneous frontend/mobile/desktop support</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="theai" tabindex="0">
-    <h2>Providers Supported</h2>
-    <ul class="features-list">
-      <li><strong>OpenAI :</strong> GPT-4o, GPT-4-turbo, o1-preview, o1-mini.</li>
-      <li><strong>Anthropic Claude :</strong> Claude 3.5 Sonnet, Claude 3 Opus</li>
-      <li><strong>Google Gemini :</strong> Gemini 1.5 Pro/Flash, Gemini 2.0</li>
-      <li><strong>OpenRouter :</strong> 200+ models (free + paid)</li>
-      <li><strong>xAI Grok :</strong> Grok-3, Grok-3-mini, Grok-3-vision</li>
-      <li><strong>Groq :</strong> 	Mixtral, LLaMA 3, Gemma</li>
-      <li><strong>HuggingFace :</strong> Zephyr, Mistral, LLaMA 2</li>
-      <li><strong>Ollama :</strong> ollama pull llama3</li>
-      <li><strong>LM Studio :</strong> GUI app</li>
-      <li><strong>vLLM :</strong> Python + CUDA</li>
-      <li><strong>LMDeploy :</strong> Python + TurboMind</li>
-      <li><strong>Oobabooga :</strong> Web UI</li>
-    </ul>
-  </article>
-</section>
-
-  <section class="about" aria-label="Présentation de aecoding.io">
-    <h2>About</h2>
-      <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
-  </section>
-
-  <section class="about" aria-label="Contact">
-    <h2>Contact me</h2>
-    <p>Built with ❤️ for the LLM community</p>
-    <p>For questions, suggestions, or support, please open an issue or contact the maintainers.<a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
-  </section>
-
-
-<footer>
-  <p>© 2025 aecoding.io — Tous droits réservés.</p>
-</footer>
-</div>
+<body class="acc" style="--c-dk:#C084FC;--c-lt:#7E22CE">
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="logo" aria-hidden="true">&gt;_</span>aecoding.io <span class="sub">/ LLM.io</span></a>
+<nav class="nav-links" aria-label="Main">
+<a href="../index.html#products">Products</a>
+<a href="../index.html#stack">How they fit</a>
+<a class="btn ghost sm" href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub ↗</a>
+<button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+</nav></div></header><main><div class="wrap hero"><div class="hero-text">
+<span class="status"><i></i>Multi-provider chat</span>
+<h1>One chat for every model.</h1>
+<p class="lead">A multi-provider chat application with automatic fallback, real-time streaming, prompt templates and token analytics. Switch providers without switching tools.</p>
+<div class="cta"><a class="btn accent" href="#quickstart">Get started</a><a class="btn ghost" href="https://github.com/iwebbo/LLM.io" target="_blank" rel="noopener">Source code ↗</a></div>
+<div class="chips"><span class="chip">MIT</span><span class="chip">13+ providers</span><span class="chip">SSE streaming</span><span class="chip">PostgreSQL</span></div>
+</div><div class="card term" id="quickstart"><div class="term-bar"><span class="dots"><i></i><i></i><i></i></span>bash</div><div class="term-body"><div><span class="p">$</span> git clone https://github.com/iwebbo/LLM.io</div><div><span class="p">$</span> cd LLM.io &amp;&amp; docker compose up -d</div><div class="p"># add a provider key, pick a model, chat</div><div><span class="p">$</span> <span class="cursor">_</span></div></div></div></div>
+<section class="sec" id="how"><div class="wrap"><div class="sec-h"><div class="eyebrow">How it works</div><h2>Connect once, chat anywhere.</h2></div><div class="grid g-4"><article class="card top stack-col"><div class="step">01 · CONNECT</div><h3>Add providers</h3><p class="body">Hosted APIs or local runtimes. Models are discovered dynamically per provider.</p></article><article class="card top stack-col"><div class="step">02 · CHAT</div><h3>Streamed, with fallback</h3><p class="body">Responses arrive over SSE with auto-reconnect, and fall back to another provider when one fails.</p></article><article class="card top stack-col"><div class="step">03 · TUNE</div><h3>Templates and temperature</h3><p class="body">Per-conversation temperature, reusable prompt templates with placeholders, and a deep reasoning mode.</p></article><article class="card top stack-col"><div class="step">04 · REVIEW</div><h3>History and analytics</h3><p class="body">Full-text search over stored conversations, token totals by day, provider and model, and export.</p></article></div><p class="note">Rate limiting and multi-origin CORS are built in, so the same backend serves web, mobile and desktop clients.</p></div></section>
+<section class="sec" id="features"><div class="wrap"><div class="sec-h"><div class="eyebrow">Features</div><h2>Built for people who use many models.</h2></div><div class="grid g-3"><article class="card stack-col"><div class="step">PROVIDERS</div><h3>13+ providers, automatic fallback</h3><p class="body">Switch between hosted and local models without changing your workflow.</p></article><article class="card stack-col"><div class="step">STREAMING</div><h3>SSE with auto-reconnect</h3><p class="body">Real-time responses that survive a flaky connection.</p></article><article class="card stack-col"><div class="step">TEMPLATES</div><h3>Prompt templates</h3><p class="body">Create, share and reuse prompts with {{placeholders}}.</p></article><article class="card stack-col"><div class="step">ANALYTICS</div><h3>Token analytics</h3><p class="body">A dashboard with daily, provider and model totals.</p></article><article class="card stack-col"><div class="step">HISTORY</div><h3>Searchable conversations</h3><p class="body">PostgreSQL storage with full-text search, exportable as Markdown, JSON or HTML.</p></article><article class="card stack-col"><div class="step">REASONING</div><h3>Reasoning-model aware</h3><p class="body">Chain-of-thought auto-detection and a deep reasoning mode with a high max_tokens budget.</p></article></div><details class="card" style="margin-top:20px"><summary><span>Every capability</span><span class="mono muted" style="font-size:12px">expand</span></summary><div class="groups"><div class="group"><h4>Current</h4><ul><li><b>Multi-provider</b> — automatic fallback</li><li><b>SSE streaming</b> — auto-reconnect</li><li><b>Temperature</b> — 0.0–2.0 per conversation</li><li><b>Prompt templates</b> — create, share, placeholders</li><li><b>Token analytics</b> — daily, provider and model totals</li><li><b>History</b> — PostgreSQL with full-text search</li><li><b>Export</b> — Markdown, JSON, HTML</li></ul></div><div class="group"><h4>Advanced</h4><ul><li><b>Chain of thought</b> — auto-detection for reasoning models</li><li><b>Deep reasoning mode</b> — high max_tokens for long reasoning</li><li><b>Model auto-discovery</b> — fetched per provider</li><li><b>Health checks</b> — connection tests with latency</li><li><b>Rate limiting</b> — 60 req/min by default, configurable</li><li><b>Multi-origin CORS</b> — web, mobile and desktop at once</li></ul></div><div class="group"><h4>Providers</h4><ul><li><b>OpenAI</b></li><li><b>Anthropic Claude</b></li><li><b>Google Gemini</b></li><li><b>OpenRouter</b> — 200+ models</li><li><b>xAI Grok</b></li><li><b>Groq</b></li><li><b>Hugging Face</b></li><li><b>Ollama · LM Studio</b></li><li><b>vLLM · LMDeploy</b></li><li><b>Oobabooga</b></li></ul></div></div></details></div></section>
+<section class="sec"><div class="wrap"><div class="built"><div class="chips"><span class="muted" style="font-size:14px;padding-right:8px">Built with</span><span class="chip solid">Python</span><span class="chip solid">React</span><span class="chip solid">PostgreSQL</span><span class="chip solid">Docker</span><span class="chip solid">Linux</span></div><a class="ac" style="font-weight:600" href="https://github.com/iwebbo/LLM.io" target="_blank" rel="noopener">Star or fork on GitHub ↗</a></div></div></section></main><footer class="footer"><div class="wrap">
+<div>© 2026 aecoding.io · MIT licensed · Built for system administrators and DevOps engineers.</div>
+<nav aria-label="Footer"><a href="../index.html">Home</a><a href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub</a><a href="mailto:l.kieran95@gmail.com">Contact</a></nav>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
 </body>
 </html>

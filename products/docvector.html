@@ -1,142 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="glass">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DocVector — Multi-Format Document Ingestion Pipeline with Automatic Vectorization and RAG Search</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-      .logo-img {
-        height: 120px;
-        width: auto;
-        object-fit: contain;
-      }
-      
-      /* Badge styling */
-      .badge-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 20px;
-      }
-      
-      .badge {
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: bold;
-        color: white;
-        text-decoration: none;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      
-      .badge:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocVector — Document ingestion · OpenSearch</title>
+<meta name="description" content="A multi-format document ingestion pipeline for OpenSearch with automatic vectorization and RAG search. Upload, ingest and search from a simple web UI or a REST API.">
+<meta property="og:title" content="DocVector — Document ingestion · OpenSearch">
+<meta property="og:description" content="A multi-format document ingestion pipeline for OpenSearch with automatic vectorization and RAG search. Upload, ingest and search from a simple web UI or a REST API.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F3F5FB">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'glass'}catch(e){document.documentElement.dataset.theme='glass'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
-<body>
-<div class="container">
-<header class="site-header">
-  <nav>
-    <a href="../index.html" class="logo">        
-      <!-- Logo from README -->
-      <img src="https://github.com/user-attachments/assets/7184990c-2db0-49da-a099-e4b1f901394b" alt="DocVector Logo" class="logo-img" />
-    </a>
-    <ul>
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <h1>DocVector</h1>
-  <p class="subtitle">
-    Multi-format document ingestion pipeline for OpenSearch with automatic vectorization and RAG search.
-  </p>
-
-  <div class="hero-cta">
-    <a href="#installation" class="btn-primary">Get Started</a>
-    <a href="https://github.com/iwebbo/DocVector" class="btn-secondary" target="_blank">Source Code</a>
-  </div>
-</section>
-
-<!-- TECH STACK -->
-<section class="hero-glass">
-  <h2>Built with</h2>
-    <div class="badge-container tech-icons">
-      <i class="fa-brands fa-docker" title="Docker"></i>
-      <i class="fa-brands fa-linux" title="Linux"></i>
-      <i class="fa-brands fa-python" title="Python"></i>
-      <i class="fa-brands fa-github" title="Github"></i>
-      <i class="fa-solid fa-database" title="OpenSearch"></i>
-    </div>
-</section>
-
-<!-- FEATURES -->
-<section class="products" aria-label="Core Features">
-  <article class="product-card" id="features1" tabindex="0">
-    <h2>Core Features</h2>
-    <ul class="features-list">
-      <li><strong>Multi-Format Ingestion:</strong> PDF, Word, Excel, Markdown, Code (Python, Java, JS), YAML</li>
-      <li><strong>Automatic Vectorization:</strong> Embeddings via Sentence Transformers</li>
-      <li><strong>OpenSearch k‑NN:</strong> Vector index with hybrid search (semantic + keyword)</li>
-      <li><strong>Web UI:</strong> Upload, ingest and search through a simple GUI</li>
-      <li><strong>RAG Search:</strong> Intelligent document retrieval on vectorized content</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="features2" tabindex="0">
-    <h2>Deployment & Configuration</h2>
-    <ul class="features-list">
-      <li><strong>Docker Compose:</strong> Quick start with simple commands</li>
-      <li><strong>Kubernetes/Helm:</strong> Production-ready with official chart</li>
-      <li><strong>REST API:</strong> Programmatic interface for developers</li>
-      <li><strong>Curl Commands:</strong> Complete documentation of endpoints</li>
-    </ul>
-  </article>
-
-  <article class="product-card" id="features3" tabindex="0">
-    <h2>Technology Stack</h2>
-    <ul class="features-list">
-      <li><strong>Backend:</strong> Python 3.11+ with FastAPI</li>
-      <li><strong>Database:</strong> OpenSearch 3.x for vectors</li>
-      <li><strong>Orchestration:</strong> Docker & Kubernetes</li>
-      <li><strong>Search Engine:</strong> FAISS (k‑NN Engine)</li>
-    </ul>
-  </article>
-</section>
-
-<!-- ABOUT -->
-<section class="about" aria-label="About DocVector">
-  <h2>About</h2>
-  <p>DocVector is a multi-format document ingestion pipeline for OpenSearch with automatic vectorization and RAG search. Perfect for system administrators and DevOps engineers.</p>
-  <div class="badge-container" style="margin-top: 30px;">
-    <a href="https://img.shields.io/badge/MIT-00599C?style=for-the-badge&logo=MIT&logoColor=black" target="_blank" class="badge">MIT License</a>
-    <a href="https://img.shields.io/badge/Python-4EAA25?style=for-the-badge&logo=Python&logoColor=black" target="_blank" class="badge">Python 3.11+</a>
-    <a href="https://img.shields.io/badge/Kubernetes-4EAA25?style=for-the-badge&logo=Kubernetes&logoColor=black" target="_blank" class="badge">Kubernetes</a>
-    <a href="https://img.shields.io/badge/Docker-0078D6?style=for-the-badge&logo=Docker&logoColor=black" target="_blank" class="badge">Docker</a>
-    <a href="https://img.shields.io/badge/Opensearch-0078D6?style=for-the-badge&logo=Opensearch&logoColor=black" target="_blank" class="badge">OpenSearch</a>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="about" aria-label="Contact">
-  <h2>Contact me</h2>
-  <p>Built with ❤️ for system administrators and DevOps engineers</p>
-  <p>For questions, suggestions, or support, please open an issue or contact the maintainers.<a href="mailto:l.kieran95@gmail.com">@me</a>.</p>
-</section>
-
-
-<footer>
-  <p>© 2026 aecoding.io — All rights reserved.</p>
-</footer>
-</div>
+<body class="acc" style="--c-dk:#22D3EE;--c-lt:#0E7490">
+<header class="nav"><div class="wrap">
+<a class="brand" href="../index.html"><span class="logo" aria-hidden="true">&gt;_</span>aecoding.io <span class="sub">/ DocVector</span></a>
+<nav class="nav-links" aria-label="Main">
+<a href="../index.html#products">Products</a>
+<a href="../index.html#stack">How they fit</a>
+<a class="btn ghost sm" href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub ↗</a>
+<button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+</nav></div></header><main><div class="wrap hero"><div class="hero-text">
+<span class="status"><i></i>Document ingestion · OpenSearch</span>
+<h1>From a folder of files to a searchable vector index.</h1>
+<p class="lead">A multi-format document ingestion pipeline for OpenSearch with automatic vectorization and RAG search. Upload, ingest and search from a simple web UI or a REST API.</p>
+<div class="cta"><a class="btn accent" href="#quickstart">Get started</a><a class="btn ghost" href="https://github.com/iwebbo/DocVector" target="_blank" rel="noopener">Source code ↗</a></div>
+<div class="chips"><span class="chip">MIT</span><span class="chip">Python 3.11+</span><span class="chip">OpenSearch 3.x</span><span class="chip">Helm</span></div>
+</div><div class="card term" id="quickstart"><div class="term-bar"><span class="dots"><i></i><i></i><i></i></span>bash</div><div class="term-body"><div><span class="p">$</span> git clone https://github.com/iwebbo/DocVector</div><div><span class="p">$</span> cd DocVector &amp;&amp; docker compose up -d</div><div class="p"># or deploy with the official Helm chart</div><div><span class="p">$</span> <span class="cursor">_</span></div></div></div></div>
+<section class="sec" id="how"><div class="wrap"><div class="sec-h"><div class="eyebrow">How it works</div><h2>Four steps from file to answer.</h2></div><div class="grid g-4"><article class="card top stack-col"><div class="step">01 · UPLOAD</div><h3>Any common format</h3><p class="body">PDF, Word, Excel, Markdown, code (Python, Java, JS) and YAML.</p></article><article class="card top stack-col"><div class="step">02 · EMBED</div><h3>Automatic vectorization</h3><p class="body">Embeddings generated with Sentence Transformers.</p></article><article class="card top stack-col"><div class="step">03 · INDEX</div><h3>OpenSearch k-NN</h3><p class="body">A vector index on OpenSearch 3.x, using FAISS as the k-NN engine.</p></article><article class="card top stack-col"><div class="step">04 · SEARCH</div><h3>Hybrid retrieval</h3><p class="body">Semantic and keyword search combined, ready for RAG on top of the vectorized content.</p></article></div><p class="note">Everything is available through the web UI and a documented REST API, with curl examples for each endpoint.</p></div></section>
+<section class="sec" id="features"><div class="wrap"><div class="sec-h"><div class="eyebrow">Features</div><h2>Ingestion without the glue code.</h2></div><div class="grid g-3"><article class="card stack-col"><div class="step">FORMATS</div><h3>Multi-format ingestion</h3><p class="body">PDF, Word, Excel, Markdown, code and YAML in one pipeline.</p></article><article class="card stack-col"><div class="step">VECTORS</div><h3>Automatic vectorization</h3><p class="body">Sentence Transformers embeddings, no manual step.</p></article><article class="card stack-col"><div class="step">SEARCH</div><h3>Hybrid k-NN search</h3><p class="body">A vector index with semantic and keyword search together.</p></article><article class="card stack-col"><div class="step">UI</div><h3>Simple web UI</h3><p class="body">Upload, ingest and search through a GUI.</p></article><article class="card stack-col"><div class="step">API</div><h3>REST API</h3><p class="body">A programmatic interface with documented curl commands.</p></article><article class="card stack-col"><div class="step">DEPLOY</div><h3>Compose and Helm</h3><p class="body">Docker Compose to start fast, an official Helm chart for Kubernetes.</p></article></div><details class="card" style="margin-top:20px"><summary><span>Every capability</span><span class="mono muted" style="font-size:12px">expand</span></summary><div class="groups"><div class="group"><h4>Core</h4><ul><li><b>Multi-format ingestion</b> — PDF, Word, Excel, Markdown, code, YAML</li><li><b>Automatic vectorization</b> — Sentence Transformers</li><li><b>OpenSearch k-NN</b> — hybrid semantic and keyword</li><li><b>Web UI</b> — upload, ingest, search</li><li><b>RAG search</b> — retrieval on vectorized content</li></ul></div><div class="group"><h4>Deployment</h4><ul><li><b>Docker Compose</b> — quick start</li><li><b>Kubernetes / Helm</b> — production-ready chart</li><li><b>REST API</b> — for developers</li><li><b>Curl commands</b> — documented endpoints</li></ul></div><div class="group"><h4>Stack</h4><ul><li><b>Backend</b> — Python 3.11+ with FastAPI</li><li><b>Database</b> — OpenSearch 3.x</li><li><b>Orchestration</b> — Docker and Kubernetes</li><li><b>k-NN engine</b> — FAISS</li></ul></div></div></details></div></section>
+<section class="sec"><div class="wrap"><div class="built"><div class="chips"><span class="muted" style="font-size:14px;padding-right:8px">Built with</span><span class="chip solid">Python</span><span class="chip solid">FastAPI</span><span class="chip solid">OpenSearch</span><span class="chip solid">Docker</span><span class="chip solid">Kubernetes</span><span class="chip solid">Helm</span></div><a class="ac" style="font-weight:600" href="https://github.com/iwebbo/DocVector" target="_blank" rel="noopener">Star or fork on GitHub ↗</a></div></div></section></main><footer class="footer"><div class="wrap">
+<div>© 2026 aecoding.io · MIT licensed · Built for system administrators and DevOps engineers.</div>
+<nav aria-label="Footer"><a href="../index.html">Home</a><a href="https://github.com/iwebbo" target="_blank" rel="noopener">GitHub</a><a href="mailto:l.kieran95@gmail.com">Contact</a></nav>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
 </body>
 </html>
